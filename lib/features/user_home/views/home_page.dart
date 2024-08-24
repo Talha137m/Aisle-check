@@ -1,141 +1,77 @@
+import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
-import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/features/shopping_list/views/shopping_list_page.dart';
+import 'package:aislecheck/features/user_home/controllers/bottom_navigation_controller.dart';
+import 'package:aislecheck/features/user_home/controllers/home_behaviour.dart';
+import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
 import 'package:aislecheck/features/user_home/views/widgets/user_home_page_app_bar.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class UserHomePage extends StatelessWidget {
-  const UserHomePage({super.key});
+class UserHomePage extends StatelessWidget with HomeBehaviour {
+  UserHomePage({super.key});
   static const String name = '/userHomePage';
   @override
   Widget build(BuildContext context) {
-    final Size(:width, :height) = MediaQuery.sizeOf(context);
+    var state = context.watch<BottomNavigationController>();
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
-      appBar: UserHomePageAppBar(width: width, height: height),
-      floatingActionButton: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: FloatingActionButton(
-          backgroundColor: AppColors.greenColor,
-          child: const Icon(Icons.home),
-          onPressed: () {},
-        ),
+      appBar: switch (state.currentIndex) {
+        2 => const UserHomePageAppBar() as PreferredSizeWidget,
+        1 => null,
+        _ => const CustomerAppBar()
+      },
+      bottomNavigationBar: CurvedNavigationBar(
+        index: state.currentIndex,
+        backgroundColor: AppColors.bottomBgColor,
+        items: const [
+          Icon(Icons.explore, color: AppColors.inActiveBottomColors),
+          Icon(Icons.list, color: AppColors.inActiveBottomColors),
+          Icon(Icons.home, color: AppColors.inActiveBottomColors),
+          Icon(Icons.notifications, color: AppColors.inActiveBottomColors),
+          Icon(Icons.person, color: AppColors.inActiveBottomColors),
+        ],
+        onTap: (value) {
+          context.read<BottomNavigationController>().changeState(value);
+        },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-          backgroundColor: AppColors.white54Color,
-          activeColor: AppColors.greenColor,
-          inactiveColor: AppColors.inActiveBottomColors,
-          height: 75,
-          icons: const [
-            Icons.explore,
-            Icons.list,
-            Icons.notifications,
-            Icons.person
-          ],
-          activeIndex: 0,
-          gapLocation: GapLocation.center,
-          notchSmoothness: NotchSmoothness.softEdge,
-          onTap: (index) {}),
-      body: SingleChildScrollView(
-        child: Column(
+      body: bottomWidgets[state.currentIndex],
+    );
+  }
+}
+
+class AllCategoriesWidget extends StatelessWidget {
+  final String imgPath, category;
+  const AllCategoriesWidget(
+      {super.key, required this.imgPath, required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          15.0,
+        ), // Adjust the radius here
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
           children: [
             SizedBox(
-              height: height * 0.03,
-            ),
-            const SearchWidget(),
-            SizedBox(
-              height: height * 0.03,
-            ),
-            SizedBox(
-              height: height * 0.02,
-            ),
-            const CategoriWidget(
-              category: 'All Categories',
-            ),
-            SizedBox(
-              height: height * 0.01,
-            ),
-            SizedBox(
-              height: height * 0.08,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        15.0,
-                      ), // Adjust the radius here
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            child: Image.asset(
-                              CustmoerImages.beautyImg,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Beauty',
-                            style: GoogleFonts.roboto(
-                                fontSize: 13, fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
+              child: Image.asset(
+                imgPath,
+                fit: BoxFit.fill,
               ),
             ),
-            SizedBox(
-              height: height * 0.3,
-              child: FlutterCarousel.builder(
-                itemCount: 3,
-                itemBuilder: (context, index, realIndex) {
-                  return EnlargeCenterPage(
-                    height: height,
-                    width: width,
-                  );
-                },
-                options: CarouselOptions(
-                  aspectRatio: 20 / 9,
-                  viewportFraction: 0.9,
-                  initialPage: 0,
-                  autoPlay: true,
-                  slideIndicator: const CircularSlideIndicator(
-                    slideIndicatorOptions: SlideIndicatorOptions(
-                        padding: EdgeInsets.all(8),
-                        currentIndicatorColor: Colors.green,
-                        indicatorBackgroundColor: AppColors.grayColor),
-                  ),
-                ),
-              ),
+            const SizedBox(
+              width: 10,
             ),
-            SizedBox(
-              height: height * 0.02,
-            ),
-            const CategoriWidget(category: 'All Stores / Shopes'),
-            SizedBox(
-              height: height * 0.01,
-            ),
-            SizedBox(
-              height: height * 0.3,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return ShopsWidget(width: width, height: height);
-                },
-              ),
-            ),
+            Text(
+              category,
+              style:
+                  GoogleFonts.roboto(fontSize: 13, fontWeight: FontWeight.w400),
+            )
           ],
         ),
       ),
@@ -145,19 +81,29 @@ class UserHomePage extends StatelessWidget {
 
 class EnlargeCenterPage extends StatelessWidget {
   final double height, width;
+  final String productName, offerName, howMuchDiscount, imgPath;
+  final VoidCallback visitTab;
   const EnlargeCenterPage(
-      {super.key, required this.height, required this.width});
-
+      {super.key,
+      required this.imgPath,
+      required this.visitTab,
+      required this.height,
+      required this.width,
+      required this.offerName,
+      required this.productName,
+      required this.howMuchDiscount});
+  static const _w05 = 0.05;
+  static const _w25 = 0.25;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Container(
         width: width,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              CustmoerImages.item,
+              imgPath,
             ),
             fit: BoxFit.fill,
           ),
@@ -166,7 +112,7 @@ class EnlargeCenterPage extends StatelessWidget {
           alignment: const Alignment(-0.8, -0.8),
           children: [
             Text(
-              'Sephora',
+              productName,
               style: GoogleFonts.roboto(
                   color: AppColors.whiteColor,
                   fontSize: 13,
@@ -175,7 +121,7 @@ class EnlargeCenterPage extends StatelessWidget {
             Align(
               alignment: const Alignment(-0.8, -0.5),
               child: Text(
-                'Flat',
+                offerName,
                 style: GoogleFonts.roboto(
                     color: AppColors.whiteColor,
                     fontSize: 15,
@@ -185,7 +131,7 @@ class EnlargeCenterPage extends StatelessWidget {
             Align(
               alignment: const Alignment(-0.8, -0.2),
               child: Text(
-                '50 % OFF',
+                howMuchDiscount,
                 style: GoogleFonts.roboto(
                     color: AppColors.whiteColor,
                     fontSize: 15,
@@ -195,10 +141,10 @@ class EnlargeCenterPage extends StatelessWidget {
             Align(
               alignment: const Alignment(-0.8, 0.5),
               child: UserSideBtn(
-                btnHeight: 0.05,
-                btnWidth: 0.25,
+                btnHeight: _w05,
+                btnWidth: _w25,
                 borderRadius: 30,
-                onTap: () {},
+                onTap: visitTab,
                 btnName: 'visit',
                 btnBackgroundColor: AppColors.carsoulBtnColor,
               ),
@@ -250,88 +196,104 @@ class CategoriWidget extends StatelessWidget {
   }
 }
 
+//show the shops data
 class ShopsWidget extends StatelessWidget {
   final double width, height;
-  const ShopsWidget({super.key, required this.width, required this.height});
-
+  final String shopName, rating, shopDistance, imagPath;
+  final VoidCallback goToShpsDetal;
+  const ShopsWidget(
+      {super.key,
+      required this.width,
+      required this.height,
+      required this.shopName,
+      required this.shopDistance,
+      required this.goToShpsDetal,
+      required this.imagPath,
+      required this.rating});
+  static const _w5 = 0.5;
+  static const _h15 = 0.15;
+  static const _w04 = 0.04;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: SizedBox(
-        width: width * 0.5,
-        child: Card(
-          color: AppColors.whiteColor,
-          child: Column(
-            children: [
-              Image.asset(
-                CustmoerImages.shop,
-                width: width * 0.5,
-                height: height * 0.2,
-                fit: BoxFit.fill,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Sephora',
-                          maxLines: 1,
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w500, fontSize: 13),
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      const Icon(
-                        Icons.star_rate,
-                        color: AppColors.ratingStartColor,
-                        size: 10,
-                      ),
-                      SizedBox(
-                        width: width * 0.04,
-                        child: FittedBox(
+    return InkWell(
+      onTap: goToShpsDetal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: SizedBox(
+          width: width * _w5,
+          child: Card(
+            color: AppColors.whiteColor,
+            child: Column(
+              children: [
+                Image.asset(
+                  imagPath,
+                  width: width * _w5,
+                  height: height * _h15,
+                  fit: BoxFit.fill,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
                           child: Text(
-                            '4.9',
+                            shopName,
+                            maxLines: 1,
                             style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.w400, fontSize: 10),
+                                fontWeight: FontWeight.w500, fontSize: 13),
+                          ),
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        const Icon(
+                          Icons.star_rate,
+                          color: AppColors.ratingStartColor,
+                          size: 10,
+                        ),
+                        SizedBox(
+                          width: width * _w04,
+                          child: FittedBox(
+                            child: Text(
+                              rating,
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w400, fontSize: 10),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: AppColors.blackColor,
+                          size: 20,
+                        ),
+                        Expanded(
+                          child: Text(
+                            shopDistance,
+                            style: GoogleFonts.roboto(
+                                fontSize: 10, fontWeight: FontWeight.w400),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        color: AppColors.blackColor,
-                        size: 20,
-                      ),
-                      Expanded(
-                        child: Text(
-                          '600m (4mins away)',
-                          style: GoogleFonts.roboto(
-                              fontSize: 10, fontWeight: FontWeight.w400),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

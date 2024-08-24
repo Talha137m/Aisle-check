@@ -1,4 +1,3 @@
-import 'package:aislecheck/core/common/widgets/item_scale_animation.dart';
 import 'package:aislecheck/features/choose_role/views/choose_role_page.dart';
 import 'package:aislecheck/features/on_boarding/controllers/on_bording_behaviour.dart';
 import 'package:aislecheck/features/on_boarding/views/widgets/on_bording_widget.dart';
@@ -17,19 +16,17 @@ class OnBordingPage extends HookWidget with OnBordingBehaviour {
         itemCount: onBoardingWidgets.length,
         controller: pageController,
         itemBuilder: (context, index) {
-          return ItemScaleAnimation(
-            child: OnBoardingWidget(
-                imagePath: onBoardingWidgets[index].imagePath,
-                controller: pageController,
-                heading: onBoardingWidgets[index].heading,
-                nextBtnTab: () {
-                  onTab(context, index, pageController);
-                },
-                skipBtnTab: () {
-                  onTab(context, index, pageController);
-                },
-                subHeading: onBoardingWidgets[index].subHeading),
-          );
+          return OnBoardingWidget(
+              imagePath: onBoardingWidgets[index].imagePath,
+              controller: pageController,
+              heading: onBoardingWidgets[index].heading,
+              nextBtnTab: () {
+                onTab(context, index, pageController);
+              },
+              skipBtnTab: () {
+                onTab(context, index, pageController);
+              },
+              subHeading: onBoardingWidgets[index].subHeading);
         },
       ),
     );

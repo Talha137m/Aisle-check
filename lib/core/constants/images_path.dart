@@ -27,6 +27,9 @@ abstract class CustmoerImages {
       '${CustomerAssets.custImageBasePath}beauty.png';
   static const String item = '${CustomerAssets.custImageBasePath}item.png';
   static const String shop = '${CustomerAssets.custImageBasePath}shop.png';
+  static const String map = '${CustomerAssets.custImageBasePath}map.png';
+  static const String star = '${CustomerAssets.custImageBasePath}star.png';
+  static const String promo = '${CustomerAssets.custImageBasePath}promo.png';
 }
 
 //class that hold the images path and icons path of app

@@ -38,10 +38,10 @@ dependencies:
   google_fonts:
   flutter_hooks:
   smooth_page_indicator:
-  animated_bottom_navigation_bar:
   flutter_carousel_widget:
   custom_rating_bar:
-  google_maps_flutter:    
+  google_maps_flutter:
+  provider:     
 
 dev_dependencies:
   flutter_test:

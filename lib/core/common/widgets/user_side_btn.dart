@@ -9,15 +9,17 @@ class UserSideBtn extends StatelessWidget {
   final double btnWidth, btnHeight;
   final String btnName;
   final double borderRadius;
+  final bool isTextBold;
   const UserSideBtn(
       {super.key,
       required this.onTap,
       this.btnHeight = 0.07,
       this.btnWidth = 0.9,
-      this.borderRadius=14,
+      this.borderRadius = 14,
       this.btnBackgroundColor = AppColors.greenColor,
       this.btnTextColor = AppColors.whiteColor,
-      this.btnName = 'Next'});
+      this.btnName = 'Next',
+      this.isTextBold = false});
   //font size variable
   static const double _fontSize = 14;
   @override
@@ -38,6 +40,7 @@ class UserSideBtn extends StatelessWidget {
             style: GoogleFonts.roboto(
               fontSize: _fontSize,
               color: btnTextColor,
+              fontWeight: isTextBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
         ),

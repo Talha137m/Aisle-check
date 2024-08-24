@@ -4,14 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 class UserHomePageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final double width, height;
-  const UserHomePageAppBar(
-      {super.key, required this.width, required this.height});
+  const UserHomePageAppBar({
+    super.key,
+  });
   static const double _heightRate = 0.02;
   static const double _widthRate = 0.04;
-  static const double _dividerThickness=0.5;
+  static const double _dividerThickness = 0.5;
   @override
   Widget build(BuildContext context) {
+    final Size(:width, :height) = MediaQuery.sizeOf(context);
     return AppBar(
       actions: [
         Image.asset(CustmoerImages.rightIcon),

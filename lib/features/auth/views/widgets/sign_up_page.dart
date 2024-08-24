@@ -50,7 +50,9 @@ class SignUpPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Name',
                 keyboardType: TextInputType.name,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -59,7 +61,9 @@ class SignUpPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Email',
                 keyboardType: TextInputType.name,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -68,7 +72,9 @@ class SignUpPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Phone No',
                 keyboardType: TextInputType.name,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -77,7 +83,9 @@ class SignUpPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Password',
                 keyboardType: TextInputType.name,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -86,7 +94,9 @@ class SignUpPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Confirm Password',
                 keyboardType: TextInputType.name,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(

@@ -51,7 +51,9 @@ class SignInPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Email',
                 keyboardType: TextInputType.emailAddress,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -60,7 +62,9 @@ class SignInPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Phone Number',
                 keyboardType: TextInputType.phone,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(
@@ -69,7 +73,9 @@ class SignInPage extends StatelessWidget {
               DataCollectionTextFormField(
                 hintAndLabelText: 'Password',
                 keyboardType: TextInputType.text,
-                validator: (value) {},
+                validator: (value) {
+                  return null;
+                },
                 textEditingController: TextEditingController(),
               ),
               const Spacer(

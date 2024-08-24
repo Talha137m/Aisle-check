@@ -1,7 +1,5 @@
-import 'package:aislecheck/core/constants/assets_path.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/features/on_boarding/models/on_bording_model.dart';
-import 'package:aislecheck/features/on_boarding/views/widgets/on_bording_widget.dart';
 
 mixin OnBordingBehaviour {
    final List<OnBordingModel> onBoardingWidgets = const [

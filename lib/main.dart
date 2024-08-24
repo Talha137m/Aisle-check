@@ -1,15 +1,23 @@
 import 'package:aislecheck/config/navigation/routes.dart';
 import 'package:aislecheck/config/theme/app_theme.dart';
+import 'package:aislecheck/features/list_overview/views/list_overview_page.dart';
 import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
-import 'package:aislecheck/features/user_home/views/widgets/browse.dart';
+import 'package:aislecheck/features/user_home/controllers/bottom_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   // Making the app should stay in portrait mode
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => BottomNavigationController(),
+      )
+    ], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +35,7 @@ class MyApp extends StatelessWidget {
       // ),
       initialRoute: OnBordingPage.name,
       onGenerateRoute: generateRoute,
-      home: const Browse(),
+      //home: const ListOverveiwPage(listName: 'list',),
     );
   }
 }

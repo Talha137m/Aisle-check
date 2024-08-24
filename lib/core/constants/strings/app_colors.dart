@@ -13,4 +13,6 @@ abstract class AppColors {
   static const black54Color = Colors.black54;
   static const carsoulBtnColor = Color.fromRGBO(194, 173, 82, 1);
   static const ratingStartColor = Color.fromRGBO(251, 192, 45, 1);
+  static const bottomBgColor=Color.fromARGB(255, 210, 221, 210);
+  static const lightGreenColor = Color.fromARGB(255, 242, 248, 242);
 }
