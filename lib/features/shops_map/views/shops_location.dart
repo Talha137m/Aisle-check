@@ -1,51 +1,88 @@
+import 'dart:developer';
+
 import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
+import 'package:aislecheck/core/common/widgets/loading_widget.dart';
 import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
+import 'package:aislecheck/features/shops_map/views/widgets/shops_search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ShopsLocation extends StatelessWidget {
   const ShopsLocation({super.key});
   static const name = '/shopsLocation';
-  static CameraPosition initialCameraPosition = const CameraPosition(
-      target: LatLng(29.3807, 71.7182),
-      //tilt: 59.440717697143555,
-      zoom: 14.4746);
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            GoogleMap(
-              initialCameraPosition: initialCameraPosition,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              zoomControlsEnabled: false,
-              trafficEnabled: true,
-              tiltGesturesEnabled: false,
-            ),
-            const Align(
-              alignment: Alignment(0, -0.85),
-              child: SizedBox(
-                height: kToolbarHeight,
-                child: CustomerAppBar(
-                  backgroundColor: AppColors.transParentColor,
-                ),
-              ),
-            ),
-            const Align(
-              alignment: Alignment(0, -0.67),
-              child: SearchWidget(),
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: DividerWidget(),
-            )
-          ],
-        ),
+    var state = context.watch<ShopsLocationController>();
+    //log('loading:${state.loadingState}, loaded:${state.loadedState},initial:${state.initialState}');
+    return Scaffold(
+      body: Builder(
+        builder: (context) {
+          if (state.initialState) {
+            return LoadingWidget(
+              event: () {
+                context.read<ShopsLocationController>().mapInitialization();
+              },
+            );
+          } else if (state.loadedState) {
+            state.context = context;
+            return DataWidget(
+              googleMap: state.googleMap,
+            );
+          } else if (state.loadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return UserMessage(
+              message: state.errorMesage,
+            );
+          }
+        },
       ),
+    );
+  }
+}
+
+class DataWidget extends StatelessWidget {
+  const DataWidget({super.key, this.googleMap});
+  final GoogleMap? googleMap;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        googleMap ?? const SizedBox.shrink(),
+        const Align(
+          alignment: Alignment(0, -0.9),
+          child: SizedBox(
+            height: 71,
+            child: CustomerAppBar(
+              backgroundColor: AppColors.transParentColor,
+            ),
+          ),
+        ),
+        Align(
+          alignment: const Alignment(0, -0.65),
+          child: GestureDetector(
+            onTap: () {
+              showSearch(
+                context: context,
+                delegate: ShopSearchDelegate(),
+              );
+            },
+            child: const SearchWidget(),
+          ),
+        ),
+        const Align(
+          alignment: Alignment.bottomCenter,
+          child: DividerWidget(),
+        )
+      ],
     );
   }
 }

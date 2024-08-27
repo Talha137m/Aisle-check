@@ -1,10 +1,13 @@
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
-import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
+import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/auth/views/widgets/sign_up_page.dart';
+import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';
+import 'package:aislecheck/features/auth/views/sign_up_page.dart';
+import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ChooseRolePage extends StatelessWidget {
   const ChooseRolePage({super.key});
@@ -17,6 +20,7 @@ class ChooseRolePage extends StatelessWidget {
   static const _oneFlexRate = 1;
   @override
   Widget build(BuildContext context) {
+    var role = context.watch<ChooseRoleController>();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
@@ -68,7 +72,7 @@ class ChooseRolePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CheckboxListTile.adaptive(
+            child: CheckboxListTile(
               tileColor: AppColors.checkBoxlistTileColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -78,8 +82,13 @@ class ChooseRolePage extends StatelessWidget {
                 'Shop owner',
                 style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
               ),
-              value: true, // You can manage this with state
-              onChanged: (newValue) {},
+              value: role.adminRole, // You can manage this with state
+              onChanged: (newValue) {
+                context
+                    .read<ChooseRoleController>()
+                    .chooseOption(shopOwnerRole: newValue, customerRole: false);
+              },
+
               controlAffinity: ListTileControlAffinity.leading,
               activeColor: AppColors.blackColor,
             ),
@@ -99,8 +108,12 @@ class ChooseRolePage extends StatelessWidget {
                 'Customer',
                 style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
               ),
-              value: false, // You can manage this with state
-              onChanged: (newValue) {},
+              value: role.userRole, // You can manage this with state
+              onChanged: (newValue) {
+                context
+                    .read<ChooseRoleController>()
+                    .chooseOption(customerRole: newValue, shopOwnerRole: false);
+              },
               controlAffinity: ListTileControlAffinity.leading,
               activeColor: AppColors.blackColor,
             ),
@@ -108,11 +121,19 @@ class ChooseRolePage extends StatelessWidget {
           const Spacer(
             flex: _twentyFiveFlexRate,
           ),
-          UserSideBtn(
+          AppCompactBtn(
             btnName: 'Continue',
-            btnBackgroundColor: AppColors.grayColor,
+            btnBackgroundColor: switch (role.adminRole || role.userRole) {
+              true => AppColors.greenColor,
+              false => AppColors.grayColor,
+            },
             onTap: () {
-              Navigator.pushNamed(context, SignUpPage.name);
+              switch (role.userRole) {
+                case true:
+                  Navigator.pushNamed(context, SignUpPage.name);
+                case false:
+                  Navigator.pushNamed(context, AdminSignUpPage.name);
+              }
             },
           ),
           const Spacer(

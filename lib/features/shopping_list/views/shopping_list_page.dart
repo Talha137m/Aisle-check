@@ -2,13 +2,13 @@ import 'package:aislecheck/core/common/widgets/serach.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shopping_list/views/all_lists_tab_view.dart';
 import 'package:aislecheck/features/shopping_list/views/schedule_products_tab_view.dart';
+import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingListPage extends StatelessWidget {
   const ShoppingListPage({super.key});
-  //....PAGE NAME
-  static const pageName = '/shopping_list';
   //....CONSTATNT VALUES
   static const _title = 'Ads';
   static const _firstTabText = 'All Lists';
@@ -27,7 +27,9 @@ class ShoppingListPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<UserBottomController>().changeState(2);
+            },
             icon: const Icon(
               Icons.arrow_back_ios_new,
             ),

@@ -12,6 +12,9 @@ abstract class AppTheme {
       textSelectionTheme:
           const TextSelectionThemeData(cursorColor: AppColors.grayColor),
       appBarTheme: const AppBarTheme(
+        scrolledUnderElevation: 0.0,
+        surfaceTintColor: AppColors.whiteColor,
+        shadowColor: AppColors.whiteColor,
         color: AppColors.whiteColor,
         elevation: 0,
         titleTextStyle: TextStyle(color: AppColors.blackColor, fontSize: 20),

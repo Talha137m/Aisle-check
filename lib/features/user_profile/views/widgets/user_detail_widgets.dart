@@ -103,7 +103,6 @@ class FavAndPromoRow extends StatelessWidget {
   static const _promo = 'Promotion';
   //...CONSTANT FLEX SIZES
   static const _flexOne = 1;
-  static const _flexTwo = 2;
   @override
   Widget build(BuildContext context) {
     return const Row(
@@ -126,9 +125,11 @@ class SettingsTile extends StatelessWidget {
       {super.key,
       required this.icon,
       required this.title,
+      this.navigateTab,
       this.pageName = UserHomePage.name});
   final IconData icon;
   final String title, pageName;
+  final VoidCallback? navigateTab;
   //....CONSTANT VALUES
   static const _fontSize = 0.02;
   static const _iconSize = 0.045;
@@ -138,10 +139,7 @@ class SettingsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return ListTile(
-      onTap: () {
-        //....NAVIGATE
-        // Navigator.pushNamed(context, pageName);
-      },
+      onTap: navigateTab,
       leading: Icon(
         icon,
         size: height * _iconSize,

@@ -35,4 +35,12 @@ abstract class CustmoerImages {
 //class that hold the images path and icons path of app
 abstract class AppImages {
   static const String appLogo = '${AppAssets.appImageBasePath}app_logo.png';
+  static const String markerTag = '${AppAssets.appImageBasePath}map_mark.png';
+}
+
+//class that holding the images for customers side
+abstract class AdminImages {
+  static const String groceryAd =
+      '${AdminAssests.custImageBasePath}grocery_ad.png';
+  static const String shopAd = '${AdminAssests.custImageBasePath}shop_ad.png';
 }

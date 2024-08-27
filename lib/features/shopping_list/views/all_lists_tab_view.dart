@@ -1,5 +1,4 @@
 import 'package:aislecheck/core/constants/dummy_data.dart';
-import 'package:aislecheck/features/list_overview/views/list_overview_page.dart';
 import 'package:aislecheck/features/shopping_list/views/widgets/shopping_lists.dart';
 import 'package:flutter/material.dart';
 
@@ -15,32 +14,27 @@ class AllListsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(ListOverveiwPage.pageName);
-      },
-      child: Column(
-        children: [
-          SizedBox(
-            height: height * _spacing,
+    return Column(
+      children: [
+        SizedBox(
+          height: height * _spacing,
+        ),
+        const CategoriWidget(
+          category: _allLists,
+          subCategory: _subCategory,
+          subCategoryColor: AppColors.greenColor,
+          subCategoryFontweight: FontWeight.w700,
+          textDecoration: TextDecoration.underline,
+        ),
+        SizedBox(
+          height: height * _spacing,
+        ),
+        const Expanded(
+          child: ShoppingLists(
+            shoppingLists: AppDummyData.shoppingLists,
           ),
-          const CategoriWidget(
-            category: _allLists,
-            subCategory: _subCategory,
-            subCategoryColor: AppColors.greenColor,
-            subCategoryFontweight: FontWeight.w700,
-            textDecoration: TextDecoration.underline,
-          ),
-          SizedBox(
-            height: height * _spacing,
-          ),
-          const Expanded(
-            child: ShoppingLists(
-              shoppingLists: AppDummyData.shoppingLists,
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

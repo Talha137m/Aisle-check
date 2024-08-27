@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 extension DismissKeyboard on BuildContext {
   void dismissKeyboard() {
@@ -10,6 +11,7 @@ extension DismissKeyboard on BuildContext {
   }
 }
 
+//....login and sigin textfield widget
 class DataCollectionTextFormField extends StatelessWidget {
   const DataCollectionTextFormField(
       {super.key,
@@ -90,8 +92,6 @@ class DataCollectionTextFormField extends StatelessWidget {
   }
 }
 
-
-
 //....ADD ITEM TEXT FIELD
 class AddItemTextField extends StatelessWidget {
   const AddItemTextField(
@@ -139,6 +139,120 @@ class AddItemTextField extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+//........USER PROFILE TEXTFIELD WIDGET
+class ProfilePageTextFields extends StatelessWidget {
+  const ProfilePageTextFields({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.validator,
+    this.isObscured = false,
+    this.suffixIcon,
+    required this.keyboardType,
+  });
+  final TextEditingController controller;
+  final String hintText;
+  final FormFieldValidator<String?> validator;
+  final bool isObscured;
+  final Icon? suffixIcon;
+  final TextInputType keyboardType;
+  //...CONSTANT VALUES
+  static const _fieldWidth = 0.9;
+  static const _fontSize = 0.023;
+  //...DECORATION
+  static final _border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: const BorderSide(color: AppColors.greenColor, width: 0.0),
+  );
+  @override
+  Widget build(BuildContext context) {
+    final Size(:width, :height) = MediaQuery.sizeOf(context);
+    final textStyle = TextStyle(
+      color: AppColors.blackColor,
+      fontSize: height * _fontSize,
+    );
+    return SizedBox(
+      width: width * _fieldWidth,
+      child: TextFormField(
+        cursorColor: AppColors.blackColor,
+        keyboardType: keyboardType,
+        controller: controller,
+        style: textStyle,
+        validator: validator,
+        obscureText: isObscured,
+        obscuringCharacter: '*',
+        decoration: InputDecoration(
+          border: _border,
+          enabledBorder: _border,
+          focusedBorder: _border,
+          fillColor: AppColors.lightGreenColor,
+          filled: true,
+          hintText: hintText,
+          hintStyle: textStyle,
+          suffixIcon: suffixIcon,
+        ),
+      ),
+    );
+  }
+}
+
+//.....ADMIN SIDE TEXTFields
+class AdminAppCompactTextField extends StatelessWidget {
+  const AdminAppCompactTextField(
+      {super.key,
+      this.fieldWidth = 0.9,
+      required this.controller,
+      required this.hintText,
+      required this.validator,
+      this.expands = false,
+      this.fieldHeight = 0.075,
+      this.textAlignment,
+      this.prefix,
+      this.suffix});
+  final bool expands;
+  final FormFieldValidator validator;
+  final double fieldWidth, fieldHeight;
+  final TextEditingController controller;
+  final String hintText;
+  final TextAlignVertical? textAlignment;
+  final Widget? prefix, suffix;
+  //.....CONTANT VALUES
+  //...DECORATION
+  static final _border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: const BorderSide(color: AppColors.greenColor, width: 0.0),
+  );
+  @override
+  Widget build(BuildContext context) {
+    final Size(:width, :height) = MediaQuery.sizeOf(context);
+    final textStyle =
+        GoogleFonts.roboto(fontSize: 13, color: AppColors.blackColor);
+    return SizedBox(
+      width: width * fieldWidth,
+      height: height * fieldHeight,
+      child: TextFormField(
+        textAlignVertical: textAlignment,
+        validator: validator,
+        controller: controller,
+        style: textStyle,
+        expands: expands,
+        maxLines: null,
+        decoration: InputDecoration(
+          fillColor: AppColors.lightGreenColor,
+          filled: true,
+          border: _border,
+          enabledBorder: _border,
+          focusedBorder: _border,
+          hintText: hintText,
+          hintStyle: textStyle,
+          prefixIcon: prefix,
+          suffixIcon: suffix,
+        ),
+      ),
     );
   }
 }

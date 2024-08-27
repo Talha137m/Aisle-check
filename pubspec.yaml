@@ -41,7 +41,11 @@ dependencies:
   flutter_carousel_widget:
   custom_rating_bar:
   google_maps_flutter:
-  provider:     
+  location: 
+  provider:
+  table_calendar:
+  geolocator:
+  flutter_polyline_points:        
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +74,7 @@ flutter:
     - assets/images/
     - assets/images/customer_images/
     - assets/images/customer_icons/
+    - assets/images/admin_images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

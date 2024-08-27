@@ -2,9 +2,9 @@ import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserHomePageAppBar extends StatelessWidget
+class HomePageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const UserHomePageAppBar({
+  const HomePageAppBar({
     super.key,
   });
   static const double _heightRate = 0.02;

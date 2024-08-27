@@ -1,11 +1,10 @@
 import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
-import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
+import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/shopping_list/views/shopping_list_page.dart';
-import 'package:aislecheck/features/user_home/controllers/bottom_navigation_controller.dart';
+import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:aislecheck/features/user_home/controllers/home_behaviour.dart';
 import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
-import 'package:aislecheck/features/user_home/views/widgets/user_home_page_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/home_page_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +14,16 @@ class UserHomePage extends StatelessWidget with HomeBehaviour {
   static const String name = '/userHomePage';
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<BottomNavigationController>();
+    var state = context.watch<UserBottomController>();
     return Scaffold(
       appBar: switch (state.currentIndex) {
-        2 => const UserHomePageAppBar() as PreferredSizeWidget,
+        2 => const HomePageAppBar() as PreferredSizeWidget,
         1 => null,
-        _ => const CustomerAppBar()
+        _ => CustomerAppBar(
+            leadingOnTab: () {
+              context.read<UserBottomController>().changeState(2);
+            },
+          )
       },
       bottomNavigationBar: CurvedNavigationBar(
         index: state.currentIndex,
@@ -33,7 +36,7 @@ class UserHomePage extends StatelessWidget with HomeBehaviour {
           Icon(Icons.person, color: AppColors.inActiveBottomColors),
         ],
         onTap: (value) {
-          context.read<BottomNavigationController>().changeState(value);
+          context.read<UserBottomController>().changeState(value);
         },
       ),
       body: bottomWidgets[state.currentIndex],
@@ -41,6 +44,8 @@ class UserHomePage extends StatelessWidget with HomeBehaviour {
   }
 }
 
+//..........define the shopping categories that
+//..........show on the screens
 class AllCategoriesWidget extends StatelessWidget {
   final String imgPath, category;
   const AllCategoriesWidget(
@@ -79,6 +84,8 @@ class AllCategoriesWidget extends StatelessWidget {
   }
 }
 
+//.......class that contains the carsoul slider
+//.......details
 class EnlargeCenterPage extends StatelessWidget {
   final double height, width;
   final String productName, offerName, howMuchDiscount, imgPath;
@@ -140,7 +147,7 @@ class EnlargeCenterPage extends StatelessWidget {
             ),
             Align(
               alignment: const Alignment(-0.8, 0.5),
-              child: UserSideBtn(
+              child: AppCompactBtn(
                 btnHeight: _w05,
                 btnWidth: _w25,
                 borderRadius: 30,
@@ -156,16 +163,24 @@ class EnlargeCenterPage extends StatelessWidget {
   }
 }
 
+//.........here is the define the widget
+//.........that is which category
 class CategoriWidget extends StatelessWidget {
   final String category;
   final String subCategory;
   final Color subCategoryColor;
   final FontWeight subCategoryFontweight;
   final TextDecoration? textDecoration;
+  final VoidCallback? categoryTab;
+  final VoidCallback? subCategoryTab;
+  final double padding;
   const CategoriWidget(
       {super.key,
       required this.category,
       this.subCategory = 'See All',
+      this.categoryTab,
+      this.subCategoryTab,
+      this.padding = 20,
       this.subCategoryColor = AppColors.black54Color,
       this.textDecoration,
       this.subCategoryFontweight = FontWeight.w500});
@@ -173,22 +188,28 @@ class CategoriWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            category,
-            style:
-                GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w700),
+          InkWell(
+            onTap: categoryTab,
+            child: Text(
+              category,
+              style:
+                  GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w700),
+            ),
           ),
-          Text(
-            subCategory,
-            style: GoogleFonts.roboto(
-                color: subCategoryColor,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                decoration: textDecoration),
+          InkWell(
+            onTap: subCategoryTab,
+            child: Text(
+              subCategory,
+              style: GoogleFonts.roboto(
+                  color: subCategoryColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  decoration: textDecoration),
+            ),
           ),
         ],
       ),
@@ -196,9 +217,10 @@ class CategoriWidget extends StatelessWidget {
   }
 }
 
-//show the shops data
+//..............show the shops data
 class ShopsWidget extends StatelessWidget {
   final double width, height;
+  final double padding;
   final String shopName, rating, shopDistance, imagPath;
   final VoidCallback goToShpsDetal;
   const ShopsWidget(
@@ -209,6 +231,7 @@ class ShopsWidget extends StatelessWidget {
       required this.shopDistance,
       required this.goToShpsDetal,
       required this.imagPath,
+      this.padding = 8,
       required this.rating});
   static const _w5 = 0.5;
   static const _h15 = 0.15;

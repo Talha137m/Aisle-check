@@ -4,33 +4,38 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
-  const CustomerAppBar({super.key, this.backgroundColor});
+  final VoidCallback? leadingOnTab;
+  final PreferredSizeWidget? bottom;
+  const CustomerAppBar(
+      {super.key, this.backgroundColor, this.leadingOnTab, this.bottom});
 
-  static const _w5 = 0.5;
   static const double _fs16 = 16;
+  static const _elevationValue = 0.0;
   @override
   Widget build(BuildContext context) {
-    final Size(:width) = MediaQuery.sizeOf(context);
     return AppBar(
       backgroundColor: backgroundColor,
+      shadowColor: AppColors.whiteColor,
+      foregroundColor: AppColors.whiteColor,
+      surfaceTintColor: AppColors.whiteColor,
+      elevation: _elevationValue,
+      scrolledUnderElevation: _elevationValue,
       leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: leadingOnTab ??
+            () {
+              Navigator.pop(context);
+            },
         icon: const Icon(Icons.arrow_back_ios),
       ),
-      actions: [
-        Text(
-          'Ads',
-          style: GoogleFonts.roboto(
-              fontWeight: FontWeight.w500,
-              fontSize: _fs16,
-              color: AppColors.blackColor),
-        ),
-        SizedBox(
-          width: width * _w5,
-        ),
-      ],
+      title: Text(
+        'Ads',
+        style: GoogleFonts.roboto(
+            fontWeight: FontWeight.w500,
+            fontSize: _fs16,
+            color: AppColors.blackColor),
+      ),
+      centerTitle: true,
+      bottom: bottom,
     );
   }
 

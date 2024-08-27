@@ -1,16 +1,16 @@
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
-import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
+import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/auth/views/sign_in_page.dart';
+import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_in_page.dart';
 import 'package:aislecheck/features/auth/views/widgets/contine_with.dart';
 import 'package:aislecheck/features/auth/views/widgets/onclick_signup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
-  static const name = '/signUpPage';
+class AdminSignUpPage extends StatelessWidget {
+  const AdminSignUpPage({super.key});
+  static const name = '/adminSignUpPage';
   static const _twentyFlex = 20;
   static const _fiveFlex = 5;
   static const _tenFlex = 10;
@@ -117,7 +117,7 @@ class SignUpPage extends StatelessWidget {
               const Spacer(
                 flex: _twentyFlex,
               ),
-              UserSideBtn(
+              AppCompactBtn(
                 btnName: 'Sign Up',
                 btnBackgroundColor: AppColors.greenColor,
                 onTap: () {},
@@ -127,7 +127,7 @@ class SignUpPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(SignInPage.name);
+                  Navigator.of(context).pushNamed(AdmminSignInPage.name);
                 },
                 child: Center(
                   child: Text(

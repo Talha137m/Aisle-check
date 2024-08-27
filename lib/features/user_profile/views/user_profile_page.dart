@@ -1,6 +1,11 @@
 import 'package:aislecheck/core/constants/images_path.dart';
+import 'package:aislecheck/features/browsing_history/views/browsing_history_page.dart';
+import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
+import 'package:aislecheck/features/shops_map/views/shops_location.dart';
+import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'widgets/user_detail_widgets.dart';
 
 class UserProfilePage extends StatelessWidget {
@@ -15,7 +20,9 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ProfileWidget(
-        username: 'Talha', email: 'dummmy@gmail.com', image: CustmoerImages.emailIcon);
+        username: 'Talha',
+        email: 'dummmy@gmail.com',
+        image: CustmoerImages.emailIcon);
   }
 }
 
@@ -73,19 +80,31 @@ class ProfileWidget extends StatelessWidget {
             SizedBox(
               height: height * _spacing,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                Navigator.of(context).pushNamed(ProfileDeatilsScreen.pageName);
+              },
               icon: Icons.person_2_outlined,
               title: _profile,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                Navigator.of(context).pushNamed(BrowsingHistoryPage.name);
+              },
               icon: Icons.timer_outlined,
               title: _browseHistory,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                context.read<UserBottomController>().changeState(1);
+              },
               icon: Icons.list,
               title: _shoppingList,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                Navigator.of(context).pushNamed(ShopsLocation.name);
+              },
               icon: Icons.location_on,
               title: _mapText,
             ),

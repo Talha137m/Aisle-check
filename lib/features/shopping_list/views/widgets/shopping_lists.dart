@@ -1,24 +1,37 @@
-import 'package:aislecheck/core/common/functions/common_functions.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+import 'package:aislecheck/features/shopping_items_operations/views/item_operation_page.dart';
 import 'package:aislecheck/features/shopping_list/models/shopping_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/strings/app_colors.dart';
 
 class ShoppingLists extends StatelessWidget {
-  const ShoppingLists({super.key, required this.shoppingLists});
+  const ShoppingLists(
+      {super.key,
+      required this.shoppingLists,
+      this.physics,
+      this.shrinkWrap = false});
+  final bool shrinkWrap;
+  final ScrollPhysics? physics;
   final List<ShoppingListModel> shoppingLists;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: physics,
       itemCount: shoppingLists.length,
       itemBuilder: (context, index) => Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * 0.02),
-        child: ShoppingListItem(
-          shoppingList: shoppingLists[index],
-          onAddBtnTap: () {
-            showSnackBar(context, '$index');
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(ShoppingItemOperationPage.pageName);
           },
+          child: ShoppingListItem(
+            shoppingList: shoppingLists[index],
+            onAddBtnTap: () {
+              context.showPopUpMsg(index.toString());
+            },
+          ),
         ),
       ),
     );

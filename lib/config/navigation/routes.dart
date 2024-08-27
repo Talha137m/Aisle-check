@@ -1,12 +1,27 @@
+import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
+import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
+import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
+import 'package:aislecheck/features/ads/views/ads.dart';
+import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_in_page.dart';
+import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';
 import 'package:aislecheck/features/auth/views/sign_in_page.dart';
-import 'package:aislecheck/features/auth/views/widgets/sign_up_page.dart';
+import 'package:aislecheck/features/auth/views/sign_up_page.dart';
+import 'package:aislecheck/features/browsing_history/views/browsing_history_page.dart';
+import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/choose_role/views/choose_role_page.dart';
-import 'package:aislecheck/features/list_overview/views/list_overview_page.dart';
+import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
+import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
+import 'package:aislecheck/features/schedule_item/controller/date_controller.dart';
+import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
+import 'package:aislecheck/features/schedule_item/views/schedule_item_page.dart';
+import 'package:aislecheck/features/shopping_items_operations/views/item_operation_page.dart';
 import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
 import 'package:aislecheck/features/shop_detail/views/shop_details_page.dart';
+import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
 import 'package:aislecheck/features/shops_map/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   return switch (settings.name) {
@@ -16,7 +31,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     ChooseRolePage.name => AnimatedRoutes(
         setting: settings,
-        child: const ChooseRolePage(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider(
+            create: (context) {
+              return ChooseRoleController();
+            },
+          )
+        ], child: const ChooseRolePage()),
       ),
     SignUpPage.name => AnimatedRoutes(
         setting: settings,
@@ -38,11 +59,66 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         setting: settings,
         child: const ShopsLocation(),
       ),
-    ListOverveiwPage.pageName => AnimatedRoutes(
+    ShoppingItemOperationPage.pageName => AnimatedRoutes(
         setting: settings,
-        child: const ListOverveiwPage(
+        child: const ShoppingItemOperationPage(
           listName: 'grossery',
         ),
+      ),
+    ProfileDeatilsScreen.pageName => AnimatedRoutes(
+        setting: settings,
+        child: const ProfileDeatilsScreen(),
+      ),
+    BrowsingHistoryPage.name => AnimatedRoutes(
+        setting: settings,
+        child: const BrowsingHistoryPage(),
+      ),
+    ScheduleItemPage.pageName => AnimatedRoutes(
+        setting: settings,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => TimePickerController(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => DateController(),
+            )
+          ],
+          child: const ScheduleItemPage(),
+        ),
+      ),
+    AdminHomePage.pageName => AnimatedRoutes(
+        setting: settings,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) {
+                return AdminBottomController();
+              },
+            )
+          ],
+          child: AdminHomePage(),
+        ),
+      ),
+    EditInventoryPage.pageName => AnimatedRoutes(
+        setting: settings,
+        child: const EditInventoryPage(),
+      ),
+    AddInventoryPage.pageName => AnimatedRoutes(
+        setting: settings,
+        child: const AddInventoryPage(),
+      ),
+    AdsWidget.pageName => AnimatedRoutes(
+        setting: settings,
+        child: const AdsWidget(),
+      ),
+    AdminSignUpPage.name => AnimatedRoutes(
+        setting: settings,
+        child: const AdminSignUpPage(),
+      ),
+    AdmminSignInPage.name => AnimatedRoutes(
+        setting: settings,
+        child: const AdmminSignInPage(),
       ),
     _ => AnimatedRoutes(
         setting: settings,
@@ -74,4 +150,8 @@ class AnimatedRoutes extends PageRouteBuilder {
             );
           },
         );
+}
+
+abstract class NavigationState {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }

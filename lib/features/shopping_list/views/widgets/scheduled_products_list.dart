@@ -1,4 +1,5 @@
-import 'package:aislecheck/core/common/functions/common_functions.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+
 import 'package:aislecheck/features/shopping_list/models/scheduled_product.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,13 +20,13 @@ class ScheduledProductsList extends StatelessWidget {
           bottom: MediaQuery.sizeOf(context).height * _padding,
           top: MediaQuery.sizeOf(context).height * _padding,
         ),
-        child: ScheduledProductView(
+        child: ShoppingItem(
           scheduledProduct: scheduledProducts[index],
           onDeleteIconTap: () {
-            showSnackBar(context, 'item $index deleted');
+            context.showPopUpMsg('delete');
           },
           onEditIconTap: () {
-            showSnackBar(context, 'item $index edited');
+            context.showPopUpMsg('edited');
           },
         ),
       ),
@@ -33,8 +34,8 @@ class ScheduledProductsList extends StatelessWidget {
   }
 }
 
-class ScheduledProductView extends StatelessWidget {
-  const ScheduledProductView(
+class ShoppingItem extends StatelessWidget {
+  const ShoppingItem(
       {super.key,
       required this.scheduledProduct,
       required this.onDeleteIconTap,

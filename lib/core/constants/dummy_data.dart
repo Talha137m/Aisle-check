@@ -1,4 +1,8 @@
+
+
 import 'package:aislecheck/core/constants/images_path.dart';
+import 'package:aislecheck/features/admin_home/models/stock_model.dart';
+import 'package:aislecheck/features/ads/models/ad.dart';
 import 'package:aislecheck/features/shop_detail/models/available_stock_model.dart';
 import 'package:aislecheck/features/shop_detail/models/review_model.dart';
 import 'package:aislecheck/features/shopping_list/models/scheduled_product.dart';
@@ -185,5 +189,50 @@ class AppDummyData {
         productName: 'Item name',
         quantity: 10,
         price: 10),
+  ];
+
+  static const availableStockItems = [
+    AvailableStockModel(
+        image: CustmoerImages.shop,
+        productName: 'Product Name',
+        currentStock: 100,
+        lastUpdated: '2 days',
+        stockSituation: ''),
+    AvailableStockModel(
+        image: CustmoerImages.shop,
+        productName: 'Product Name',
+        currentStock: 100,
+        lastUpdated: '2 days',
+        stockSituation: 'Low on Stock'),
+    AvailableStockModel(
+        image: CustmoerImages.shop,
+        productName: 'Product Name',
+        currentStock: 100,
+        lastUpdated: '2 days',
+        stockSituation: ''),
+    AvailableStockModel(
+        image: CustmoerImages.shop,
+        productName: 'Product Name',
+        currentStock: 100,
+        lastUpdated: '2 days',
+        stockSituation: ''),
+  ];
+
+  static const adsList = [
+    AdModel(
+      image: 'assets/images/admin_images/grocery_ad.png',
+      description: 'Lorem ispum is simply dummy text of',
+      status: 'Active',
+    ),
+    AdModel(
+      image: 'assets/images/admin_images/shop_ad.png',
+      description: 'Lorem ispum is simply dummy text of',
+      status: 'Not Active',
+    ),
+    AdModel(
+      image: 'assets/images/admin_images/grocery_ad.png',
+      description: 'Lorem ispum is simply dummy text of',
+      status: 'Active',
+    ),
   ];
 }

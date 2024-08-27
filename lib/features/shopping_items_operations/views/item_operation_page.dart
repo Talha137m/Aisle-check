@@ -1,7 +1,9 @@
 import 'package:aislecheck/core/common/widgets/serach.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
-import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
+import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+import 'package:aislecheck/features/schedule_item/views/schedule_item_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/strings/app_colors.dart';
@@ -9,8 +11,8 @@ import '../../../core/constants/strings/app_colors.dart';
 import '../../shopping_list/views/widgets/scheduled_products_list.dart';
 import '../../user_home/views/home_page.dart';
 
-class ListOverveiwPage extends StatelessWidget {
-  const ListOverveiwPage({super.key, required this.listName});
+class ShoppingItemOperationPage extends StatelessWidget {
+  const ShoppingItemOperationPage({super.key, required this.listName});
   final String listName;
   //....PAGE NAME
   static const pageName = '/list_overview';
@@ -18,15 +20,11 @@ class ListOverveiwPage extends StatelessWidget {
   static const _title = 'Ads';
   static const _subCategory = 'Add new Item';
   static const _allItems = 'All Items';
-  static const _btnText = 'Update';
+
   static const _spacing = 0.02;
   static const _itemsPadding = 0.01;
   static const _elevationValue = 0.0;
   static const _borderPadding = 0.05;
-  static const _btnHeight = 0.09;
-  static const _btnRadius = 30.0;
-  static const _itemBottomSpacing = 0.15;
-  static const _btnBottomSpacing = 0.04;
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
@@ -39,7 +37,9 @@ class ListOverveiwPage extends StatelessWidget {
         elevation: _elevationValue,
         scrolledUnderElevation: _elevationValue,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(
             Icons.arrow_back_ios_new,
           ),
@@ -50,7 +50,6 @@ class ListOverveiwPage extends StatelessWidget {
         centerTitle: true,
         bottom: AppBar(
             automaticallyImplyLeading: false,
-            leading: null,
             backgroundColor: AppColors.whiteColor,
             shadowColor: AppColors.whiteColor,
             foregroundColor: AppColors.whiteColor,
@@ -67,6 +66,9 @@ class ListOverveiwPage extends StatelessWidget {
             height: height * _spacing,
           ),
           CategoriWidget(
+            subCategoryTab: () {
+              context.addItemDialog();
+            },
             category: listName,
             subCategory: _subCategory,
             subCategoryColor: AppColors.greenColor,
@@ -74,70 +76,53 @@ class ListOverveiwPage extends StatelessWidget {
             textDecoration: TextDecoration.underline,
           ),
           Expanded(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * _borderPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: height * _spacing,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: width * _borderPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: height * _spacing,
+                    ),
+                    const Text(
+                      _allItems,
+                      style: TextStyle(color: AppColors.grayColor),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: AppDummyData.scheduledProductsList.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom: height * _itemsPadding,
+                          top: height * _itemsPadding,
                         ),
-                        const Text(
-                          _allItems,
-                          style: TextStyle(color: AppColors.grayColor),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: AppDummyData.scheduledProductsList.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: EdgeInsets.only(
-                              bottom: height * _itemsPadding,
-                              top: height * _itemsPadding,
-                            ),
-                            child: ScheduledProductView(
-                                scheduledProduct:
-                                    AppDummyData.scheduledProductsList[index],
-                                onDeleteIconTap: () {},
-                                onEditIconTap: () {}),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, ScheduleItemPage.pageName);
+                          },
+                          child: ShoppingItem(
+                            scheduledProduct:
+                                AppDummyData.scheduledProductsList[index],
+                            onDeleteIconTap: () {
+                              context.showPopUpMsg('delete tab');
+                            },
+                            onEditIconTap: () {
+                              context.addItemDialog();
+                            },
                           ),
                         ),
-                        SizedBox(
-                          height: height * _itemBottomSpacing,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    // SizedBox(
+                    //   height: height * _itemBottomSpacing,
+                    // ),
+                  ],
                 ),
-                Positioned(
-                  bottom: height * _btnBottomSpacing,
-                  child: SizedBox(
-                    height: 60,
-                    child: UserSideBtn(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const Material(
-                              color: AppColors.whiteColor,
-                              child: AddItemDialog(),
-                            );
-                          },
-                        );
-                      },
-                      isTextBold: true,
-                      btnHeight: _btnHeight,
-                      btnName: _btnText,
-                      borderRadius: _btnRadius,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           )
         ],
@@ -225,7 +210,7 @@ class AddItemDialog extends StatelessWidget {
             Expanded(
               flex: _flexOne,
               child: Center(
-                child: UserSideBtn(
+                child: AppCompactBtn(
                   onTap: () {
                     Navigator.of(context).pop();
                   },

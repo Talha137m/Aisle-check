@@ -1,5 +1,5 @@
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
-import 'package:aislecheck/core/common/widgets/user_side_btn.dart';
+import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/on_boarding/views/widgets/painters/cloudy_background.dart';
@@ -31,7 +31,6 @@ class OnBoardingWidget extends StatelessWidget {
   static const double _fiftyFiveRate = 0.55;
   static const double _oneSecondRate = 0.02;
   static const double _thirteenRate = 0.13;
-  static const double _fortyRate = 0.40;
   //flexible widgets contants value
   static const int _seventhFlex = 7;
   static const int _oneFlex = 1;
@@ -143,13 +142,13 @@ class OnBoardingWidget extends StatelessWidget {
               const Spacer(
                 flex: _oneFlex,
               ),
-              UserSideBtn(
+              AppCompactBtn(
                 onTap: nextBtnTab,
               ),
               const Spacer(
                 flex: _oneFlex,
               ),
-              UserSideBtn(
+              AppCompactBtn(
                 onTap: skipBtnTab,
                 btnName: 'Skip',
                 btnBackgroundColor: AppColors.whiteColor,

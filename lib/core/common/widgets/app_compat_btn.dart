@@ -2,7 +2,7 @@ import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserSideBtn extends StatelessWidget {
+class AppCompactBtn extends StatelessWidget {
   final VoidCallback onTap;
   final Color btnBackgroundColor;
   final Color btnTextColor;
@@ -10,7 +10,7 @@ class UserSideBtn extends StatelessWidget {
   final String btnName;
   final double borderRadius;
   final bool isTextBold;
-  const UserSideBtn(
+  const AppCompactBtn(
       {super.key,
       required this.onTap,
       this.btnHeight = 0.07,
