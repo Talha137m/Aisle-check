@@ -2,6 +2,7 @@ import 'package:aislecheck/core/common/widgets/devider_widget.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';
 import 'package:aislecheck/features/auth/views/sign_up_page.dart';
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
@@ -128,11 +129,15 @@ class ChooseRolePage extends StatelessWidget {
               false => AppColors.grayColor,
             },
             onTap: () {
-              switch (role.userRole) {
-                case true:
-                  Navigator.pushNamed(context, SignUpPage.name);
-                case false:
-                  Navigator.pushNamed(context, AdminSignUpPage.name);
+              if (role.userRole || role.adminRole) {
+                switch (role.userRole) {
+                  case true:
+                    Navigator.pushNamed(context, SignUpPage.name);
+                  case false:
+                    Navigator.pushNamed(context, AdminSignUpPage.name);
+                }
+              } else {
+                context.showPopUpMsg('please elect the role first');
               }
             },
           ),

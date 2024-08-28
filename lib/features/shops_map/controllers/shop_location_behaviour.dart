@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -68,5 +69,20 @@ mixin ShopLocationBehaviour {
     double distanceInKm = distanceinMeters / 1000;
     double roundedDistance = double.parse(distanceInKm.toStringAsFixed(2));
     return roundedDistance;
+  }
+
+  Future<String?> getLocationName(double latitude, double longitude) async {
+    List<geocoding.Placemark> placemarks =
+        await geocoding.placemarkFromCoordinates(latitude, longitude);
+
+    if (placemarks.isNotEmpty) {
+      geocoding.Placemark place = placemarks[0];
+      // the address based on your needs
+      String address =
+          '${place.street}, ${place.administrativeArea}, ${place.country}';
+      return address;
+    } else {
+      return null;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class EditInventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: const CustomerAppBar(),
+      appBar:  GlobalAppBar(titleText: 'Ads',),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(

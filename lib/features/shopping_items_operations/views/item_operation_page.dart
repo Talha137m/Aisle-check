@@ -1,4 +1,5 @@
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
@@ -17,48 +18,19 @@ class ShoppingItemOperationPage extends StatelessWidget {
   //....PAGE NAME
   static const pageName = '/list_overview';
   //....CONSTANT VALUES
-  static const _title = 'Ads';
   static const _subCategory = 'Add new Item';
   static const _allItems = 'All Items';
 
   static const _spacing = 0.02;
   static const _itemsPadding = 0.01;
-  static const _elevationValue = 0.0;
   static const _borderPadding = 0.05;
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        shadowColor: AppColors.whiteColor,
-        foregroundColor: AppColors.whiteColor,
-        surfaceTintColor: AppColors.whiteColor,
-        elevation: _elevationValue,
-        scrolledUnderElevation: _elevationValue,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-          ),
-        ),
-        title: const Text(
-          _title,
-        ),
-        centerTitle: true,
-        bottom: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: AppColors.whiteColor,
-            shadowColor: AppColors.whiteColor,
-            foregroundColor: AppColors.whiteColor,
-            surfaceTintColor: AppColors.whiteColor,
-            elevation: _elevationValue,
-            scrolledUnderElevation: _elevationValue,
-            flexibleSpace: const Center(
-              child: SearchWidget(),
-            )),
+      appBar: GlobalAppBar(
+        titleText: 'Ads',
+        bottomWidget: const GlobalSearchItem(),
       ),
       body: Column(
         children: [

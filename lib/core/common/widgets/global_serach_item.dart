@@ -1,8 +1,8 @@
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class SearchWidget extends StatelessWidget {
-  const SearchWidget({super.key});
+class GlobalSearchItem extends StatelessWidget {
+  const GlobalSearchItem({super.key});
 
   @override
   Widget build(BuildContext context) {

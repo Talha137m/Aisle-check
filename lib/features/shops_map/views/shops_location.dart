@@ -1,9 +1,8 @@
-import 'dart:developer';
 
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
@@ -57,12 +56,13 @@ class DataWidget extends StatelessWidget {
     return Stack(
       children: [
         googleMap ?? const SizedBox.shrink(),
-        const Align(
-          alignment: Alignment(0, -0.9),
+         Align(
+          alignment: const Alignment(0, -0.9),
           child: SizedBox(
             height: 71,
-            child: CustomerAppBar(
-              backgroundColor: AppColors.transParentColor,
+            child: GlobalAppBar(
+              titleText: 'Ads',
+              color: AppColors.transParentColor,
             ),
           ),
         ),
@@ -75,7 +75,7 @@ class DataWidget extends StatelessWidget {
                 delegate: ShopSearchDelegate(),
               );
             },
-            child: const SearchWidget(),
+            child: const GlobalSearchItem(),
           ),
         ),
         const Align(

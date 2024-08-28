@@ -3,25 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppCompactBtn extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color btnBackgroundColor;
   final Color btnTextColor;
-  final double btnWidth, btnHeight;
+  final double btnWidth, btnHeight, fontSize;
   final String btnName;
   final double borderRadius;
   final bool isTextBold;
   const AppCompactBtn(
       {super.key,
-      required this.onTap,
+      this.onTap,
       this.btnHeight = 0.07,
       this.btnWidth = 0.9,
       this.borderRadius = 14,
       this.btnBackgroundColor = AppColors.greenColor,
       this.btnTextColor = AppColors.whiteColor,
       this.btnName = 'Next',
-      this.isTextBold = false});
-  //font size variable
-  static const double _fontSize = 14;
+      this.isTextBold = false,
+      this.fontSize = 14.0});
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
@@ -38,7 +37,7 @@ class AppCompactBtn extends StatelessWidget {
           child: Text(
             btnName,
             style: GoogleFonts.roboto(
-              fontSize: _fontSize,
+              fontSize: fontSize,
               color: btnTextColor,
               fontWeight: isTextBold ? FontWeight.bold : FontWeight.normal,
             ),

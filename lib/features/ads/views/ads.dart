@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
 import 'package:aislecheck/features/ads/views/widgets/ads_list.dart';
+import 'package:aislecheck/features/comapign_data_form/views/compaign_data_form_page.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -35,9 +38,11 @@ class _AdsWidgetState extends State<AdsWidget> {
   bool boostStore = false;
   @override
   Widget build(BuildContext context) {
+    final Size(:width, :height) = MediaQuery.sizeOf(context);
     ScrollController scrollController = useScrollController();
     scrollController.addListener(
       () {
+        log('${scrollController.position.pixels == height}');
         if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent) {
           setState(() {
@@ -47,19 +52,15 @@ class _AdsWidgetState extends State<AdsWidget> {
         } else {
           setState(() {
             boostProduct = false;
-            boostStore = true;
+            boostStore = false;
           });
         }
       },
     );
-    final Size(:width, :height) = MediaQuery.sizeOf(context);
+
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        const Align(
-          alignment: Alignment(0.5, -0.7),
-          child: SearchWidget(),
-        ),
         SingleChildScrollView(
           controller: scrollController,
           child: Padding(
@@ -95,7 +96,9 @@ class _AdsWidgetState extends State<AdsWidget> {
           child: Visibility(
             visible: boostStore,
             child: AppCompactBtn(
-              onTap: () {},
+              onTap: () {
+                context.showPopUpMsg('boost store');
+              },
               btnHeight: AdsWidget._btnHeight,
               borderRadius: AdsWidget._btnRadius,
               btnName: AdsWidget._storeBtn,
@@ -108,7 +111,9 @@ class _AdsWidgetState extends State<AdsWidget> {
           child: Visibility(
             visible: boostProduct,
             child: AppCompactBtn(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, CompaignDataFormPage.pageName);
+              },
               btnHeight: AdsWidget._btnHeight,
               borderRadius: AdsWidget._btnRadius,
               btnName: AdsWidget._productBtn,

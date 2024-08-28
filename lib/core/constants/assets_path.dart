@@ -18,5 +18,8 @@ abstract class AppAssets {
 //....Admins level assets
 abstract class AdminAssests {
   /// Images base path
-  static const String custImageBasePath = "assets/images/admin_images/";
+  static const String adminImageBasePath = "assets/images/admin_images/";
+
+  /// Icons base path
+  static const String adminIconsBasePath = "assets/images/admin_icons/";
 }

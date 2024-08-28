@@ -1,4 +1,4 @@
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shopping_list/views/all_lists_tab_view.dart';
 import 'package:aislecheck/features/shopping_list/views/schedule_products_tab_view.dart';
@@ -44,7 +44,7 @@ class ShoppingListPage extends StatelessWidget {
               height: height * _flexibleSpace,
               child: const Align(
                 alignment: Alignment.bottomCenter,
-                child: SearchWidget(),
+                child: GlobalSearchItem(),
               ),
             ),
           ),

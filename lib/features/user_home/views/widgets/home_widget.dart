@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shop_detail/views/shop_details_page.dart';
@@ -24,7 +24,7 @@ class HomeWidget extends StatelessWidget {
           SizedBox(
             height: height * _h03,
           ),
-          const SearchWidget(),
+          const GlobalSearchItem(),
           SizedBox(
             height: height * _h03,
           ),

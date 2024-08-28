@@ -1,7 +1,7 @@
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/home_page_app_bar.dart';
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
@@ -25,7 +25,15 @@ class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
     return Scaffold(
       appBar: switch (state.currentIndex) {
         0 => const HomePageAppBar() as PreferredSizeWidget,
-        _ => CustomerAppBar(
+        2 => GlobalAppBar(
+          titleText: 'Ads',
+            leadingOnTab: () {
+              context.read<UserBottomController>().changeState(0);
+            },
+            bottomWidget: const GlobalSearchItem(),
+          ),
+        _ => GlobalAppBar(
+          titleText: 'Ads',
             leadingOnTab: () {
               context.read<UserBottomController>().changeState(0);
             },
@@ -73,7 +81,7 @@ class InventoryWidget extends StatelessWidget {
             SizedBox(
               height: height * _pointZeroTwoPercent,
             ),
-            const SearchWidget(),
+            const GlobalSearchItem(),
             SizedBox(
               height: height * _pointZeroFivePercent,
             ),

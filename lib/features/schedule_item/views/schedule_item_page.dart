@@ -1,4 +1,4 @@
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
@@ -8,6 +8,7 @@ import 'package:aislecheck/features/schedule_item/views/widgets/item_widgets.dar
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 
 class ScheduleItemPage extends StatelessWidget {
   const ScheduleItemPage({super.key});
@@ -29,7 +30,7 @@ class ScheduleItemPage extends StatelessWidget {
     var state = context.watch<TimePickerController>();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: const CustomerAppBar(),
+      appBar: GlobalAppBar(titleText: 'Ads',),
       body: Padding(
         padding: EdgeInsetsDirectional.symmetric(
             horizontal: width * _contentPadding),

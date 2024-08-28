@@ -1,4 +1,4 @@
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/features/shop_detail/views/widgets/shop_detail_widgets.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +15,9 @@ class ShopDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomerAppBar(),
-      body: ShopDetailsDataWidget(
+    return Scaffold(
+      appBar: GlobalAppBar(titleText: 'Ads',),
+      body: const ShopDetailsDataWidget(
           shopName: 'Shop name',
           distance: '5 KMs',
           description:

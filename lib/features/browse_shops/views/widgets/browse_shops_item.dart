@@ -1,108 +1,10 @@
-
-import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/shops_map/views/shops_location.dart';
-import 'package:aislecheck/features/user_home/views/home_page.dart';
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/features/browse_shops/views/widgets/find_shop_location_btn.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 
-class Browse extends StatelessWidget {
-  const Browse({super.key});
-  static const _h03 = 0.03;
-  @override
-  Widget build(BuildContext context) {
-    final Size(:width, :height) = MediaQuery.sizeOf(context);
-    return Column(
-      children: [
-        SizedBox(
-          height: height * _h03,
-        ),
-        const Align(
-          alignment: Alignment(0, 0),
-          child: SearchWidget(),
-        ),
-        SizedBox(
-          height: height * _h03,
-        ),
-        const CategoriWidget(
-          category: 'Shop near you',
-          subCategory: 'Find by Geolocation',
-          subCategoryColor: AppColors.greenColor,
-          subCategoryFontweight: FontWeight.w700,
-          textDecoration: TextDecoration.underline,
-        ),
-        SizedBox(
-          height: height * _h03,
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return ShopDetailWidget(
-                findShopLocationTab: () {
-                  Navigator.pushNamed(context, ShopsLocation.name);
-                },
-                imagesPath: CustmoerImages.shop,
-                shopAddress: 'Lorem Ipsum is simply dummy ',
-                shopDistance: '7.5 km away',
-                shopNme: 'Shop Name',
-                shopRating: 4,
-                width: width,
-                height: height,
-              );
-            },
-          ),
-        )
-      ],
-    );
-  }
-}
-
-///
-///create the class which is shop location btn
-class ShopLocationBtn extends StatelessWidget {
-  const ShopLocationBtn({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(3),
-      decoration: BoxDecoration(
-        color: AppColors.greenColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const Icon(
-            Icons.location_on,
-            size: 14,
-            color: AppColors.whiteColor,
-          ),
-          Text(
-            'Shop location',
-            style: GoogleFonts.roboto(fontSize: 8, fontWeight: FontWeight.w400),
-          ),
-          const CircleAvatar(
-            radius: 15,
-            backgroundColor: AppColors.whiteColor,
-            child: Center(
-              child: Icon(
-                Icons.arrow_circle_right,
-                size: 15,
-                color: AppColors.greenColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-///create the class that contains the shop details
-class ShopDetailWidget extends StatelessWidget {
+class BrowseShopItem extends StatelessWidget {
   final double width, height;
   final String imagesPath;
   final String shopNme;
@@ -110,7 +12,7 @@ class ShopDetailWidget extends StatelessWidget {
   final String shopDistance;
   final double shopRating;
   final VoidCallback findShopLocationTab;
-  const ShopDetailWidget(
+  const BrowseShopItem(
       {super.key,
       required this.width,
       required this.height,
@@ -218,7 +120,7 @@ class ShopDetailWidget extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: findShopLocationTab,
-                            child: const ShopLocationBtn(),
+                            child: const FindShopLocationBtn(),
                           ),
                           //Spacer(),
                         ],

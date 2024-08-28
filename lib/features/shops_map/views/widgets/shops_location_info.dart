@@ -3,7 +3,6 @@
 import 'dart:developer';
 
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
-import 'package:aislecheck/features/shopping_list/views/widgets/shopping_lists.dart';
 import 'package:aislecheck/features/shops_map/models/info_window.dart';
 import 'package:flutter/material.dart';
 

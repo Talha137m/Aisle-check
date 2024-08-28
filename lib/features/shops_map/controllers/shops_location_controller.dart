@@ -6,7 +6,6 @@ import 'package:aislecheck/features/shops_map/models/dummy_shops_location.dart';
 import 'package:aislecheck/features/shops_map/models/info_window.dart';
 import 'package:aislecheck/features/shops_map/views/widgets/shops_location_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 // import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -47,6 +46,8 @@ class ShopsLocationController extends ChangeNotifier
 
   final List<LatLng> _polylineCoordinates = [];
 
+  String? _locationname;
+
   //➡➡➡➡➡ create the varible for custom info window
 
   bool _isInfoWindowVisible = false;
@@ -75,6 +76,10 @@ class ShopsLocationController extends ChangeNotifier
                   points.$1!.round().toDouble(),
                   points.$2!.round().toDouble(),
                 );
+                //.....->HERE IS THE ->
+                //the functions that get the current location name
+                _locationname = await getLocationName(
+                    _currentPosition.latitude, _currentPosition.longitude);
                 //-> add the marker to the current position <-
                 _currentLocationMarker();
                 //.....here is the function is called
@@ -82,11 +87,17 @@ class ShopsLocationController extends ChangeNotifier
                 await _shopsLocationMarker();
                 //......show the google map
                 _getGoogleMap();
-                //---now change the state
+                //->   HERE IS CALL THE  ->
+                //....function that is draw the polyline
                 if (targetLatude != null && targetLongitude != null) {
-                  await _addPolyLinePoints(targetLatude, targetLongitude,
-                      _currentPosition.latitude, _currentPosition.longitude);
+                  await _addPolyLinePoints(
+                    destLatitude: targetLatude,
+                    destLongitude: targetLongitude,
+                    originLatitude: _currentPosition.latitude,
+                    originLongitude: _currentPosition.longitude,
+                  );
                 }
+
                 loadingState = false;
                 loadedState = true;
               } else {
@@ -113,7 +124,6 @@ class ShopsLocationController extends ChangeNotifier
       errorState = true;
       log(e.toString());
     }
-
     notifyListeners();
   }
 
@@ -186,8 +196,9 @@ class ShopsLocationController extends ChangeNotifier
       Marker(
         markerId: const MarkerId('current location'),
         position: _currentPosition,
-        infoWindow: const InfoWindow(title: 'current location', snippet: ''),
-        icon: BitmapDescriptor.defaultMarkerWithHue(12),
+        infoWindow:
+            InfoWindow(title: 'Current location', snippet: _locationname),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
       ),
     );
   }
@@ -267,8 +278,11 @@ class ShopsLocationController extends ChangeNotifier
     notifyListeners();
   }
 
-  Future<void> _addPolyLinePoints(double originLatitude, double originLongitude,
-      double destLatitude, double destLongitude) async {
+  Future<void> _addPolyLinePoints(
+      {required double originLatitude,
+      required double originLongitude,
+      required double destLatitude,
+      required double destLongitude}) async {
     loadedState = false;
     loadingState = true;
     notifyListeners();
@@ -291,11 +305,17 @@ class ShopsLocationController extends ChangeNotifier
         LatLng(element.latitude, element.longitude),
       );
     }
+    var endCap = await BitmapDescriptor.asset(
+        const ImageConfiguration(
+          size: Size(50, 50),
+        ),
+        CustmoerImages.bullet);
     Polyline polyline = Polyline(
-        width: 5,
-        polylineId: const PolylineId('polyline_id'),
-        points: _polylineCoordinates,
-        endCap: Cap.squareCap);
+      width: 5,
+      polylineId: const PolylineId('polyline_id'),
+      points: _polylineCoordinates,
+      endCap: Cap.customCapFromBitmap(endCap),
+    );
     _polyLines.add(polyline);
     loadingState = false;
     loadedState = true;

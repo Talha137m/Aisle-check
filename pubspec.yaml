@@ -45,7 +45,8 @@ dependencies:
   provider:
   table_calendar:
   geolocator:
-  flutter_polyline_points:        
+  flutter_polyline_points:
+  geocoding:         
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
     - assets/images/customer_images/
     - assets/images/customer_icons/
     - assets/images/admin_images/
+    - assets/images/admin_icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

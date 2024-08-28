@@ -1,4 +1,4 @@
-import 'package:aislecheck/core/common/widgets/customer_app_bar.dart';
+import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
@@ -19,7 +19,8 @@ class UserHomePage extends StatelessWidget with HomeBehaviour {
       appBar: switch (state.currentIndex) {
         2 => const HomePageAppBar() as PreferredSizeWidget,
         1 => null,
-        _ => CustomerAppBar(
+        _ => GlobalAppBar(
+          titleText: 'Ads',
             leadingOnTab: () {
               context.read<UserBottomController>().changeState(2);
             },

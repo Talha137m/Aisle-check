@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:aislecheck/core/common/widgets/serach.dart';
+import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/features/shopping_list/views/widgets/shopping_lists.dart';
@@ -40,7 +40,7 @@ class BrowsingHistoryPage extends StatelessWidget {
         bottom: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: const Center(
-            child: SearchWidget(),
+            child: GlobalSearchItem(),
           ),
         ),
       ),

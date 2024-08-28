@@ -202,35 +202,41 @@ class ProfilePageTextFields extends StatelessWidget {
 
 //.....ADMIN SIDE TEXTFields
 class AdminAppCompactTextField extends StatelessWidget {
-  const AdminAppCompactTextField(
-      {super.key,
-      this.fieldWidth = 0.9,
-      required this.controller,
-      required this.hintText,
-      required this.validator,
-      this.expands = false,
-      this.fieldHeight = 0.075,
-      this.textAlignment,
-      this.prefix,
-      this.suffix});
+  const AdminAppCompactTextField({
+    super.key,
+    this.fieldWidth = 0.9,
+    required this.controller,
+    required this.hintText,
+    required this.validator,
+    this.expands = false,
+    this.fieldHeight = 0.075,
+    this.textAlignment,
+    this.prefix,
+    this.suffix,
+    this.borderColor = AppColors.greenColor,
+    this.fillColor = AppColors.lightGreenColor,
+    this.borderWidth = 0.0,
+    this.hintColor = AppColors.blackColor,
+  });
   final bool expands;
   final FormFieldValidator validator;
-  final double fieldWidth, fieldHeight;
+  final double fieldWidth, fieldHeight, borderWidth;
   final TextEditingController controller;
   final String hintText;
   final TextAlignVertical? textAlignment;
   final Widget? prefix, suffix;
+  final Color borderColor, fillColor, hintColor;
   //.....CONTANT VALUES
   //...DECORATION
-  static final _border = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(10.0),
-    borderSide: const BorderSide(color: AppColors.greenColor, width: 0.0),
-  );
+
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
-    final textStyle =
-        GoogleFonts.roboto(fontSize: 13, color: AppColors.blackColor);
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(color: borderColor, width: borderWidth),
+    );
+    final textStyle = GoogleFonts.roboto(fontSize: 13, color: hintColor);
     return SizedBox(
       width: width * fieldWidth,
       height: height * fieldHeight,
@@ -242,11 +248,11 @@ class AdminAppCompactTextField extends StatelessWidget {
         expands: expands,
         maxLines: null,
         decoration: InputDecoration(
-          fillColor: AppColors.lightGreenColor,
+          fillColor: fillColor,
           filled: true,
-          border: _border,
-          enabledBorder: _border,
-          focusedBorder: _border,
+          border: border,
+          enabledBorder: border,
+          focusedBorder: border,
           hintText: hintText,
           hintStyle: textStyle,
           prefixIcon: prefix,

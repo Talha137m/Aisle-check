@@ -30,6 +30,7 @@ abstract class CustmoerImages {
   static const String map = '${CustomerAssets.custImageBasePath}map.png';
   static const String star = '${CustomerAssets.custImageBasePath}star.png';
   static const String promo = '${CustomerAssets.custImageBasePath}promo.png';
+  static const String bullet = '${CustomerAssets.custImageBasePath}bullet.png';
 }
 
 //class that hold the images path and icons path of app
@@ -41,6 +42,24 @@ abstract class AppImages {
 //class that holding the images for customers side
 abstract class AdminImages {
   static const String groceryAd =
-      '${AdminAssests.custImageBasePath}grocery_ad.png';
-  static const String shopAd = '${AdminAssests.custImageBasePath}shop_ad.png';
+      '${AdminAssests.adminImageBasePath}grocery_ad.png';
+  static const String shopAd = '${AdminAssests.adminImageBasePath}shop_ad.png';
+  static const String cartAd = '${AdminAssests.adminImageBasePath}cart_ad.png';
+  static const String subscription =
+      '${AdminAssests.adminImageBasePath}subscription.png';
+  static const String momoCard =
+      '${AdminAssests.adminIconsBasePath}momo_card.jpeg';
+  static const String masterCard =
+      '${AdminAssests.adminIconsBasePath}master_card.jpeg';
+  static const String paypalCard =
+      '${AdminAssests.adminIconsBasePath}paypal_card.png';
+  static const String paystackCard =
+      '${AdminAssests.adminIconsBasePath}paystack_card.png';
+  static const String visaCard =
+      '${AdminAssests.adminIconsBasePath}visa_card.png';
+  static const String appleCard =
+      '${AdminAssests.adminIconsBasePath}apple_pay.png';
+  static const String venmoCard = '${AdminAssests.adminIconsBasePath}venmo.png';
+  static const String creditCard =
+      '${AdminAssests.adminIconsBasePath}credit_debit_card.png';
 }

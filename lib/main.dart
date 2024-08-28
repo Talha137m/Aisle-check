@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   // ...........Making the app should stay in portrait mode
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -36,12 +36,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aisle Check',
       theme: AppTheme.theme(),
-
       navigatorKey: NavigationState.navigatorKey,
+      //
       initialRoute: OnBordingPage.name,
       onGenerateRoute: generateRoute,
-
-     // home: const ShopsLocation(),
+      //home: const ShopsLocation(),
     );
   }
 }

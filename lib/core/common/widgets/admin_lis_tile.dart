@@ -9,31 +9,37 @@ class CustomFilledListTile extends StatelessWidget {
       this.trailing,
       this.minLeadingWidth,
       this.title,
+      this.onTab,
       this.minTileHeight});
   final Widget? leading, trailing, title;
   final double? minLeadingWidth, minTileHeight;
+  final VoidCallback? onTab;
   //...CONTANT VALUES
   static const _borderWidth = 0.0;
   static const _borderRadius = 30.0;
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      minTileHeight: minTileHeight,
-      minLeadingWidth: minLeadingWidth,
-      leading: leading,
-      title: title,
-      trailing: trailing,
-      shape: ContinuousRectangleBorder(
-        side: const BorderSide(
-          color: AppColors.greenColor,
-          width: _borderWidth,
+    return GestureDetector(
+      onTap: onTab,
+      child: ListTile(
+        minTileHeight: minTileHeight,
+        minLeadingWidth: minLeadingWidth,
+        leading: leading,
+        title: title,
+        trailing: trailing,
+        shape: ContinuousRectangleBorder(
+          side: const BorderSide(
+            color: AppColors.greenColor,
+            width: _borderWidth,
+          ),
+          borderRadius: BorderRadius.circular(
+            _borderRadius,
+          ),
         ),
-        borderRadius: BorderRadius.circular(
-          _borderRadius,
-        ),
+        selected: true,
+        selectedTileColor: AppColors.lightGreenColor,
       ),
-      selected: true,
-      selectedTileColor: AppColors.lightGreenColor,
     );
   }
 }
