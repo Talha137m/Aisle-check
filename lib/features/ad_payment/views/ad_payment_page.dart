@@ -1,8 +1,12 @@
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
+import 'package:aislecheck/core/constants/enumration/payment_method.dart';
+import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
 import 'package:aislecheck/features/ad_payment/views/widgets/ad_payment_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/constants/images_path.dart';
 
@@ -96,31 +100,36 @@ class AdPaymentPage extends StatelessWidget {
                 height: height * _pointZeroTwoPercent,
               ),
               //....MOMO PAYMENT TILE
-              const PaymentTile(
+              PaymentTile(
+                nameToChoosePayment: PaymentMethod.momoPayment.name,
                 cardImage: AdminImages.momoCard,
                 paymentMethodName: _momoPaymentText,
               ),
 
               //....paystack PAYMENT TILE
-              const PaymentTile(
+              PaymentTile(
+                nameToChoosePayment: PaymentMethod.payStact.name,
                 cardImage: AdminImages.paystackCard,
                 paymentMethodName: _payStackPaymentText,
               ),
 
               //....PAYPAL PAYMENT TILE
-              const PaymentTile(
+              PaymentTile(
+                nameToChoosePayment: PaymentMethod.payPal.name,
                 cardImage: AdminImages.paypalCard,
                 paymentMethodName: _paypalPaymentText,
               ),
 
               //....MASTER PAYMENT TILE
-              const PaymentTile(
+              PaymentTile(
+                nameToChoosePayment: PaymentMethod.masterCard.name,
                 cardImage: AdminImages.masterCard,
                 paymentMethodName: _masterPaymentText,
               ),
 
               //....VISA PAYMENT TILE
-              const PaymentTile(
+              PaymentTile(
+                nameToChoosePayment: PaymentMethod.visaCard.name,
                 cardImage: AdminImages.visaCard,
                 paymentMethodName: _visaPaymentText,
               ),
@@ -130,7 +139,9 @@ class AdPaymentPage extends StatelessWidget {
 
               //.............CONFIRM BUTTON
               AppCompactBtn(
-                onTap: () {},
+                onTap: () {
+                  context.showPopUpMsg('confirm tab');
+                },
                 btnHeight: _btnHeight,
                 btnName: _btnText,
                 borderRadius: _btnRadius,

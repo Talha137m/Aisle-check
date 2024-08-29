@@ -1,4 +1,5 @@
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/features/ad_payment/views/ad_payment_page.dart';
 import 'package:aislecheck/features/ads/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,75 +47,80 @@ class AdItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
-    return SizedBox(
-      height: height * _zeroPointThree,
-      width: width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: _flexFive,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                _imageBorderRadius,
-              ),
-              child: Image.asset(
-                ad.image,
-                fit: BoxFit.fill,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, AdPaymentPage.pageName);
+      },
+      child: SizedBox(
+        height: height * _zeroPointThree,
+        width: width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: _flexFive,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  _imageBorderRadius,
+                ),
+                child: Image.asset(
+                  ad.image,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: _flexOne,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: _flexSix,
-                  child: Text(
-                    ad.description,
-                    maxLines: _maxLines,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.roboto(
-                        fontSize: _nameFontSize,
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.w600),
+            Expanded(
+              flex: _flexOne,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: _flexSix,
+                    child: Text(
+                      ad.description,
+                      maxLines: _maxLines,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.roboto(
+                          fontSize: _nameFontSize,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
-                ),
-                const Spacer(),
-                Expanded(
-                  flex: _flexThree,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: FittedBox(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: _status,
-                              style: GoogleFonts.roboto(
-                                fontSize: _statusFontSize,
-                                color: AppColors.blackColor,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ad.status,
-                              style: GoogleFonts.roboto(
+                  const Spacer(),
+                  Expanded(
+                    flex: _flexThree,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: FittedBox(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _status,
+                                style: GoogleFonts.roboto(
                                   fontSize: _statusFontSize,
-                                  color: ad.status == 'Active'
-                                      ? AppColors.greenColor
-                                      : AppColors.redColor,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ad.status,
+                                style: GoogleFonts.roboto(
+                                    fontSize: _statusFontSize,
+                                    color: ad.status == 'Active'
+                                        ? AppColors.greenColor
+                                        : AppColors.redColor,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,9 @@
 import 'package:aislecheck/config/navigation/routes.dart';
 import 'package:aislecheck/config/theme/app_theme.dart';
+import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
+import 'package:aislecheck/features/forecasting/views/forecasting_page.dart';
 import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
+import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
 import 'package:aislecheck/features/shops_map/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
@@ -21,6 +24,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => ShopsLocationController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => PaymentOptionController(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -38,9 +44,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.theme(),
       navigatorKey: NavigationState.navigatorKey,
       //
-      initialRoute: OnBordingPage.name,
-      onGenerateRoute: generateRoute,
-      //home: const ShopsLocation(),
+      //initialRoute: OnBordingPage.name,
+      //onGenerateRoute: generateRoute,
+      home: const ForecastingPage(),
     );
   }
 }

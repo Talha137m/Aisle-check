@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:location/location.dart';
 mixin ShopLocationBehaviour {
   //------------create the method that
   //------------check location service is enabled or not
+  final double proximityThreshold = 50;
   Future<bool> checklocationService(Location location) async {
     bool isEnable = await location.serviceEnabled();
     if (!isEnable) {
@@ -78,11 +80,35 @@ mixin ShopLocationBehaviour {
     if (placemarks.isNotEmpty) {
       geocoding.Placemark place = placemarks[0];
       // the address based on your needs
+      log(place.toString());
       String address =
-          '${place.street}, ${place.administrativeArea}, ${place.country}';
+          '${place.street}, ${place.subLocality}, ${place.administrativeArea}, ${place.country}';
       return address;
     } else {
       return null;
+    }
+  }
+
+  void checkProximity(
+      {required double currentLatude,
+      required currentLongitude,
+      required destLatitude,
+      required destLongitude,
+      required BuildContext context}) {
+    double distance = Geolocator.distanceBetween(
+      currentLatude,
+      currentLongitude,
+      destLatitude,
+      destLongitude,
+    );
+
+    if (distance <= proximityThreshold) {
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('You are $distance meters away from the target.'),
+        ),
+      );
     }
   }
 }

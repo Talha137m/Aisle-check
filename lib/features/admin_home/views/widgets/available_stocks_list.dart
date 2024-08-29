@@ -9,7 +9,7 @@ class AdminAvailableStocksList extends StatelessWidget {
   const AdminAvailableStocksList({super.key, required this.products});
   final List<AvailableStockModel> products;
   //...CONSTANT VALUES
-  static const _padding = 0.02; 
+  static const _padding = 0.02;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -17,15 +17,11 @@ class AdminAvailableStocksList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: products.length,
       itemBuilder: (context, index) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * _padding,),
-        child: GestureDetector(
-          onTap: (){
-            Navigator.of(context).pushNamed(EditInventoryPage.pageName);
-          },
-          child: AdminAvailableStockItem(
-            product: products[index],
-          ),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.sizeOf(context).height * _padding,
+        ),
+        child: AdminAvailableStockItem(
+          product: products[index],
         ),
       ),
     );
@@ -120,10 +116,16 @@ class AdminAvailableStockItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Icon(
-                              Icons.edit_square,
-                              size: height * _pointZeroTwoFivePercent,
-                              color: AppColors.grayColor,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(EditInventoryPage.pageName);
+                              },
+                              child: Icon(
+                                Icons.edit_square,
+                                size: height * _pointZeroTwoFivePercent,
+                                color: AppColors.grayColor,
+                              ),
                             ),
                           ],
                         )),

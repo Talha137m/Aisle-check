@@ -1,8 +1,8 @@
-
-
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/features/admin_home/models/stock_model.dart';
 import 'package:aislecheck/features/ads/models/ad.dart';
+import 'package:aislecheck/features/forecasting/models/lower_forecasting_model.dart';
+import 'package:aislecheck/features/forecasting/models/top_forecasting_model.dart';
 import 'package:aislecheck/features/shop_detail/models/available_stock_model.dart';
 import 'package:aislecheck/features/shop_detail/models/review_model.dart';
 import 'package:aislecheck/features/shopping_list/models/scheduled_product.dart';
@@ -234,5 +234,24 @@ class AppDummyData {
       description: 'Lorem ispum is simply dummy text of',
       status: 'Active',
     ),
+  ];
+  static const List<TopForecastingModel> topForecastingModel = [
+    TopForecastingModel(whichDay: 0, value: 40),
+    TopForecastingModel(whichDay: 1, value: 50),
+    TopForecastingModel(whichDay: 2, value: 30),
+    TopForecastingModel(whichDay: 3, value: 60),
+    TopForecastingModel(whichDay: 4, value: 80),
+    TopForecastingModel(whichDay: 5, value: 40),
+    TopForecastingModel(whichDay: 6, value: 60),
+  ];
+
+  static const List<LowerForecastingModel> lowerForecastingModel = [
+    LowerForecastingModel(whichDay: 0, value: 10),
+    LowerForecastingModel(whichDay: 1, value: 20),
+    LowerForecastingModel(whichDay: 2, value: 50),
+    LowerForecastingModel(whichDay: 3, value: 30),
+    LowerForecastingModel(whichDay: 4, value: 20),
+    LowerForecastingModel(whichDay: 5, value: 5),
+    LowerForecastingModel(whichDay: 6, value: 35),
   ];
 }

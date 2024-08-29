@@ -46,7 +46,8 @@ dependencies:
   table_calendar:
   geolocator:
   flutter_polyline_points:
-  geocoding:         
+  geocoding:
+  fl_chart:          
 
 dev_dependencies:
   flutter_test:

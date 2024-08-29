@@ -21,109 +21,107 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(
-                flex: _twentyFlex,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Spacer(
+              flex: _twentyFlex,
+            ),
+            Text(
+              'Sign In',
+              style: GoogleFonts.roboto(
+                  fontSize: 26, fontWeight: FontWeight.w700),
+            ),
+            const Spacer(
+              flex: _fiveFlex,
+            ),
+            Text(
+              'Welcome back! Please enter your details.',
+              style: GoogleFonts.roboto(
+                  fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            const Spacer(
+              flex: _fiveFlex,
+            ),
+            DataCollectionTextFormField(
+              hintAndLabelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                return null;
+              },
+              textEditingController: TextEditingController(),
+            ),
+            const Spacer(
+              flex: _fiveFlex,
+            ),
+            DataCollectionTextFormField(
+              hintAndLabelText: 'Phone Number',
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                return null;
+              },
+              textEditingController: TextEditingController(),
+            ),
+            const Spacer(
+              flex: _fiveFlex,
+            ),
+            DataCollectionTextFormField(
+              hintAndLabelText: 'Password',
+              keyboardType: TextInputType.text,
+              validator: (value) {
+                return null;
+              },
+              textEditingController: TextEditingController(),
+            ),
+            const Spacer(
+              flex: _twentyFiveFlex,
+            ),
+            Expanded(
+              flex: _twentyFiveFlex,
+              child: ContineWith(
+                width: width,
               ),
-              Text(
-                'Sign In',
-                style: GoogleFonts.roboto(
-                    fontSize: 26, fontWeight: FontWeight.w700),
-              ),
-              const Spacer(
-                flex: _fiveFlex,
-              ),
-              Text(
-                'Welcome back! Please enter your details.',
-                style: GoogleFonts.roboto(
-                    fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-              const Spacer(
-                flex: _fiveFlex,
-              ),
-              DataCollectionTextFormField(
-                hintAndLabelText: 'Email',
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  return null;
-                },
-                textEditingController: TextEditingController(),
-              ),
-              const Spacer(
-                flex: _fiveFlex,
-              ),
-              DataCollectionTextFormField(
-                hintAndLabelText: 'Phone Number',
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  return null;
-                },
-                textEditingController: TextEditingController(),
-              ),
-              const Spacer(
-                flex: _fiveFlex,
-              ),
-              DataCollectionTextFormField(
-                hintAndLabelText: 'Password',
-                keyboardType: TextInputType.text,
-                validator: (value) {
-                  return null;
-                },
-                textEditingController: TextEditingController(),
-              ),
-              const Spacer(
-                flex: _twentyFiveFlex,
-              ),
-              Expanded(
-                flex: _twentyFiveFlex,
-                child: ContineWith(
-                  width: width,
+            ),
+            const Spacer(
+              flex: _tenFlex,
+            ),
+            Expanded(
+                flex: 25,
+                child: OnclickSignupWidget(width: width, height: height)),
+            const Spacer(
+              flex: _twentyFlex,
+            ),
+            AppCompactBtn(
+              btnName: 'Sign In',
+              btnBackgroundColor: AppColors.greenColor,
+              onTap: () {
+                Navigator.pushNamed(context, UserHomePage.name);
+              },
+            ),
+            const Spacer(
+              flex: _tenFlex,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, SignUpPage.name);
+              },
+              child: Center(
+                child: Text(
+                  'First time here?? Sign up',
+                  style: GoogleFonts.roboto(
+                      fontSize: 14, fontWeight: FontWeight.w600),
                 ),
               ),
-              const Spacer(
-                flex: _tenFlex,
-              ),
-              Expanded(
-                  flex: 25,
-                  child: OnclickSignupWidget(width: width, height: height)),
-              const Spacer(
-                flex: _twentyFlex,
-              ),
-              AppCompactBtn(
-                btnName: 'Sign In',
-                btnBackgroundColor: AppColors.greenColor,
-                onTap: () {
-                  Navigator.pushNamed(context, UserHomePage.name);
-                },
-              ),
-              const Spacer(
-                flex: _tenFlex,
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, SignUpPage.name);
-                },
-                child: Center(
-                  child: Text(
-                    'First time here?? Sign up',
-                    style: GoogleFonts.roboto(
-                        fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              const Center(
-                child: DividerWidget(),
-              ),
-            ],
-          ),
+            ),
+            const Center(
+              child: DividerWidget(),
+            ),
+          ],
         ),
       ),
     );

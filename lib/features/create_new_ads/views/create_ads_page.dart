@@ -4,14 +4,14 @@ import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/edit_inventory/views/widgets/edit_inventory_detail_widgets.dart';
-import 'package:aislecheck/features/comapign_data_form/views/widgets/make_ad_widgets.dart';
+import 'package:aislecheck/features/create_new_ads/views/widgets/make_ad_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/strings/app_colors.dart';
 
-class CompaignDataFormPage extends StatelessWidget {
-  const CompaignDataFormPage({super.key});
+class CreateNewAdsPage extends StatelessWidget {
+  const CreateNewAdsPage({super.key});
   //...PAGE NAME
   static const pageName = '/make_ad_page';
   //.....CONTANT VALUES
@@ -24,7 +24,6 @@ class CompaignDataFormPage extends StatelessWidget {
   static const _btnText = 'Confirm';
   static const _pointZeroTwoPercent = 0.02;
   static const _pointZeroFivePercent = 0.05;
-  static const _pointOnePercent = 0.1;
   static const _pointTwoPercent = 0.2;
   static const _pointThreePercent = 0.3;
   static const _fontSize = 13.0;

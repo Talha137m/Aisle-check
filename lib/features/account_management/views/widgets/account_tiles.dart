@@ -1,7 +1,10 @@
 import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
+import 'package:aislecheck/core/constants/enumration/payment_method.dart';
 import 'package:aislecheck/features/ad_payment/views/ad_payment_page.dart';
 import 'package:aislecheck/features/admin_profile/views/admin_profile_page.dart';
+import 'package:aislecheck/features/inetgrate_inventory/views/integrate_inventory_page.dart';
 import 'package:aislecheck/features/membership_plan/views/membership_plan_page.dart';
+import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/strings/app_colors.dart';
@@ -69,10 +72,10 @@ class ManagementTiles extends StatelessWidget {
         //PAYMENT TILE
         CustomFilledListTile(
           onTab: () {
-            Navigator.pushNamed(context, AdPaymentPage.pageName);
+            Navigator.pushNamed(context, PaymentMethodPage.pageName);
           },
           leading: const Icon(
-            Icons.production_quantity_limits_outlined,
+            Icons.payment_outlined,
             color: AppColors.blackColor,
           ),
           title: Text(
@@ -126,8 +129,11 @@ class ManagementTiles extends StatelessWidget {
           height: height * _pointZeroTwoPercent,
         ),
 
-        //PAYMENT TILE
+        //inventry programme integration
         CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, IntegrateInventoryPage.pageName);
+          },
           leading: const Icon(
             Icons.link,
             color: AppColors.blackColor,

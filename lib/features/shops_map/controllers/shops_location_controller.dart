@@ -12,8 +12,34 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 //import 'package:location/location.dart';
 
+mixin DefineVariables {
+  GoogleMapController? _mapcontroller;
+  //......create the location class object
+  final Location _location = Location();
+
+  ///.....markers
+  final Set<Marker> _markers = {};
+  //->  polylines ->
+  final Set<Polyline> _polyLines = {};
+  //-> ......camera zoom value ->
+  double _cameraZoom = 10.0;
+  //->  .....current position latitude and longitude  ->
+  LatLng _currentPosition = const LatLng(0, 0);
+  //....-> polyline coordinated for latitude and longitude ->
+  final List<LatLng> _polylineCoordinates = [];
+  //.....-> current locationname
+  String? _locationname;
+  //...check custom info window is show or not  ->
+  bool _isInfoWindowVisible = false;
+  //....for custom info window
+  OverlayEntry? _infoWindowOverlay;
+  //....initial camera position
+  CameraPosition get _cameraPosition =>
+      CameraPosition(target: _currentPosition, zoom: _cameraZoom);
+}
+
 class ShopsLocationController extends ChangeNotifier
-    with ShopLocationBehaviour {
+    with ShopLocationBehaviour, DefineVariables {
   //-----------create the google
   //----------- map states varibel
   bool initialState = true;
@@ -23,43 +49,17 @@ class ShopsLocationController extends ChangeNotifier
 
   //..take the context
   late BuildContext context;
+  GoogleMap? googleMap;
 
   //......create the varibel that is show the
   //......error message
   String errorMesage = 'Something went Wrong';
 
-  //.........create the map controller
-  //.........object
-  GoogleMapController? _mapcontroller;
-
-  //......create the location class object
-  final Location _location = Location();
-
-  ///........create the variables for
-  ///.......google map ✔✔✔✔✔
-  final Set<Marker> _markers = {};
-  final Set<Polyline> _polyLines = {};
-  GoogleMap? googleMap;
-  static double _cameraZoom = 10.0;
-
-  static LatLng _currentPosition = const LatLng(0, 0);
-
-  final List<LatLng> _polylineCoordinates = [];
-
-  String? _locationname;
-
-  //➡➡➡➡➡ create the varible for custom info window
-
-  bool _isInfoWindowVisible = false;
-  OverlayEntry? _infoWindowOverlay;
-  static CameraPosition cameraPosition =
-      CameraPosition(target: _currentPosition, zoom: _cameraZoom);
-
   void mapInitialization(
       {double? targetLatude, double? targetLongitude}) async {
     initialState = false;
     loadedState = false;
-    hideCustomInfoWindow();
+    _hideCustomInfoWindow();
     //loadingState = true;
     try {
       switch (await checklocationService(_location)) {
@@ -67,15 +67,17 @@ class ShopsLocationController extends ChangeNotifier
           switch (await locationPermission(_location)) {
             case true:
               //..........call the method that is used to get the current location
+
               var points = await getLocation(_location);
               //...........to prevent the app craches we check that
               //...........corrdinated should not be null
               if (points.$1 != null && points.$2 != null) {
                 //........assign the the current location to the global varible
                 _currentPosition = LatLng(
-                  points.$1!.round().toDouble(),
-                  points.$2!.round().toDouble(),
+                  points.$1!,
+                  points.$2!,
                 );
+
                 //.....->HERE IS THE ->
                 //the functions that get the current location name
                 _locationname = await getLocationName(
@@ -131,29 +133,27 @@ class ShopsLocationController extends ChangeNotifier
   //.....that is initilazie the goggle map
   void _getGoogleMap() {
     googleMap = GoogleMap(
-      initialCameraPosition: cameraPosition,
+      initialCameraPosition: _cameraPosition,
       myLocationEnabled: true,
       myLocationButtonEnabled: true,
       zoomControlsEnabled: false,
       trafficEnabled: true,
-      tiltGesturesEnabled: false,
+      // tiltGesturesEnabled: false,
       onMapCreated: (controller) {
         _mapcontroller = controller;
       },
       markers: _markers,
       polylines: _polyLines,
       onTap: (argument) {
-        hideCustomInfoWindow();
+        _hideCustomInfoWindow();
       },
       onCameraMove: (position) {
         if (_cameraZoom != position.zoom) {
           _cameraZoom = position.zoom;
-          hideCustomInfoWindow();
+          _hideCustomInfoWindow();
         }
       },
-      onCameraMoveStarted: () {
-        hideCustomInfoWindow();
-      },
+      onCameraMoveStarted: _hideCustomInfoWindow,
     );
   }
 
@@ -161,7 +161,7 @@ class ShopsLocationController extends ChangeNotifier
   //..... info windows
   void _showCustomInfoWindow(Widget child, BuildContext context) async {
     if (_isInfoWindowVisible) {
-      hideCustomInfoWindow();
+      _hideCustomInfoWindow();
     } else {
       await _mapcontroller?.getScreenCoordinate(_currentPosition);
 
@@ -171,8 +171,7 @@ class ShopsLocationController extends ChangeNotifier
           child: child,
         ),
       );
-
-      // ignore: use_build_context_synchronously
+      if (!context.mounted) return;
       Overlay.of(context).insert(_infoWindowOverlay!);
       _isInfoWindowVisible = true;
     }
@@ -180,7 +179,7 @@ class ShopsLocationController extends ChangeNotifier
 
   //......create the methos
   //.....that is hide the custom info window
-  void hideCustomInfoWindow() {
+  void _hideCustomInfoWindow() {
     if (_infoWindowOverlay != null) {
       _infoWindowOverlay!.remove();
       _infoWindowOverlay!.dispose();
@@ -258,23 +257,31 @@ class ShopsLocationController extends ChangeNotifier
   //.....here is the function that is
   //.....move the camera position the selected shop location
   void goToShopLocation(double latitude, double longitude) async {
-    _polylineCoordinates.clear();
-    _polyLines.clear();
-    loadedState = false;
-    loadingState = true;
-    notifyListeners();
+    try {
+      _polylineCoordinates.clear();
+      _polyLines.clear();
+      loadedState = false;
+      loadingState = true;
+      notifyListeners();
 
-    _mapcontroller?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(latitude, longitude),
-          tilt: 59.440717697143555,
-          zoom: 13,
+      await _mapcontroller?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(latitude, longitude),
+            tilt: 59.440717697143555,
+            zoom: 13,
+          ),
         ),
-      ),
-    );
-    loadingState = false;
-    loadedState = true;
+      );
+      loadingState = false;
+      loadedState = true;
+    } catch (e) {
+      loadedState = false;
+      loadingState = false;
+      errorState = true;
+      log(e.toString());
+    }
+
     notifyListeners();
   }
 
@@ -321,6 +328,7 @@ class ShopsLocationController extends ChangeNotifier
     loadedState = true;
   }
 
+  //........clear the markers and polyline sets
   @override
   void dispose() {
     _markers.clear();
