@@ -97,13 +97,9 @@ class MembershipCard extends StatelessWidget {
   final String btnText, membershipType;
   //.........CONSTANT VALUES
   static const _pointZeroOnePercent = 0.01;
-  static const _pointZeroTwoPercent = 0.02;
+
   static const _pointZeroThreePercent = 0.03;
-  static const _pointZeroTwoFivePercent = 0.025;
   static const _pointZeroFivePercent = 0.05;
-  static const _pointOnePercent = 0.1;
-  static const _pointTwoPercent = 0.2;
-  static const _pointThreePercent = 0.3;
   static const _pointZeroFourPercent = 0.04;
   static const _fontSize = 10.0;
   //....DECORATION

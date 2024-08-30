@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
-import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
-import 'package:aislecheck/core/extensions/pop_up_messages.dart';
-import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
 import 'package:aislecheck/features/ads/views/widgets/ads_list.dart';
+import 'package:aislecheck/features/boost_products/views/boost_product_page.dart';
+import 'package:aislecheck/features/boost_store/views/boost_store_page.dart';
 import 'package:aislecheck/features/create_new_ads/views/create_ads_page.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../core/constants/strings/app_colors.dart';
 
 class AdsWidget extends StatelessWidget {
@@ -56,7 +52,8 @@ class AdsWidget extends StatelessWidget {
             ),
             AppCompactBtn(
               onTap: () {
-                context.showPopUpMsg('boost store');
+                Navigator.of(context).pushNamed(BoostStorePage.name);
+                //context.showPopUpMsg('boost store');
               },
               btnHeight: _btnHeight,
               borderRadius: _btnRadius,
@@ -68,7 +65,8 @@ class AdsWidget extends StatelessWidget {
             ),
             AppCompactBtn(
               onTap: () {
-                context.showPopUpMsg('boost product');
+                //context.showPopUpMsg('boost product');
+                Navigator.of(context).pushNamed(BoostProductPage.name);
                 //Navigator.pushNamed(context, CreateNewAdsPage.pageName);
               },
               btnHeight: _btnHeight,

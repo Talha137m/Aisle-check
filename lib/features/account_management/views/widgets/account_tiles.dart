@@ -1,10 +1,13 @@
 import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
-import 'package:aislecheck/core/constants/enumration/payment_method.dart';
-import 'package:aislecheck/features/ad_payment/views/ad_payment_page.dart';
 import 'package:aislecheck/features/admin_profile/views/admin_profile_page.dart';
+import 'package:aislecheck/features/boost/views/boost_page.dart';
+import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/inetgrate_inventory/views/integrate_inventory_page.dart';
+import 'package:aislecheck/features/inventry_scheduling/views/inventry_scheduling_page.dart';
 import 'package:aislecheck/features/membership_plan/views/membership_plan_page.dart';
+import 'package:aislecheck/features/offline_inventory/views/offline_invnetory_page.dart';
 import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
+import 'package:aislecheck/features/settings/views/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/strings/app_colors.dart';
@@ -20,6 +23,7 @@ class ManagementTiles extends StatelessWidget {
   static const _invnetory = 'Inventory Programs Integration';
   static const _settings = 'Settings';
   static const _customerSupport = 'Customer Support';
+  static const _boost = 'Boost';
   static const _pointZeroTwoPercent = 0.02;
   static const _fontSize = 13.0;
   @override
@@ -93,6 +97,9 @@ class ManagementTiles extends StatelessWidget {
 
         //.....SCHEDULE INVENTORY TILE
         CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, InventrySchedulingPage.name);
+          },
           leading: const Icon(
             Icons.calendar_today_outlined,
             color: AppColors.blackColor,
@@ -112,6 +119,9 @@ class ManagementTiles extends StatelessWidget {
 
         //.......OFFLINE  INVENTORY TILE
         CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, OfflineInventoryPage.pageName);
+          },
           leading: const Icon(
             Icons.inventory_2_outlined,
             color: AppColors.blackColor,
@@ -151,8 +161,30 @@ class ManagementTiles extends StatelessWidget {
           height: height * _pointZeroTwoPercent,
         ),
 
+        CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, BoostPage.name);
+          },
+          leading: const Icon(
+            Icons.flash_on,
+            color: AppColors.blackColor,
+          ),
+          title: Text(
+            _boost,
+            style: GoogleFonts.roboto(
+              fontSize: _fontSize,
+              color: AppColors.blackColor,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: height * _pointZeroTwoPercent,
+        ),
         //......SETTINGS  TILE
         CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, SettingsPage.pageName);
+          },
           leading: const Icon(
             Icons.settings_outlined,
             color: AppColors.blackColor,
@@ -172,6 +204,9 @@ class ManagementTiles extends StatelessWidget {
 
         //....CUSOTMER SUPPORT  TILE
         CustomFilledListTile(
+          onTab: () {
+            Navigator.pushNamed(context, CustomerSupportPage.pageName);
+          },
           leading: const Icon(
             Icons.mode_comment_outlined,
             color: AppColors.blackColor,

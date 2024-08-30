@@ -1,8 +1,10 @@
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/features/browsing_history/views/browsing_history_page.dart';
+import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
 import 'package:aislecheck/features/shops_map/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
+import 'package:aislecheck/features/wallet/views/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -108,11 +110,17 @@ class ProfileWidget extends StatelessWidget {
               icon: Icons.location_on,
               title: _mapText,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                context.read<UserBottomController>().changeState(3);
+              },
               icon: Icons.notifications_none,
               title: _notifyText,
             ),
-            const SettingsTile(
+            SettingsTile(
+              navigateTab: () {
+                Navigator.of(context).pushNamed(CustomerSupportPage.pageName);
+              },
               icon: Icons.mode_comment_outlined,
               title: _customerSupport,
             ),

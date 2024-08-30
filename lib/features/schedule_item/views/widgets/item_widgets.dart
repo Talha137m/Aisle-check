@@ -127,7 +127,8 @@ class ItemInfo extends StatelessWidget {
 
 //.....CALENDAR Widget
 class DatePickingWidget extends StatelessWidget {
-  const DatePickingWidget({super.key});
+  final String dateText;
+  const DatePickingWidget({super.key,this.dateText=_selectDataText});
   //...CONSTANT VALUES
   static const _selectDataText = 'Select date to pick up your item';
   static const _fontSize = 15.0;
@@ -145,7 +146,7 @@ class DatePickingWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _selectDataText,
+          dateText,
           style: GoogleFonts.roboto(
             fontWeight: FontWeight.w600,
             fontSize: _fontSize,
@@ -181,7 +182,7 @@ class DatePickingWidget extends StatelessWidget {
             },
             onDaySelected: (selectedDay, focusedDay) {
               context.read<DateController>().onDateChange(selectedDay);
-              context.showPopUpMsg(selectedDay.toString(),seconds: 20);
+              context.showPopUpMsg(selectedDay.toString(), seconds: 20);
             },
           ),
         ),
@@ -193,7 +194,8 @@ class DatePickingWidget extends StatelessWidget {
 //.....TIME PICKING WIDGET
 class TimePickingWidget extends StatelessWidget {
   final String time;
-  const TimePickingWidget({super.key, this.time = 'Time'});
+  final String selectTime;
+  const TimePickingWidget({super.key, this.time = 'Time',this.selectTime=_selectDataText});
 //...CONATNT VALUES
   static const _selectDataText = 'Select your time';
 
@@ -209,7 +211,7 @@ class TimePickingWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _selectDataText,
+          selectTime,
           style: GoogleFonts.roboto(
             fontWeight: FontWeight.w600,
             fontSize: _fontSize,
@@ -217,37 +219,38 @@ class TimePickingWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: Center(
-          child: ListTile(
-            onTap: () {
-              context.read<TimePickerController>().getTime();
-              // context.showPopUpMsg('Time selected');
-            },
-            leading: Icon(
-              Icons.access_time_rounded,
-              color: AppColors.blackColor,
-              size: height * _pointZeroThree,
-            ),
-            title: Text(
-              time,
-              style: GoogleFonts.roboto(
+          child: Center(
+            child: ListTile(
+              onTap: () {
+                context.read<TimePickerController>().getTime();
+                // context.showPopUpMsg('Time selected');
+              },
+              leading: Icon(
+                Icons.access_time_rounded,
                 color: AppColors.blackColor,
-                fontSize: _timeFontSize,
+                size: height * _pointZeroThree,
               ),
+              title: Text(
+                time,
+                style: GoogleFonts.roboto(
+                  color: AppColors.blackColor,
+                  fontSize: _timeFontSize,
+                ),
+              ),
+              shape: ContinuousRectangleBorder(
+                side: const BorderSide(
+                  color: AppColors.greenColor,
+                  width: _borderWidth,
+                ),
+                borderRadius: BorderRadius.circular(
+                  _borderRadius,
+                ),
+              ),
+              selected: true,
+              selectedTileColor: AppColors.lightGreenColor,
             ),
-            shape: ContinuousRectangleBorder(
-              side: const BorderSide(
-                color: AppColors.greenColor,
-                width: _borderWidth,
-              ),
-              borderRadius: BorderRadius.circular(
-                _borderRadius,
-              ),
-            ),
-            selected: true,
-            selectedTileColor: AppColors.lightGreenColor,
           ),
-        ))
+        )
       ],
     );
   }

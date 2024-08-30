@@ -21,6 +21,9 @@ class AdminAvailableStocksList extends StatelessWidget {
           bottom: MediaQuery.sizeOf(context).height * _padding,
         ),
         child: AdminAvailableStockItem(
+          editTab: () {
+            Navigator.of(context).pushNamed(EditInventoryPage.pageName);
+          },
           product: products[index],
         ),
       ),
@@ -29,8 +32,13 @@ class AdminAvailableStocksList extends StatelessWidget {
 }
 
 class AdminAvailableStockItem extends StatelessWidget {
-  const AdminAvailableStockItem({super.key, required this.product});
+  const AdminAvailableStockItem({
+    super.key,
+    required this.product,
+    required this.editTab,
+  });
   final AvailableStockModel product;
+  final VoidCallback editTab;
   //...CONSTANT VALUES
   static const _pointZeroOnePercent = 0.01;
   static const _pointZeroTwoPercent = 0.02;
@@ -101,34 +109,32 @@ class AdminAvailableStockItem extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Expanded(
-                        flex: _flexFour,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  product.productName,
-                                  style: GoogleFonts.roboto(
-                                    fontSize: _productFontSize,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                      flex: _flexFour,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                product.productName,
+                                style: GoogleFonts.roboto(
+                                  fontSize: _productFontSize,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(EditInventoryPage.pageName);
-                              },
-                              child: Icon(
-                                Icons.edit_square,
-                                size: height * _pointZeroTwoFivePercent,
-                                color: AppColors.grayColor,
-                              ),
+                          ),
+                          GestureDetector(
+                            onTap: editTab,
+                            child: Icon(
+                              Icons.edit_square,
+                              size: height * _pointZeroTwoFivePercent,
+                              color: AppColors.grayColor,
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                     Expanded(
                       flex: _flexFour,
                       child: Align(

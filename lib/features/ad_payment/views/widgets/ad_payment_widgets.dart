@@ -1,5 +1,4 @@
-import 'package:aislecheck/config/navigation/routes.dart';
-import 'package:aislecheck/core/constants/enumration/payment_method.dart';
+import 'package:aislecheck/core/constants/enumration/enumrations.dart';
 import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

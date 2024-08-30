@@ -1,4 +1,4 @@
-import 'package:aislecheck/core/constants/enumration/payment_method.dart';
+import 'package:aislecheck/core/constants/enumration/enumrations.dart';
 import 'package:flutter/material.dart';
 
 class PaymentOptionController extends ChangeNotifier {

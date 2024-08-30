@@ -262,3 +262,55 @@ class AdminAppCompactTextField extends StatelessWidget {
     );
   }
 }
+
+
+//....ADD ITEM TEXT FIELD
+class DialogsTextField extends StatelessWidget {
+  const DialogsTextField(
+      {super.key,
+      required this.hintAndLabelText,
+      required this.keyboardType,
+      required this.validator,
+      required this.textEditingController});
+  final String hintAndLabelText;
+  final TextInputType keyboardType;
+  final FormFieldValidator<String?> validator;
+  final TextEditingController textEditingController;
+  //.....CONSTANT VALUES
+  static const _fieldWidth = 0.9;
+  static const _fontSize = 0.2;
+  //....FIELD DECORATION
+  static final _border = OutlineInputBorder(
+      borderSide: const BorderSide(
+        color: AppColors.grayColor,
+      ),
+      borderRadius: BorderRadius.circular(10.0));
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final BoxConstraints(:maxWidth, :maxHeight) = constraints;
+        final textStyle = TextStyle(
+          color: AppColors.grayColor,
+          fontSize: maxHeight * _fontSize,
+        );
+        return SizedBox(
+          width: maxWidth * _fieldWidth,
+          child: TextFormField(
+            controller: textEditingController,
+            validator: validator,
+            style: textStyle,
+            keyboardType: keyboardType,
+            decoration: InputDecoration(
+              border: _border,
+              focusedBorder: _border,
+              enabledBorder: _border,
+              hintText: hintAndLabelText,
+              hintStyle: textStyle,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

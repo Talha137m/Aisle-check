@@ -9,7 +9,6 @@ import 'package:aislecheck/features/admin_home/controllers/admin_bottom_behaviou
 import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
 import 'package:aislecheck/features/admin_home/views/widgets/admin_home_widgets.dart';
 import 'package:aislecheck/features/admin_home/views/widgets/available_stocks_list.dart';
-import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
 import 'package:flutter/material.dart';
@@ -26,16 +25,16 @@ class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
       appBar: switch (state.currentIndex) {
         0 => const HomePageAppBar() as PreferredSizeWidget,
         2 => GlobalAppBar(
-          titleText: 'Ads',
+            titleText: 'Ads',
             leadingOnTab: () {
-              context.read<UserBottomController>().changeState(0);
+              context.read<AdminBottomController>().changeState(0);
             },
             bottomWidget: const GlobalSearchItem(),
           ),
         _ => GlobalAppBar(
-          titleText: 'Ads',
+            titleText: 'Ads',
             leadingOnTab: () {
-              context.read<UserBottomController>().changeState(0);
+              context.read<AdminBottomController>().changeState(0);
             },
           )
       },
@@ -46,6 +45,7 @@ class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
           Icon(Icons.inventory_rounded, color: AppColors.inActiveBottomColors),
           Icon(Icons.bar_chart, color: AppColors.inActiveBottomColors),
           Icon(Icons.trending_up, color: AppColors.inActiveBottomColors),
+          Icon(Icons.chat, color: AppColors.inActiveBottomColors),
           Icon(Icons.person, color: AppColors.inActiveBottomColors),
         ],
         onTap: (value) {

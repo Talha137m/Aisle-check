@@ -47,7 +47,9 @@ dependencies:
   geolocator:
   flutter_polyline_points:
   geocoding:
-  fl_chart:          
+  fl_chart:
+  percent_indicator:
+  intl:           
 
 dev_dependencies:
   flutter_test:

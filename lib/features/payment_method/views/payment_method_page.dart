@@ -1,6 +1,6 @@
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
-import 'package:aislecheck/core/constants/enumration/payment_method.dart';
+import 'package:aislecheck/core/constants/enumration/enumrations.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/ad_payment/views/widgets/ad_payment_widgets.dart';

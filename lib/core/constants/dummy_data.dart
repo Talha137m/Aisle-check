@@ -1,14 +1,18 @@
 import 'package:aislecheck/core/constants/images_path.dart';
+import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/admin_home/models/stock_model.dart';
 import 'package:aislecheck/features/ads/models/ad.dart';
+import 'package:aislecheck/features/chat_list/models/chat_contact_model.dart';
+import 'package:aislecheck/features/chat_list/models/recent_chat_model.dart';
 import 'package:aislecheck/features/forecasting/models/lower_forecasting_model.dart';
 import 'package:aislecheck/features/forecasting/models/top_forecasting_model.dart';
 import 'package:aislecheck/features/shop_detail/models/available_stock_model.dart';
 import 'package:aislecheck/features/shop_detail/models/review_model.dart';
 import 'package:aislecheck/features/shopping_list/models/scheduled_product.dart';
 import 'package:aislecheck/features/shopping_list/models/shopping_list_model.dart';
+import 'package:aislecheck/features/wallet/models/notification_model.dart';
 
-class AppDummyData {
+abstract class AppDummyData {
   static const stockItems = [
     StockModel(
         image: CustmoerImages.shop,
@@ -253,5 +257,210 @@ class AppDummyData {
     LowerForecastingModel(whichDay: 4, value: 20),
     LowerForecastingModel(whichDay: 5, value: 5),
     LowerForecastingModel(whichDay: 6, value: 35),
+  ];
+  static const messages = [
+    {"isMe": false, "text": "Hey What is up with you!!", "time": "10:00 am"},
+    {"isMe": true, "text": "im fine,wbu?", "time": "11:00 am"},
+    {"isMe": false, "text": "Hello!", "time": "11:01 am"},
+    {
+      "isMe": false,
+      "text": "Just messaged cuz I had some work.",
+      "time": "11:01 am"
+    },
+    {
+      "isMe": true,
+      "text": "Hello, how are you doing today...",
+      "time": "11:03 am"
+    },
+    {
+      "isMe": false,
+      "text": "haha I wanted you to check out my new channel ^^",
+      "time": "11:04 am"
+    },
+    {
+      "isMe": true,
+      "text": " Sure, what is the channel name?",
+      "time": "11:05 am"
+    },
+    {
+      "isMe": false,
+      "text": "Rivaan Ranawat",
+      "time": "11:06 am",
+    },
+    {
+      "isMe": true,
+      "text": "Looks great to me!",
+      "time": "11:15 am",
+    },
+    {"isMe": false, "text": "Thanks bro!", "time": "11:17 am"},
+    {"isMe": false, "text": "Did you subscribe?", "time": "11:16 am"},
+    {"isMe": true, "text": "Yes, surely bro!", "time": "11:17 am"},
+    {
+      "isMe": false,
+      "text": "Cool, did you like the content?",
+      "time": "11:18 am",
+    },
+    {
+      "isMe": true,
+      "text": "I loved it?",
+      "time": "11:19 am",
+    },
+    {
+      "isMe": false,
+      "text": "OMG! Woah! Thanks!",
+      "time": "11:20 am",
+    },
+  ];
+  static const recentsList = [
+    RecentChatModel(
+      image: AdminImages.barryChat,
+      name: 'Barry',
+    ),
+    RecentChatModel(
+      image: AdminImages.lisaChat,
+      name: 'Lisa',
+    ),
+    RecentChatModel(
+      image: AdminImages.perezChat,
+      name: 'Perez',
+    ),
+    RecentChatModel(
+      image: AdminImages.lisaChat,
+      name: 'Lisa',
+    ),
+    RecentChatModel(
+      image: AdminImages.barryChat,
+      name: 'Barry',
+    ),
+    RecentChatModel(
+      image: AdminImages.perezChat,
+      name: 'Perez',
+    ),
+    RecentChatModel(
+      image: AdminImages.barryChat,
+      name: 'Barry',
+    ),
+    RecentChatModel(
+      image: AdminImages.lisaChat,
+      name: 'Lisa',
+    ),
+    RecentChatModel(
+      image: AdminImages.perezChat,
+      name: 'Perez',
+    ),
+    RecentChatModel(
+      image: AdminImages.lisaChat,
+      name: 'Lisa',
+    ),
+    RecentChatModel(
+      image: AdminImages.barryChat,
+      name: 'Barry',
+    ),
+  ];
+  static final recentChatContactsList = [
+    ChatContactModel(
+      image: AdminImages.barryChat,
+      username: 'Username',
+      lastMessage: 'dannylove@gmail.com',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.lisaChat,
+      username: 'Username',
+      lastMessage: 'Uploaded file',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.perezChat,
+      username: 'Username',
+      lastMessage: 'will do, super, thank you',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.lisaChat,
+      username: 'Username',
+      lastMessage: 'dannylove@gmail.com',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.barryChat,
+      username: 'Username',
+      lastMessage: 'dannylove@gmail.com',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.lisaChat,
+      username: 'Username',
+      lastMessage: 'dannylove@gmail.com',
+      time: DateTime.now(),
+    ),
+    ChatContactModel(
+      image: AdminImages.perezChat,
+      username: 'Username',
+      lastMessage: 'dannylove@gmail.com',
+      time: DateTime.now(),
+    ),
+  ];
+  static final notifications = [
+    NotificationModel(
+      backgroundColor: AppColors.greenColor,
+      title: '"username" has scheduled a product',
+      text: 'the amount was added by ""username',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.greenColor,
+      title: '\$100 has been added',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.blueColor,
+      title: '\$100 has been withdraw',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.redColor,
+      title: '\$100 has been detected',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.greenColor,
+      title: '\$100 has been added',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.blueColor,
+      title: '\$100 has been withdraw',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.redColor,
+      title: '\$100 has been detected',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.greenColor,
+      title: '\$100 has been added',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.blueColor,
+      title: '\$100 has been withdraw',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
+    NotificationModel(
+      backgroundColor: AppColors.redColor,
+      title: '\$100 has been detected',
+      text: 'the amount was added by ""username"',
+      time: DateTime.now(),
+    ),
   ];
 }

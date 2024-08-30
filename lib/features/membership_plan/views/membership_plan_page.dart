@@ -1,6 +1,7 @@
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/features/ad_payment/views/ad_payment_page.dart';
 import 'package:aislecheck/features/cancellation_survey/views/cancellation_survey_page.dart';
 import 'package:aislecheck/features/membership_plan/views/widgets/subscription_detail_widgets.dart';
 import 'package:flutter/material.dart';
@@ -132,9 +133,12 @@ class MemberShipPlanPage extends StatelessWidget {
                   SizedBox(
                     height: height * _pointZeroTwoPercent,
                   ),
-                  const MembershipCard(
+                  MembershipCard(
+                    onTap: () {
+                      Navigator.pushNamed(context, AdPaymentPage.pageName);
+                    },
                     membershipType: _basicText,
-                    texts: [
+                    texts: const [
                       _basicTextOne,
                       _basicTextTwo,
                     ],
@@ -145,9 +149,12 @@ class MemberShipPlanPage extends StatelessWidget {
                   SizedBox(
                     height: height * _pointZeroTwoPercent,
                   ),
-                  const MembershipCard(
+                  MembershipCard(
+                    onTap: () {
+                      Navigator.pushNamed(context, AdPaymentPage.pageName);
+                    },
                     membershipType: _proText,
-                    texts: [_proTextOne, _proTextTwo, _proTextThree],
+                    texts: const [_proTextOne, _proTextTwo, _proTextThree],
                     price: _nineteenPointNinePrice,
                     btnWidth: _upgradeProBtnWidth,
                     btnText: _upgradeProBtnText,

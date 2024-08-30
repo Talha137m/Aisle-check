@@ -62,4 +62,11 @@ abstract class AdminImages {
   static const String venmoCard = '${AdminAssests.adminIconsBasePath}venmo.png';
   static const String creditCard =
       '${AdminAssests.adminIconsBasePath}credit_debit_card.png';
+
+  static const String barryChat = '${AdminAssests.adminImageBasePath}barry.png';
+  static const String lisaChat = '${AdminAssests.adminImageBasePath}lisa.png';
+  static const String perezChat = '${AdminAssests.adminImageBasePath}perez.png';
+  static const String adam = '${AdminAssests.adminImageBasePath}adam.png';
+  static const String sendIcon =
+      '${AdminAssests.adminIconsBasePath}send_icon.png';
 }

@@ -39,7 +39,7 @@ class ShoppingItemOperationPage extends StatelessWidget {
           ),
           CategoriWidget(
             subCategoryTab: () {
-              context.addItemDialog();
+              context.addItemDialog(child: const AddItemDialog());
             },
             category: listName,
             subCategory: _subCategory,
@@ -83,7 +83,7 @@ class ShoppingItemOperationPage extends StatelessWidget {
                               context.showPopUpMsg('delete tab');
                             },
                             onEditIconTap: () {
-                              context.addItemDialog();
+                              context.addItemDialog(child: const AddItemDialog());
                             },
                           ),
                         ),

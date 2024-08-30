@@ -1,13 +1,12 @@
 import 'package:aislecheck/core/common/widgets/fade_slide_animation.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/shopping_items_operations/views/item_operation_page.dart';
 import 'package:flutter/material.dart';
 
 extension PopUpMessages on BuildContext {
 // =======show dialog for add
 //========and update item
 
-  void addItemDialog() {
+  void addItemDialog({required Widget child}) {
     showGeneralDialog(
       context: this,
       anchorPoint: const Offset(0.5, 0.5),
@@ -22,8 +21,8 @@ extension PopUpMessages on BuildContext {
       },
       transitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, animation, secondaryAnimation) {
-        return const AlertDialog(
-          actions: [AddItemDialog()],
+        return AlertDialog(
+          actions: [child],
         );
       },
     );
