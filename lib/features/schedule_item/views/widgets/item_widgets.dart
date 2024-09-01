@@ -3,8 +3,8 @@ import 'package:aislecheck/features/schedule_item/controller/date_controller.dar
 import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
 //import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/constants/strings/app_colors.dart';
@@ -126,9 +126,9 @@ class ItemInfo extends StatelessWidget {
 }
 
 //.....CALENDAR Widget
-class DatePickingWidget extends StatelessWidget {
+class DatePickingWidget extends ConsumerWidget {
   final String dateText;
-  const DatePickingWidget({super.key,this.dateText=_selectDataText});
+  const DatePickingWidget({super.key, this.dateText = _selectDataText});
   //...CONSTANT VALUES
   static const _selectDataText = 'Select date to pick up your item';
   static const _fontSize = 15.0;
@@ -139,9 +139,9 @@ class DatePickingWidget extends StatelessWidget {
   // //....VARIABLES
   // static DateTime _focusedDate = DateTime.now();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    DateTime dateTime = ref.watch(scheduleItemDateNotifierProvider);
     final Size(:width, :height) = MediaQuery.sizeOf(context);
-    var date = context.watch<DateController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,10 +178,13 @@ class DatePickingWidget extends StatelessWidget {
               titleCentered: true,
             ),
             selectedDayPredicate: (day) {
-              return isSameDay(date.selectedDay, day);
+              return isSameDay(dateTime, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
-              context.read<DateController>().onDateChange(selectedDay);
+              ref
+                  .read(scheduleItemDateNotifierProvider.notifier)
+                  .onDateChange(dateTime);
+              // context.read<DateController>().onDateChange(selectedDay);
               context.showPopUpMsg(selectedDay.toString(), seconds: 20);
             },
           ),
@@ -192,10 +195,11 @@ class DatePickingWidget extends StatelessWidget {
 }
 
 //.....TIME PICKING WIDGET
-class TimePickingWidget extends StatelessWidget {
+class TimePickingWidget extends ConsumerWidget {
   final String time;
   final String selectTime;
-  const TimePickingWidget({super.key, this.time = 'Time',this.selectTime=_selectDataText});
+  const TimePickingWidget(
+      {super.key, this.time = 'Time', this.selectTime = _selectDataText});
 //...CONATNT VALUES
   static const _selectDataText = 'Select your time';
 
@@ -205,7 +209,7 @@ class TimePickingWidget extends StatelessWidget {
   static const _borderRadius = 30.0;
   static const _pointZeroThree = 0.03;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Size(:height) = MediaQuery.sizeOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,8 +226,9 @@ class TimePickingWidget extends StatelessWidget {
           child: Center(
             child: ListTile(
               onTap: () {
-                context.read<TimePickerController>().getTime();
-                // context.showPopUpMsg('Time selected');
+                ref
+                    .watch(scheduleItemTimePickerNotifierProvider.notifier)
+                    .getTime(context);
               },
               leading: Icon(
                 Icons.access_time_rounded,

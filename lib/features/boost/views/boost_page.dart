@@ -75,7 +75,7 @@ class BoostPage extends StatelessWidget {
             AppCompactBtn(
               fontSize: 14,
               onTap: () {
-                Navigator.of(context).pushNamed(BoostProductPage.name);
+                Navigator.of(context).pushNamed(BoostStorePage.name);
               },
               btnName: 'Boost store',
             ),
@@ -85,7 +85,7 @@ class BoostPage extends StatelessWidget {
             AppCompactBtn(
               fontSize: 14,
               onTap: () {
-                Navigator.of(context).pushNamed(BoostStorePage.name);
+                Navigator.of(context).pushNamed(BoostProductPage.name);
               },
               btnName: 'Boost product',
             ),

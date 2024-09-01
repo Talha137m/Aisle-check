@@ -2,10 +2,10 @@ import 'package:aislecheck/core/constants/enumration/enumrations.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/forecasting/controllers/stats_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class StatsSelection extends StatelessWidget {
+class StatsSelection extends ConsumerWidget {
   const StatsSelection({
     super.key,
   });
@@ -13,8 +13,8 @@ class StatsSelection extends StatelessWidget {
   static const int _threeFlex = 3;
   static const int _fourFlex = 4;
   @override
-  Widget build(BuildContext context) {
-    var state = context.watch<StatsController>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    String stats = ref.watch(statsNotifierProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -24,10 +24,10 @@ class StatsSelection extends StatelessWidget {
         Radio<String>(
           activeColor: AppColors.greenColor,
           value: StatsEnumuration.currentStats.name,
-          groupValue: state.selectStats,
+          groupValue: stats,
           onChanged: (value) {
-            context
-                .read<StatsController>()
+            ref
+                .read(statsNotifierProvider.notifier)
                 .statsOption(value ?? StatsEnumuration.currentStats.name);
           },
         ),
@@ -44,10 +44,10 @@ class StatsSelection extends StatelessWidget {
         Radio<String>(
           activeColor: AppColors.greenColor,
           value: StatsEnumuration.historicStats.name,
-          groupValue: state.selectStats,
+          groupValue: stats,
           onChanged: (value) {
-            context
-                .read<StatsController>()
+            ref
+                .read(statsNotifierProvider.notifier)
                 .statsOption(value ?? StatsEnumuration.historicStats.name);
           },
         ),

@@ -3,9 +3,7 @@ import 'package:aislecheck/features/admin_profile/views/admin_profile_page.dart'
 import 'package:aislecheck/features/boost/views/boost_page.dart';
 import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/inetgrate_inventory/views/integrate_inventory_page.dart';
-import 'package:aislecheck/features/inventry_scheduling/views/inventry_scheduling_page.dart';
 import 'package:aislecheck/features/membership_plan/views/membership_plan_page.dart';
-import 'package:aislecheck/features/offline_inventory/views/offline_invnetory_page.dart';
 import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:aislecheck/features/settings/views/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +16,9 @@ class ManagementTiles extends StatelessWidget {
   static const _profile = 'Profile';
   static const _membership = 'Membership Plans';
   static const _payment = 'Payment Method';
-  static const _schedule = 'Schedule Inventory ';
-  static const _offline = 'Offline Inventory';
   static const _invnetory = 'Inventory Programs Integration';
   static const _settings = 'Settings';
-  static const _customerSupport = 'Customer Support';
+  static const _customerSupport = 'Help';
   static const _boost = 'Boost';
   static const _pointZeroTwoPercent = 0.02;
   static const _fontSize = 13.0;
@@ -84,50 +80,6 @@ class ManagementTiles extends StatelessWidget {
           ),
           title: Text(
             _payment,
-            style: GoogleFonts.roboto(
-              fontSize: _fontSize,
-              color: AppColors.blackColor,
-            ),
-          ),
-        ),
-
-        SizedBox(
-          height: height * _pointZeroTwoPercent,
-        ),
-
-        //.....SCHEDULE INVENTORY TILE
-        CustomFilledListTile(
-          onTab: () {
-            Navigator.pushNamed(context, InventrySchedulingPage.name);
-          },
-          leading: const Icon(
-            Icons.calendar_today_outlined,
-            color: AppColors.blackColor,
-          ),
-          title: Text(
-            _schedule,
-            style: GoogleFonts.roboto(
-              fontSize: _fontSize,
-              color: AppColors.blackColor,
-            ),
-          ),
-        ),
-
-        SizedBox(
-          height: height * _pointZeroTwoPercent,
-        ),
-
-        //.......OFFLINE  INVENTORY TILE
-        CustomFilledListTile(
-          onTab: () {
-            Navigator.pushNamed(context, OfflineInventoryPage.pageName);
-          },
-          leading: const Icon(
-            Icons.inventory_2_outlined,
-            color: AppColors.blackColor,
-          ),
-          title: Text(
-            _offline,
             style: GoogleFonts.roboto(
               fontSize: _fontSize,
               color: AppColors.blackColor,

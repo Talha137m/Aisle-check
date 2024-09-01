@@ -1,7 +1,6 @@
 import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
 import 'package:aislecheck/features/shops_map/models/dummy_shops_location.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ShopSerachWidget extends StatelessWidget {
   final List<ShopsCenter> list;
@@ -19,8 +18,8 @@ class ShopSerachWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).pop();
-              context.read<ShopsLocationController>().goToShopLocation(
-                  list[index].latitude, list[index].longitude);
+              // context.read<ShopsLocationController>().goToShopLocation(
+              //     list[index].latitude, list[index].longitude);
             },
             child: ListTile(
               title: Text(list[index].name),

@@ -7,7 +7,7 @@ import 'package:aislecheck/features/user_home/controllers/user_bottom_controller
 import 'package:aislecheck/features/wallet/views/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'widgets/user_detail_widgets.dart';
 
 class UserProfilePage extends StatelessWidget {
@@ -98,7 +98,7 @@ class ProfileWidget extends StatelessWidget {
             ),
             SettingsTile(
               navigateTab: () {
-                context.read<UserBottomController>().changeState(1);
+                //context.read<UserBottomController>().changeState(1);
               },
               icon: Icons.list,
               title: _shoppingList,
@@ -112,7 +112,7 @@ class ProfileWidget extends StatelessWidget {
             ),
             SettingsTile(
               navigateTab: () {
-                context.read<UserBottomController>().changeState(3);
+                //context.read<UserBottomController>().changeState(3);
               },
               icon: Icons.notifications_none,
               title: _notifyText,

@@ -5,7 +5,7 @@ import 'package:aislecheck/features/shopping_list/views/schedule_products_tab_vi
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
 
 class ShoppingListPage extends StatelessWidget {
   const ShoppingListPage({super.key});
@@ -28,7 +28,7 @@ class ShoppingListPage extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              context.read<UserBottomController>().changeState(2);
+              //context.read<UserBottomController>().changeState(2);
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,

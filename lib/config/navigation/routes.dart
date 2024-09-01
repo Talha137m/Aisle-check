@@ -19,10 +19,7 @@ import 'package:aislecheck/features/create_new_ads/views/create_ads_page.dart';
 import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
 import 'package:aislecheck/features/inetgrate_inventory/views/integrate_inventory_page.dart';
-import 'package:aislecheck/features/inventry_scheduling/views/inventry_scheduling_page.dart';
 import 'package:aislecheck/features/membership_plan/views/membership_plan_page.dart';
-import 'package:aislecheck/features/offfline_inventory_shop_details/views/offline_shop_details.dart';
-import 'package:aislecheck/features/offline_inventory/views/offline_invnetory_page.dart';
 import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:aislecheck/features/personal_chat/views/personal_chat_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
@@ -34,7 +31,6 @@ import 'package:aislecheck/features/shop_detail/views/shop_details_page.dart';
 import 'package:aislecheck/features/shops_map/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   return switch (settings.name) {
@@ -44,13 +40,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     ChooseRolePage.name => AnimatedRoutes(
         setting: settings,
-        child: MultiProvider(providers: [
-          ChangeNotifierProvider(
-            create: (context) {
-              return ChooseRoleController();
-            },
-          )
-        ], child: const ChooseRolePage()),
+        child: const ChooseRolePage(),
       ),
     SignUpPage.name => AnimatedRoutes(
         setting: settings,
@@ -92,16 +82,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     AdminHomePage.pageName => AnimatedRoutes(
         setting: settings,
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) {
-                return AdminBottomController();
-              },
-            )
-          ],
-          child: AdminHomePage(),
-        ),
+        child: AdminHomePage(),
       ),
     EditInventoryPage.pageName => AnimatedRoutes(
         setting: settings,
@@ -150,18 +131,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     IntegrateInventoryPage.pageName => AnimatedRoutes(
         setting: settings,
         child: const IntegrateInventoryPage(),
-      ),
-    InventrySchedulingPage.name => AnimatedRoutes(
-        setting: settings,
-        child: const InventrySchedulingPage(),
-      ),
-    OfflineShopDetailsPage.pageName => AnimatedRoutes(
-        setting: settings,
-        child: const OfflineShopDetailsPage(),
-      ),
-    OfflineInventoryPage.pageName => AnimatedRoutes(
-        setting: settings,
-        child: const OfflineInventoryPage(),
       ),
     CustomerSupportPage.pageName => AnimatedRoutes(
         setting: settings,

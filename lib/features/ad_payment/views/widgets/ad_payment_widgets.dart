@@ -1,8 +1,8 @@
 import 'package:aislecheck/core/constants/enumration/enumrations.dart';
 import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../core/constants/strings/app_colors.dart';
 
@@ -30,7 +30,7 @@ class BudgetRow extends StatelessWidget {
 }
 
 //...........PAYMENTS TILE
-class PaymentTile extends StatelessWidget {
+class PaymentTile extends ConsumerWidget {
   const PaymentTile(
       {super.key,
       required this.cardImage,
@@ -46,8 +46,8 @@ class PaymentTile extends StatelessWidget {
   static const _fontSize = 16.0;
 
   @override
-  Widget build(BuildContext context) {
-    context.watch<PaymentOptionController>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    String paymentOptions = ref.watch(paymentOptionNotifierProvider);
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: symmetricPadding),
@@ -60,10 +60,10 @@ class PaymentTile extends StatelessWidget {
               ),
         activeColor: AppColors.greenColor,
         value: nameToChoosePayment,
-        groupValue: context.read<PaymentOptionController>().selectPayment,
+        groupValue: paymentOptions,
         onChanged: (value) {
-          context
-              .read<PaymentOptionController>()
+          ref
+              .read(paymentOptionNotifierProvider.notifier)
               .paymentOption(value ?? PaymentMethod.momoPayment.name);
         },
         title: Row(

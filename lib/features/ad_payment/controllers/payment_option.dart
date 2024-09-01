@@ -1,10 +1,16 @@
 import 'package:aislecheck/core/constants/enumration/enumrations.dart';
-import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'payment_option.g.dart';
 
-class PaymentOptionController extends ChangeNotifier {
-  String selectPayment = PaymentMethod.momoPayment.name;
+
+@riverpod
+class PaymentOptionNotifier extends _$PaymentOptionNotifier {
+  @override
+  String build() {
+    return PaymentMethod.momoPayment.name;
+  }
+
   void paymentOption(String value) {
-    selectPayment = value;
-    notifyListeners();
+    state=value;
   }
 }

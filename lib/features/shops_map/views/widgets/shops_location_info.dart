@@ -7,7 +7,6 @@ import 'package:aislecheck/features/shops_map/models/info_window.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
@@ -22,26 +21,27 @@ class ShopsLocationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<ShopsLocationController>();
-    log('loaded:${state.loadedState.toString()},loading:${state.loadingState},initialState:${state.initialState},errorState:${state.errorState.toString()}');
+   // var state = context.watch<ShopsLocationController>();
+   // log('loaded:${state.loadedState.toString()},loading:${state.loadingState},initialState:${state.initialState},errorState:${state.errorState.toString()}');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SizedBox(
         width: _totalWidth,
         height: _totalHeight,
         child: Builder(builder: (context) {
-          if (state.loadingState) {
-            context.loadingPopUp();
-            return const SizedBox.shrink();
-          } else if (state.initialState || state.loadedState) {
-            return DataWidget(infoWindowClass: infoWindowClass);
-          } else {
-            return Material(
-              child: Center(
-                child: Text(state.errorMesage),
-              ),
-            );
-          }
+          return SizedBox();
+          // if (state.loadingState) {
+          //   context.loadingPopUp();
+          //   return const SizedBox.shrink();
+          // } else if (state.initialState || state.loadedState) {
+          //   return DataWidget(infoWindowClass: infoWindowClass);
+          // } else {
+          //   return Material(
+          //     child: Center(
+          //       child: Text(state.errorMesage),
+          //     ),
+          //   );
+          // }
         }),
       ),
     );
@@ -100,9 +100,9 @@ class DataWidget extends StatelessWidget {
               category: 'visit',
               subCategory: '➡',
               subCategoryTab: () {
-                context.read<ShopsLocationController>().mapInitialization(
-                    targetLatude: infoWindowClass.destLatitude,
-                    targetLongitude: infoWindowClass.destLongitude);
+                // context.read<ShopsLocationController>().mapInitialization(
+                //     targetLatude: infoWindowClass.destLatitude,
+                //     targetLongitude: infoWindowClass.destLongitude);
               },
             ),
             const SizedBox(
