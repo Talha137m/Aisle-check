@@ -1,21 +1,19 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:aislecheck/core/constants/images_path.dart';
-import 'package:aislecheck/features/shops_map/controllers/shop_location_behaviour.dart';
-import 'package:aislecheck/features/shops_map/models/dummy_shops_location.dart';
-import 'package:aislecheck/features/shops_map/models/info_window.dart';
-import 'package:aislecheck/features/shops_map/views/widgets/shops_location_info.dart';
+import 'package:aislecheck/core/constants/strings/app_constants.dart';
+import 'package:aislecheck/core/services/location_service.dart';
+import 'package:aislecheck/features/shops_geo_location/models/dummy_shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/models/info_window.dart';
+import 'package:aislecheck/features/shops_geo_location/views/widgets/shops_location_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 // import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 //import 'package:location/location.dart';
 
 mixin DefineVariables {
   GoogleMapController? _mapcontroller;
   //......create the location class object
-  final Location _location = Location();
 
   ///.....markers
   final Set<Marker> _markers = {};
@@ -26,7 +24,7 @@ mixin DefineVariables {
   //->  .....current position latitude and longitude  ->
   LatLng _currentPosition = const LatLng(0, 0);
   //....-> polyline coordinated for latitude and longitude ->
-  final List<LatLng> _polylineCoordinates = [];
+
   //.....-> current locationname
   String? _locationname;
   //...check custom info window is show or not  ->
@@ -38,8 +36,7 @@ mixin DefineVariables {
       CameraPosition(target: _currentPosition, zoom: _cameraZoom);
 }
 
-class ShopsLocationController extends ChangeNotifier
-    with ShopLocationBehaviour, DefineVariables {
+class ShopsLocationController extends ChangeNotifier with DefineVariables {
   //-----------create the google
   //----------- map states varibel
   bool initialState = true;
@@ -55,70 +52,26 @@ class ShopsLocationController extends ChangeNotifier
   //......error message
   String errorMesage = 'Something went Wrong';
 
-  void mapInitialization(
-      {double? targetLatude, double? targetLongitude}) async {
+  final LocationService _locationService = LocationService();
+
+  void mapInitialization() async {
     initialState = false;
-    loadedState = false;
-    _hideCustomInfoWindow();
-    //loadingState = true;
+    loadingState = true;
     try {
-      switch (await checklocationService(_location)) {
+      LocationInitialization locationInitialization =
+          await _locationService.initializeLocation();
+      switch (locationInitialization.latlang == null) {
         case true:
-          switch (await locationPermission(_location)) {
-            case true:
-              //..........call the method that is used to get the current location
-
-              var points = await getLocation(_location);
-              //...........to prevent the app craches we check that
-              //...........corrdinated should not be null
-              if (points.$1 != null && points.$2 != null) {
-                //........assign the the current location to the global varible
-                _currentPosition = LatLng(
-                  points.$1!,
-                  points.$2!,
-                );
-
-                //.....->HERE IS THE ->
-                //the functions that get the current location name
-                _locationname = await getLocationName(
-                    _currentPosition.latitude, _currentPosition.longitude);
-                //-> add the marker to the current position <-
-                _currentLocationMarker();
-                //.....here is the function is called
-                //......that add the markers to the shops locations
-                await _shopsLocationMarker();
-                //......show the google map
-                _getGoogleMap();
-                //->   HERE IS CALL THE  ->
-                //....function that is draw the polyline
-                if (targetLatude != null && targetLongitude != null) {
-                  await _addPolyLinePoints(
-                    destLatitude: targetLatude,
-                    destLongitude: targetLongitude,
-                    originLatitude: _currentPosition.latitude,
-                    originLongitude: _currentPosition.longitude,
-                  );
-                }
-
-                loadingState = false;
-                loadedState = true;
-              } else {
-                loadingState = false;
-                errorState = true;
-                errorMesage = 'current location is not find';
-                log('current location is null');
-              }
-
-            case false:
-              loadingState = false;
-              errorState = true;
-              errorMesage = 'please give the location permission';
-              log('error: please give the location permission');
-          }
-        case false:
           loadingState = false;
-          errorMesage = 'location service is not enabled please enabled first';
-          log('error: location service is not enabled');
+          errorState = true;
+          errorMesage = locationInitialization.errorMesage;
+        case false:
+          _currentPosition = LatLng(locationInitialization.latlang!.$1,
+              locationInitialization.latlang!.$2);
+          _currentLocationMarker();
+          _getGoogleMap();
+          _shopsLocationMarker();
+          loadedState = true;
       }
     } catch (e) {
       loadingState = false;
@@ -145,15 +98,15 @@ class ShopsLocationController extends ChangeNotifier
       markers: _markers,
       polylines: _polyLines,
       onTap: (argument) {
-        _hideCustomInfoWindow();
+        hideCustomInfoWindow();
       },
       onCameraMove: (position) {
         if (_cameraZoom != position.zoom) {
           _cameraZoom = position.zoom;
-          _hideCustomInfoWindow();
+          hideCustomInfoWindow();
         }
       },
-      onCameraMoveStarted: _hideCustomInfoWindow,
+      onCameraMoveStarted: hideCustomInfoWindow,
     );
   }
 
@@ -161,7 +114,7 @@ class ShopsLocationController extends ChangeNotifier
   //..... info windows
   void _showCustomInfoWindow(Widget child, BuildContext context) async {
     if (_isInfoWindowVisible) {
-      _hideCustomInfoWindow();
+      hideCustomInfoWindow();
     } else {
       await _mapcontroller?.getScreenCoordinate(_currentPosition);
 
@@ -179,7 +132,7 @@ class ShopsLocationController extends ChangeNotifier
 
   //......create the methos
   //.....that is hide the custom info window
-  void _hideCustomInfoWindow() {
+  void hideCustomInfoWindow() {
     if (_infoWindowOverlay != null) {
       _infoWindowOverlay!.remove();
       _infoWindowOverlay!.dispose();
@@ -216,7 +169,9 @@ class ShopsLocationController extends ChangeNotifier
     for (var i = 0; i < shopsCenters.length; i++) {
       //.......here is we can calculate the distance
       //........between shop and user that is gives in meters
-      double distanceInMeters = calculateDistance(_currentPosition,
+
+      double distanceInMeters = _locationService.calculateDistance(
+          _currentPosition,
           LatLng(shopsCenters[i].latitude, shopsCenters[i].longitude));
 
       //......marker tab
@@ -258,7 +213,6 @@ class ShopsLocationController extends ChangeNotifier
   //.....move the camera position the selected shop location
   void goToShopLocation(double latitude, double longitude) async {
     try {
-      _polylineCoordinates.clear();
       _polyLines.clear();
       loadedState = false;
       loadingState = true;
@@ -283,49 +237,6 @@ class ShopsLocationController extends ChangeNotifier
     }
 
     notifyListeners();
-  }
-
-  Future<void> _addPolyLinePoints(
-      {required double originLatitude,
-      required double originLongitude,
-      required double destLatitude,
-      required double destLongitude}) async {
-    loadedState = false;
-    loadingState = true;
-    notifyListeners();
-    _polylineCoordinates.clear();
-    _polyLines.clear();
-
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: 'AIzaSyC9SFrATkFgXo-sN2cP-zFFi0NrYywjtNw',
-      request: PolylineRequest(
-        origin: PointLatLng(originLatitude, originLongitude),
-        destination: PointLatLng(destLatitude, destLongitude),
-        mode: TravelMode.driving,
-        alternatives: true,
-      ),
-    );
-    log(result.points.toString());
-    for (var element in result.points) {
-      _polylineCoordinates.add(
-        LatLng(element.latitude, element.longitude),
-      );
-    }
-    var endCap = await BitmapDescriptor.asset(
-        const ImageConfiguration(
-          size: Size(50, 50),
-        ),
-        CustmoerImages.bullet);
-    Polyline polyline = Polyline(
-      width: 5,
-      polylineId: const PolylineId('polyline_id'),
-      points: _polylineCoordinates,
-      endCap: Cap.customCapFromBitmap(endCap),
-    );
-    _polyLines.add(polyline);
-    loadingState = false;
-    loadedState = true;
   }
 
   //........clear the markers and polyline sets

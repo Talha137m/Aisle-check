@@ -12,34 +12,34 @@ import 'package:aislecheck/features/admin_home/views/widgets/available_stocks_li
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
-class AdminHomePage extends ConsumerWidget with AdminBottomBehaviour {
+class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
   AdminHomePage({super.key});
   //....PAGE NAME
   static const pageName = '/admin_home_page';
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    int state = ref.watch(adminBottomNotifierProvider);
+  Widget build(BuildContext context) {
+    var state = context.watch<AdminBottomController>();
     return Scaffold(
-      appBar: switch (state) {
+      appBar: switch (state.currentIndex) {
         0 => const HomePageAppBar() as PreferredSizeWidget,
         2 => GlobalAppBar(
             titleText: 'Ads',
             leadingOnTab: () {
-              ref.read(adminBottomNotifierProvider.notifier).changeState(0);
+              context.read<AdminBottomController>().changeState(0);
             },
             bottomWidget: const GlobalSearchItem(),
           ),
         _ => GlobalAppBar(
             titleText: 'Ads',
             leadingOnTab: () {
-              ref.read(adminBottomNotifierProvider.notifier).changeState(0);
+              context.read<AdminBottomController>().changeState(0);
             },
           )
       },
       bottomNavigationBar: CurvedNavigationBar(
-        index: state,
+        index: state.currentIndex,
         backgroundColor: AppColors.bottomBgColor,
         items: const [
           Icon(Icons.inventory_rounded, color: AppColors.inActiveBottomColors),
@@ -49,10 +49,10 @@ class AdminHomePage extends ConsumerWidget with AdminBottomBehaviour {
           Icon(Icons.person, color: AppColors.inActiveBottomColors),
         ],
         onTap: (value) {
-          ref.read(adminBottomNotifierProvider.notifier).changeState(value);
+          context.read<AdminBottomController>().changeState(value);
         },
       ),
-      body: widgets[state],
+      body: widgets[state.currentIndex],
     );
   }
 }

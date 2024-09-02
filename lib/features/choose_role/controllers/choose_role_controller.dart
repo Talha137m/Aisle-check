@@ -1,13 +1,11 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'choose_role_controller.g.dart';
-@riverpod
-class ChooseRoleNotifier extends _$ChooseRoleNotifier {
-  @override
- (bool,bool) build() {
-    return (false, false);
-  }
+import 'package:flutter/material.dart';
 
-  void chooseRole({required bool userRole, required bool adminRole}) {
-    state = (userRole, adminRole);
+class ChooseRoleController extends ChangeNotifier {
+  bool adminRole = false;
+  bool userRole = false;
+  void chooseOption({bool? shopOwnerRole, bool? customerRole}) {
+    adminRole = shopOwnerRole ?? false;
+    userRole = customerRole ?? false;
+    notifyListeners();
   }
 }

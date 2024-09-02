@@ -3,8 +3,8 @@ import 'package:aislecheck/features/schedule_item/controller/date_controller.dar
 import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
 //import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/constants/strings/app_colors.dart';
@@ -126,7 +126,7 @@ class ItemInfo extends StatelessWidget {
 }
 
 //.....CALENDAR Widget
-class DatePickingWidget extends ConsumerWidget {
+class DatePickingWidget extends StatelessWidget {
   final String dateText;
   const DatePickingWidget({super.key, this.dateText = _selectDataText});
   //...CONSTANT VALUES
@@ -139,8 +139,8 @@ class DatePickingWidget extends ConsumerWidget {
   // //....VARIABLES
   // static DateTime _focusedDate = DateTime.now();
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    DateTime dateTime = ref.watch(scheduleItemDateNotifierProvider);
+  Widget build(BuildContext context) {
+    var date = context.watch<DateController>();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,12 +178,11 @@ class DatePickingWidget extends ConsumerWidget {
               titleCentered: true,
             ),
             selectedDayPredicate: (day) {
-              return isSameDay(dateTime, day);
+              return isSameDay(date.selectedDay, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
-              ref
-                  .read(scheduleItemDateNotifierProvider.notifier)
-                  .onDateChange(dateTime);
+              context.read<DateController>().onDateChange(selectedDay);
+
               // context.read<DateController>().onDateChange(selectedDay);
               context.showPopUpMsg(selectedDay.toString(), seconds: 20);
             },
@@ -195,7 +194,7 @@ class DatePickingWidget extends ConsumerWidget {
 }
 
 //.....TIME PICKING WIDGET
-class TimePickingWidget extends ConsumerWidget {
+class TimePickingWidget extends StatelessWidget {
   final String time;
   final String selectTime;
   const TimePickingWidget(
@@ -209,7 +208,7 @@ class TimePickingWidget extends ConsumerWidget {
   static const _borderRadius = 30.0;
   static const _pointZeroThree = 0.03;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final Size(:height) = MediaQuery.sizeOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,9 +225,7 @@ class TimePickingWidget extends ConsumerWidget {
           child: Center(
             child: ListTile(
               onTap: () {
-                ref
-                    .watch(scheduleItemTimePickerNotifierProvider.notifier)
-                    .getTime(context);
+                context.read<TimePickerController>().getTime();
               },
               leading: Icon(
                 Icons.access_time_rounded,

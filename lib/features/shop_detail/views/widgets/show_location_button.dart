@@ -1,4 +1,4 @@
-import 'package:aislecheck/features/shops_map/views/shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/views/shops_location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,7 +15,7 @@ class ShowLocationOnMapButton extends StatelessWidget {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ShopsLocation.name);
+        Navigator.pushNamed(context, ShopsGeoLocation.name);
       },
       child: Container(
         width: width * _btnWidth,

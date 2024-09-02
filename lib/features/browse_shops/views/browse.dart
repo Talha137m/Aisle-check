@@ -2,7 +2,7 @@ import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/browse_shops/views/widgets/browse_shops_item.dart';
-import 'package:aislecheck/features/shops_map/views/shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class Browse extends StatelessWidget {
             itemBuilder: (context, index) {
               return BrowseShopItem(
                 findShopLocationTab: () {
-                  Navigator.pushNamed(context, ShopsLocation.name);
+                  Navigator.pushNamed(context, ShopsGeoLocation.name);
                 },
                 imagesPath: CustmoerImages.shop,
                 shopAddress: 'Lorem Ipsum is simply dummy ',

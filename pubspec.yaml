@@ -42,15 +42,14 @@ dependencies:
   custom_rating_bar:
   google_maps_flutter:
   location: 
-  flutter_riverpod: ^2.5.1 
   table_calendar:
   geolocator:
   flutter_polyline_points:
   geocoding:
   fl_chart:
   percent_indicator:
-  intl:            
-  riverpod_annotation: ^2.3.5
+  intl:
+  provider: 
 
 dev_dependencies:
   flutter_test:
@@ -61,11 +60,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
-  build_runner: ^2.4.12
-  riverpod_generator: ^2.4.3
-  custom_lint: ^0.6.5
-  riverpod_lint: ^2.3.13
+  flutter_lints:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

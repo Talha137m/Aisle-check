@@ -7,10 +7,10 @@ import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dar
 import 'package:aislecheck/features/auth/views/sign_up_page.dart';
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class ChooseRolePage extends ConsumerWidget {
+class ChooseRolePage extends StatelessWidget {
   const ChooseRolePage({super.key});
   static const String name = '/chooseRole';
   static const int _fiveFlexRate = 5;
@@ -20,8 +20,8 @@ class ChooseRolePage extends ConsumerWidget {
   static const _thirtyFiveFlexRate = 35;
   static const _oneFlexRate = 1;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(chooseRoleNotifierProvider);
+  Widget build(BuildContext context) {
+    var role = context.watch<ChooseRoleController>();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
@@ -83,11 +83,11 @@ class ChooseRolePage extends ConsumerWidget {
                 'Shop owner',
                 style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
               ),
-              value: state.$2, // You can manage this with state
+              value: role.adminRole, // You can manage this with state
               onChanged: (newValue) {
-                ref
-                    .read(chooseRoleNotifierProvider.notifier)
-                    .chooseRole(userRole: false, adminRole: newValue ?? false);
+                context
+                    .read<ChooseRoleController>()
+                    .chooseOption(shopOwnerRole: newValue, customerRole: false);
               },
 
               controlAffinity: ListTileControlAffinity.leading,
@@ -109,11 +109,11 @@ class ChooseRolePage extends ConsumerWidget {
                 'Customer',
                 style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
               ),
-              value: state.$1, // You can manage this with state
+              value: role.userRole, // You can manage this with state
               onChanged: (newValue) {
-                ref
-                    .read(chooseRoleNotifierProvider.notifier)
-                    .chooseRole(userRole: newValue ?? false, adminRole: false);
+                context
+                    .read<ChooseRoleController>()
+                    .chooseOption(customerRole: newValue, shopOwnerRole: false);
               },
               controlAffinity: ListTileControlAffinity.leading,
               activeColor: AppColors.blackColor,
@@ -124,13 +124,13 @@ class ChooseRolePage extends ConsumerWidget {
           ),
           AppCompactBtn(
             btnName: 'Continue',
-            btnBackgroundColor: switch (state.$1 || state.$2) {
+            btnBackgroundColor: switch (role.adminRole || role.userRole) {
               true => AppColors.greenColor,
               false => AppColors.grayColor,
             },
             onTap: () {
-              if (state.$1 || state.$2) {
-                switch (state.$1) {
+              if (role.userRole || role.adminRole) {
+                switch (role.userRole) {
                   case true:
                     Navigator.pushNamed(context, SignUpPage.name);
                   case false:

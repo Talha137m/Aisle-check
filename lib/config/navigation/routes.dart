@@ -28,7 +28,8 @@ import 'package:aislecheck/features/settings/views/settings_page.dart';
 import 'package:aislecheck/features/shopping_items_operations/views/item_operation_page.dart';
 import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
 import 'package:aislecheck/features/shop_detail/views/shop_details_page.dart';
-import 'package:aislecheck/features/shops_map/views/shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/views/shops_location.dart';
+import 'package:aislecheck/features/shops_map/views/shops_map_page.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -58,9 +59,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         setting: settings,
         child: const ShopDetailsPage(),
       ),
-    ShopsLocation.name => AnimatedRoutes(
+    ShopsGeoLocation.name => AnimatedRoutes(
         setting: settings,
-        child: const ShopsLocation(),
+        child: const ShopsGeoLocation(),
       ),
     ShoppingItemOperationPage.pageName => AnimatedRoutes(
         setting: settings,
@@ -155,6 +156,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     PersonalChatPage.pageName => AnimatedRoutes(
         setting: settings,
         child: const PersonalChatPage(),
+      ),
+    ShopsMapPage.name => AnimatedRoutes(
+        setting: settings,
+        child: const ShopsMapPage(),
       ),
     _ => AnimatedRoutes(
         setting: settings,

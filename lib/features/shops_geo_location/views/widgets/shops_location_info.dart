@@ -1,16 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'dart:developer';
-
-import 'package:aislecheck/core/extensions/pop_up_messages.dart';
-import 'package:aislecheck/features/shops_map/models/info_window.dart';
+import 'package:aislecheck/features/shops_geo_location/controllers/shops_location_controller.dart';
+import 'package:aislecheck/features/shops_geo_location/models/info_window.dart';
+import 'package:aislecheck/features/shops_map/views/shops_map_page.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/shops_map/controllers/shops_location_controller.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
+import 'package:provider/provider.dart';
 
 class ShopsLocationInfo extends StatelessWidget {
   final InfoWindowClass infoWindowClass;
@@ -21,29 +17,13 @@ class ShopsLocationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // var state = context.watch<ShopsLocationController>();
-   // log('loaded:${state.loadedState.toString()},loading:${state.loadingState},initialState:${state.initialState},errorState:${state.errorState.toString()}');
+    // log('loaded:${state.loadedState.toString()},loading:${state.loadingState},initialState:${state.initialState},errorState:${state.errorState.toString()}');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SizedBox(
-        width: _totalWidth,
-        height: _totalHeight,
-        child: Builder(builder: (context) {
-          return SizedBox();
-          // if (state.loadingState) {
-          //   context.loadingPopUp();
-          //   return const SizedBox.shrink();
-          // } else if (state.initialState || state.loadedState) {
-          //   return DataWidget(infoWindowClass: infoWindowClass);
-          // } else {
-          //   return Material(
-          //     child: Center(
-          //       child: Text(state.errorMesage),
-          //     ),
-          //   );
-          // }
-        }),
-      ),
+          width: _totalWidth,
+          height: _totalHeight,
+          child: DataWidget(infoWindowClass: infoWindowClass)),
     );
   }
 }
@@ -100,9 +80,18 @@ class DataWidget extends StatelessWidget {
               category: 'visit',
               subCategory: '➡',
               subCategoryTab: () {
-                // context.read<ShopsLocationController>().mapInitialization(
-                //     targetLatude: infoWindowClass.destLatitude,
-                //     targetLongitude: infoWindowClass.destLongitude);
+                context.read<ShopsLocationController>().hideCustomInfoWindow();
+                Navigator.of(context).pushNamed(
+                  ShopsMapPage.name,
+                  arguments: InfoWindowClass(
+                      destLongitude: infoWindowClass.destLongitude,
+                      destLatitude: infoWindowClass.destLatitude,
+                      originLatitude: infoWindowClass.originLatitude,
+                      originLongitude: infoWindowClass.originLongitude,
+                      imagPath: infoWindowClass.imagPath,
+                      shopDistance: infoWindowClass.shopDistance,
+                      shopName: infoWindowClass.shopName),
+                );
               },
             ),
             const SizedBox(

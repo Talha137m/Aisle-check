@@ -1,14 +1,9 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'admin_bottom_controller.g.dart';
+import 'package:flutter/material.dart';
 
-@riverpod
-class AdminBottomNotifier extends _$AdminBottomNotifier {
-  @override
-  int build() {
-    return 0;
-  }
-
+class AdminBottomController extends ChangeNotifier {
+  int currentIndex = 0;
   void changeState(int index) {
-    state = index;
+    currentIndex = index;
+    notifyListeners();
   }
 }

@@ -1,5 +1,5 @@
-import 'package:aislecheck/features/shops_map/models/dummy_shops_location.dart';
-import 'package:aislecheck/features/shops_map/views/widgets/shop_search_widget.dart';
+import 'package:aislecheck/features/shops_geo_location/models/dummy_shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/views/widgets/shop_search_widget.dart';
 import 'package:flutter/material.dart';
 
 class ShopSearchDelegate extends SearchDelegate {

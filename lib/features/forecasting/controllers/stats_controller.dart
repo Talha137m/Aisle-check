@@ -1,16 +1,10 @@
 import 'package:aislecheck/core/constants/enumration/enumrations.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'stats_controller.g.dart';
+import 'package:flutter/material.dart';
 
-
-@riverpod
-class StatsNotifier extends _$StatsNotifier {
-  @override
- String build() {
-  return StatsEnumuration.currentStats.name;
+class StatsController extends ChangeNotifier {
+  String selectStats = StatsEnumuration.currentStats.name;
+  void statsOption(String value) {
+    selectStats = value;
+    notifyListeners();
   }
-    void statsOption(String value) {
-    state = value;
-  }
-  
 }

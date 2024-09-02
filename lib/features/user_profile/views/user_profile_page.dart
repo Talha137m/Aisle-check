@@ -2,7 +2,7 @@ import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/features/browsing_history/views/browsing_history_page.dart';
 import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
-import 'package:aislecheck/features/shops_map/views/shops_location.dart';
+import 'package:aislecheck/features/shops_geo_location/views/shops_location.dart';
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:aislecheck/features/wallet/views/wallet.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +105,7 @@ class ProfileWidget extends StatelessWidget {
             ),
             SettingsTile(
               navigateTab: () {
-                Navigator.of(context).pushNamed(ShopsLocation.name);
+                Navigator.of(context).pushNamed(ShopsGeoLocation.name);
               },
               icon: Icons.location_on,
               title: _mapText,

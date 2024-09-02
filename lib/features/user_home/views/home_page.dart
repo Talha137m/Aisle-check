@@ -6,30 +6,30 @@ import 'package:aislecheck/features/user_home/controllers/home_behaviour.dart';
 import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
 import 'package:aislecheck/core/common/widgets/home_page_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class UserHomePage extends ConsumerWidget with HomeBehaviour {
+class UserHomePage extends StatelessWidget with HomeBehaviour {
   UserHomePage({super.key});
   static const String name = '/userHomePage';
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(userBottomNavigationNotifierProvider);
+  Widget build(
+    BuildContext context,
+  ) {
+    var state = context.watch<UserBottomController>();
     return Scaffold(
-      appBar: switch (state) {
+      appBar: switch (state.currentIndex) {
         2 => const HomePageAppBar() as PreferredSizeWidget,
         1 => null,
         _ => GlobalAppBar(
             titleText: 'Ads',
             leadingOnTab: () {
-              ref
-                  .read(userBottomNavigationNotifierProvider.notifier)
-                  .navigation(2);
+              context.read<UserBottomController>().changeState(2);
             },
           )
       },
       bottomNavigationBar: CurvedNavigationBar(
-        index: state,
+        index: state.currentIndex,
         backgroundColor: AppColors.bottomBgColor,
         items: const [
           Icon(Icons.explore, color: AppColors.inActiveBottomColors),
@@ -39,12 +39,10 @@ class UserHomePage extends ConsumerWidget with HomeBehaviour {
           Icon(Icons.person, color: AppColors.inActiveBottomColors),
         ],
         onTap: (value) {
-          ref
-              .read(userBottomNavigationNotifierProvider.notifier)
-              .navigation(value);
+          context.read<UserBottomController>().changeState(value);
         },
       ),
-      body: bottomWidgets[state],
+      body: bottomWidgets[state.currentIndex],
     );
   }
 }

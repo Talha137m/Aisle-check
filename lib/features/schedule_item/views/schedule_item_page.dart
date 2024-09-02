@@ -6,11 +6,10 @@ import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
 import 'package:aislecheck/features/schedule_item/views/widgets/item_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class ScheduleItemPage extends ConsumerWidget {
+class ScheduleItemPage extends StatelessWidget {
   const ScheduleItemPage({super.key});
   //...PAGE NAME
   static const pageName = '/item_details';
@@ -26,9 +25,10 @@ class ScheduleItemPage extends ConsumerWidget {
   static const _flexTwo = 2;
   static const _flexThree = 3;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<String> timeOfday =
-        ref.watch(scheduleItemTimePickerNotifierProvider);
+  Widget build(
+    BuildContext context,
+  ) {
+    var state = context.watch<TimePickerController>();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: GlobalAppBar(
@@ -67,28 +67,23 @@ class ScheduleItemPage extends ConsumerWidget {
             ),
             Expanded(
               flex: _flexTwo,
-              child: timeOfday.when(
-                data: (data) {
-                  return TimePickingWidget(
-                    time: data,
-                  );
-                },
-                error: (error, stackTrace) {
-                  SchedulerBinding.instance.addPostFrameCallback(
-                    (timeStamp) {
-                      context.showPopUpMsg(
-                        error.toString(),
-                      );
-                    },
-                  );
+              child: Builder(builder: (context) {
+                //....choose the time picker to show the time
+                if (state.initialState) {
                   return const TimePickingWidget();
-                },
-                loading: () {
+                } else if (state.loadedState) {
+                  return TimePickingWidget(
+                    time: state.time,
+                  );
+                } else if (state.loadingState) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                },
-              ),
+                } else {
+                  context.showPopUpMsg(state.errorMessage);
+                  return const TimePickingWidget();
+                }
+              }),
             ),
             const Spacer(
               flex: _flexTwo,
