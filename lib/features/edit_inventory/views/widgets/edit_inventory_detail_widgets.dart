@@ -85,37 +85,4 @@ class ListTileTrailingWidget extends StatelessWidget {
   }
 }
 
-//....UPLAOD IMAGE TILE
-class UploadImageTile extends StatelessWidget {
-  const UploadImageTile({super.key});
-  //....CONSTANT VLAUES
-  static const _zeroPointOnePercent = 0.08;
-  static const _zeroPointTwoPercent = 0.2;
-  @override
-  Widget build(BuildContext context) {
-    final Size(:width, :height) = MediaQuery.sizeOf(context);
-    return CustomFilledListTile(
-      minTileHeight: height * _zeroPointTwoPercent,
-      title: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              context.showPopUpMsg('Image Uploaded');
-            },
-            child: Icon(
-              Icons.cloud_upload_outlined,
-              size: height * _zeroPointOnePercent,
-            ),
-          ),
-          Text(
-            'Upload image',
-            style: GoogleFonts.roboto(
-              fontSize: 13,
-              color: AppColors.blackColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+

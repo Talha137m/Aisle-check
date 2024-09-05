@@ -33,7 +33,14 @@ class ShopsMapPage extends StatelessWidget {
               googleMap: mapSate.googleMap,
             );
           } else {
-            return UserMessage(message: mapSate.errorMesage);
+            return UserMessage(
+              message: mapSate.errorMesage,
+              refresh: () {
+                context
+                    .read<MapController>()
+                    .addPolyLinePoints(infoWindowClass: infoWindowClass);
+              },
+            );
           }
         },
       ),

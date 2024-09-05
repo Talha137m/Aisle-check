@@ -2,7 +2,6 @@ import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/shopping_list/views/all_lists_tab_view.dart';
 import 'package:aislecheck/features/shopping_list/views/schedule_products_tab_view.dart';
-import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,14 +1,18 @@
 import 'package:aislecheck/config/navigation/routes.dart';
+import 'package:aislecheck/config/service_locator.dart';
 import 'package:aislecheck/config/theme/app_theme.dart';
 import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
+import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/forecasting/controllers/stats_controller.dart';
-import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
+import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:aislecheck/features/schedule_item/controller/date_controller.dart';
 import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
 import 'package:aislecheck/features/shops_geo_location/controllers/shops_location_controller.dart';
 import 'package:aislecheck/features/shops_map/controllers/map_controller.dart';
 import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
+import 'package:aislecheck/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +20,11 @@ import 'package:provider/provider.dart';
 void main() async {
   // ...........Making the app should stay in portrait mode
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
       providers: [
@@ -44,6 +52,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => MapController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => AdminBottomController(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -61,10 +72,10 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.theme(),
       navigatorKey: NavigationState.navigatorKey,
 
-      initialRoute: OnBordingPage.name,
-      onGenerateRoute: generateRoute,
+      // initialRoute: OnBordingPage.name,
+      //onGenerateRoute: generateRoute,
 
-      //home: const ShopsGeoLocation(),
+      home: const RegisterShopPage(),
     );
   }
 }

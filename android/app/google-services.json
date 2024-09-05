@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "470702893457",
+    "project_id": "aizle-check",
+    "storage_bucket": "aizle-check.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470702893457:android:b8f9dd8e55b1f775fd5230",
+        "android_client_info": {
+          "package_name": "com.aislecheck.www.aislecheck"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCywXJs4jcIzrXyGUSbBdbNPWSD8V85TaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

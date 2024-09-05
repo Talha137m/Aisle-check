@@ -49,7 +49,18 @@ dependencies:
   fl_chart:
   percent_indicator:
   intl:
-  provider: 
+  provider:
+  firebase_core:
+  firebase_auth:
+  firebase_storage:
+  cloud_firestore:
+  firebase_performance: 
+  firebase_crashlytics:
+  form_validation:
+  url_launcher:
+  get_it: 
+  shared_preferences: 
+    
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:aislecheck/core/constants/images_path.dart';
-import 'package:aislecheck/core/constants/strings/app_constants.dart';
 import 'package:aislecheck/core/services/location_service.dart';
 import 'package:aislecheck/features/shops_geo_location/models/dummy_shops_location.dart';
 import 'package:aislecheck/features/shops_geo_location/models/info_window.dart';

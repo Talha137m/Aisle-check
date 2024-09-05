@@ -2,6 +2,7 @@ import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
+import 'package:aislecheck/core/common/widgets/upload_image_tile.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/edit_inventory/views/widgets/edit_inventory_detail_widgets.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,9 @@ class AddInventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: GlobalAppBar(titleText: 'Ads',),
+      appBar: GlobalAppBar(
+        titleText: 'Ads',
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -99,7 +102,11 @@ class AddInventoryPage extends StatelessWidget {
               ),
 
               //.....UPLAOD IMAGE TILE
-              const UploadImageTile(),
+              UploadImageTile(
+                ontab: () {
+                  context.showPopUpMsg('Image Uploaded');
+                },
+              ),
               SizedBox(
                 height: height * _pointTwoPercent,
               ),

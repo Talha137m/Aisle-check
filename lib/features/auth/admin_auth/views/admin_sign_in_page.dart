@@ -34,16 +34,16 @@ class AdmminSignInPage extends StatelessWidget {
             ),
             Text(
               'Sign In',
-              style: GoogleFonts.roboto(
-                  fontSize: 26, fontWeight: FontWeight.w700),
+              style:
+                  GoogleFonts.roboto(fontSize: 26, fontWeight: FontWeight.w700),
             ),
             const Spacer(
               flex: _fiveFlex,
             ),
             Text(
               'Welcome back! Please enter your details.',
-              style: GoogleFonts.roboto(
-                  fontSize: 14, fontWeight: FontWeight.w500),
+              style:
+                  GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500),
             ),
             const Spacer(
               flex: _fiveFlex,
@@ -51,17 +51,6 @@ class AdmminSignInPage extends StatelessWidget {
             DataCollectionTextFormField(
               hintAndLabelText: 'Email',
               keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                return null;
-              },
-              textEditingController: TextEditingController(),
-            ),
-            const Spacer(
-              flex: _fiveFlex,
-            ),
-            DataCollectionTextFormField(
-              hintAndLabelText: 'Phone Number',
-              keyboardType: TextInputType.phone,
               validator: (value) {
                 return null;
               },

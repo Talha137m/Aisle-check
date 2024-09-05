@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
@@ -41,6 +40,9 @@ class ShopsGeoLocation extends StatelessWidget {
             );
           } else {
             return UserMessage(
+              refresh: () {
+                context.read<ShopsLocationController>().mapInitialization();
+              },
               message: state.errorMesage,
             );
           }
@@ -58,7 +60,7 @@ class MapLoadedWidgetWidget extends StatelessWidget {
     return Stack(
       children: [
         googleMap ?? const SizedBox.shrink(),
-         Align(
+        Align(
           alignment: const Alignment(0, -0.9),
           child: SizedBox(
             height: 71,

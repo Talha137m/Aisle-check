@@ -3,8 +3,6 @@ import 'package:aislecheck/features/browsing_history/views/browsing_history_page
 import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
 import 'package:aislecheck/features/shops_geo_location/views/shops_location.dart';
-import 'package:aislecheck/features/user_home/controllers/user_bottom_controller.dart';
-import 'package:aislecheck/features/wallet/views/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:provider/provider.dart';

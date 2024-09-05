@@ -21,6 +21,8 @@ class DataCollectionTextFormField extends StatelessWidget {
       required this.textEditingController,
       this.isReadOnly = false,
       this.isHintTextBold = false,
+      this.obscureText = false,
+      this.suffix,
       this.onTab,
       this.focusNode});
   final String hintAndLabelText;
@@ -28,14 +30,17 @@ class DataCollectionTextFormField extends StatelessWidget {
   final FormFieldValidator<String?> validator;
   final FocusNode? focusNode;
   final TextEditingController textEditingController;
+  final Widget? suffix;
   final bool isReadOnly;
   final VoidCallback? onTab;
   final bool isHintTextBold;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     var screenRatio = min(width, height);
     return TextFormField(
+      obscureText: obscureText,
       onTap: onTab,
       onTapOutside: (event) {
         context.dismissKeyboard();
@@ -51,6 +56,7 @@ class DataCollectionTextFormField extends StatelessWidget {
       cursorRadius: Radius.circular(screenRatio),
       readOnly: isReadOnly,
       decoration: InputDecoration(
+        suffixIcon: suffix,
         errorMaxLines: 1,
         isDense: true,
         hintText: hintAndLabelText,
@@ -262,7 +268,6 @@ class AdminAppCompactTextField extends StatelessWidget {
     );
   }
 }
-
 
 //....ADD ITEM TEXT FIELD
 class DialogsTextField extends StatelessWidget {

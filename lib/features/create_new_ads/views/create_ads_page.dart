@@ -2,6 +2,7 @@ import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
+import 'package:aislecheck/core/common/widgets/upload_image_tile.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/edit_inventory/views/widgets/edit_inventory_detail_widgets.dart';
 import 'package:aislecheck/features/create_new_ads/views/widgets/make_ad_widgets.dart';
@@ -124,7 +125,9 @@ class CreateNewAdsPage extends StatelessWidget {
               SizedBox(
                 height: height * _pointZeroTwoPercent,
               ),
-              const UploadImageTile(),
+              UploadImageTile(
+                ontab: () {},
+              ),
               SizedBox(
                 height: height * _pointZeroTwoPercent,
               ),
