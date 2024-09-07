@@ -29,7 +29,7 @@ class DataCollectionTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final FormFieldValidator<String?> validator;
   final FocusNode? focusNode;
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
   final Widget? suffix;
   final bool isReadOnly;
   final VoidCallback? onTab;

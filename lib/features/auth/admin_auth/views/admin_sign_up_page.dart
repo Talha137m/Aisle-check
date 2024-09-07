@@ -175,11 +175,11 @@ class AdminFormWidget extends StatelessWidget {
             btnName: 'Sign Up',
             btnBackgroundColor: AppColors.greenColor,
             onTap: () {
-              if (adminAuthController.formKey.currentState!.validate()) {
-                adminAuthController.createUser();
-              } else {
-                context.showPopUpMsg('fields should not empty');
-              }
+              // if (adminAuthController.formKey.currentState!.validate()) {
+              //   adminAuthController.createUser();
+              // } else {
+              //   context.showPopUpMsg('fields should not empty');
+              // }
             },
           ),
           const Spacer(

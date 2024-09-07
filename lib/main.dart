@@ -5,6 +5,9 @@ import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
 import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/forecasting/controllers/stats_controller.dart';
+import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
+import 'package:aislecheck/features/register_shop/controllers/current_location_controller.dart';
+import 'package:aislecheck/features/register_shop/controllers/shop_image_picker_controller.dart';
 import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:aislecheck/features/schedule_item/controller/date_controller.dart';
 import 'package:aislecheck/features/schedule_item/controller/time_picker_controller.dart';
@@ -72,10 +75,19 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.theme(),
       navigatorKey: NavigationState.navigatorKey,
 
-      // initialRoute: OnBordingPage.name,
-      //onGenerateRoute: generateRoute,
+      initialRoute: OnBordingPage.name,
+      onGenerateRoute: generateRoute,
 
-      home: const RegisterShopPage(),
+      // home: MultiProvider(providers: [
+      //   ChangeNotifierProvider(
+      //     create: (context) {
+      //       return ShopImagePickerController();
+      //     },
+      //   ),
+      //   ChangeNotifierProvider(
+      //     create: (context) => CurrentLocationController(),
+      //   )
+      // ], child: const RegisterShopPage()),
     );
   }
 }

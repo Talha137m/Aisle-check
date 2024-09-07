@@ -59,7 +59,8 @@ dependencies:
   form_validation:
   url_launcher:
   get_it: 
-  shared_preferences: 
+  shared_preferences:
+  image_picker:  
     
 
 dev_dependencies:

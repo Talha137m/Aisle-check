@@ -23,6 +23,8 @@ import 'package:aislecheck/features/membership_plan/views/membership_plan_page.d
 import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:aislecheck/features/personal_chat/views/personal_chat_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
+import 'package:aislecheck/features/register_shop/controllers/current_location_controller.dart';
+import 'package:aislecheck/features/register_shop/controllers/shop_image_picker_controller.dart';
 import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:aislecheck/features/schedule_item/views/schedule_item_page.dart';
 import 'package:aislecheck/features/settings/views/settings_page.dart';
@@ -172,7 +174,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     RegisterShopPage.name => AnimatedRoutes(
         setting: settings,
-        child: const RegisterShopPage(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider(
+            create: (context) => ShopImagePickerController(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CurrentLocationController(),
+          )
+        ], child: const RegisterShopPage()),
       ),
     _ => AnimatedRoutes(
         setting: settings,
