@@ -112,7 +112,14 @@ class SignUpPage extends StatelessWidget {
             ),
             Expanded(
                 flex: 25,
-                child: OnclickSignupWidget(width: width, height: height)),
+                child: OnclickSignupWidget(
+                  width: width,
+                  height: height,
+                  appleSignIn: () {},
+                  emailSignIn: () {},
+                  facebookSignin: () {},
+                  googleSignIn: () {},
+                )),
             const Spacer(
               flex: _twentyFlex,
             ),

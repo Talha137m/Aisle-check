@@ -12,7 +12,20 @@
           "package_name": "com.aislecheck.www.aislecheck"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "470702893457-abfa7327r8hfta9iub966a01h90fs4g7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aislecheck.www.aislecheck",
+            "certificate_hash": "360d752a2a3fb2c0d2489e26c66318671e7f651b"
+          }
+        },
+        {
+          "client_id": "470702893457-l83vo0i1m26oackgna4u4r08kmab7fct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCywXJs4jcIzrXyGUSbBdbNPWSD8V85TaA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "470702893457-l83vo0i1m26oackgna4u4r08kmab7fct.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "470702893457-ctcl0uh96h781pnd6ehbpsm7pv28asfo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aislecheck.www.aislecheck"
+              }
+            }
+          ]
         }
       }
     }

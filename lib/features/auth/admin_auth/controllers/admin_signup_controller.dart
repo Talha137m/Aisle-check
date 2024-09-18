@@ -1,21 +1,49 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:aislecheck/core/services/admin_profile_service.dart';
 import 'package:aislecheck/core/services/auth_service.dart';
+import 'package:aislecheck/core/services/id_services.dart';
+import 'package:aislecheck/core/services/session_manage_service.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/auth_behaviour.dart';
+import 'package:aislecheck/features/auth/admin_auth/models/add_admin_model.dart';
 import 'package:aislecheck/features/auth/admin_auth/models/admin_signup_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validation/form_validation.dart';
 
+sealed class AdminSignupStates {}
+
+class AdminSignUpInitialState extends AdminSignupStates {}
+
+class AdminSignupLoadingState extends AdminSignupStates {}
+
+class AdminSignupErrorgState extends AdminSignupStates {
+  final String msg;
+  AdminSignupErrorgState({required this.msg});
+}
+
+class GoogleSigninLoadedState extends AdminSignupStates {}
+
+class AdminSignupLoadedState extends AdminSignupStates {
+  AdminSignupLoadedState();
+}
+
 class AdminSignupController extends ChangeNotifier with AuthBehaviour {
   //.....define the states
-  bool initialState = true;
-  bool loadingState = false;
-  bool dataSate = false;
-  bool errorState = false;
-  String errorMessage = 'Something went wrong';
+  AdminSignupStates _state = AdminSignUpInitialState();
+  AdminSignupStates get state => _state;
+
+  //method that change the state
+  void _setState(AdminSignupStates newState) {
+    _state = newState;
+    notifyListeners();
+  }
 
   final AdminAuthService _adminAuthService = AdminAuthService();
+  final AdminProfileService _adminProfileService = AdminProfileService();
+  final IdServices _idServices = IdServices();
+  final SessionManageService _sessionManageService = SessionManageService();
   //...constants
   static const _confirmPasswordErrorMsg = 'Password should match';
   static const _emptyNameFieldErrormsg = 'field should not empty';
@@ -62,10 +90,7 @@ class AdminSignupController extends ChangeNotifier with AuthBehaviour {
   }
 
   void createUser() async {
-    notifyListeners();
-    initialState = false;
-    loadingState = true;
-    notifyListeners();
+    _setState(AdminSignupLoadingState());
     try {
       User? user = await _adminAuthService.userRegister(
         adminAuthModel: AdminSignUpModel(
@@ -74,57 +99,44 @@ class AdminSignupController extends ChangeNotifier with AuthBehaviour {
             phoneNo: phoneNumberController.text.trim(),
             password: passwordController.text.trim()),
       );
-
       switch (user != null) {
         case true:
-          bool isVerfy = await _sendEmailVerfication(user!);
-          switch (isVerfy) {
-            case true:
-              user.updateDisplayName(nameController.text.trim());
-              initialState = false;
-              loadingState = false;
-              dataSate = true;
-            case false:
-              initialState = false;
-              loadingState = false;
-              dataSate = false;
-              errorState = true;
-              errorMessage =
-                  'please open your email account for email verfication!';
-          }
+          bool isInsert = await _sessionManageService.insertAdminUid(user!.uid);
 
+          log(isInsert.toString());
+          user.updateDisplayName(
+            nameController.text.trim(),
+          );
+          await _adminProfileService.addAdmin(
+            AddAdminModel(
+              name: nameController.text.trim(),
+              email: emailController.text.trim(),
+              adminId: user.uid,
+              phoneNo: phoneNumberController.text.trim(),
+              deviceToken: await _idServices.getDeviceToken(),
+            ),
+          );
+          await _sendEmailVerfication(user);
+          _setState(AdminSignupLoadedState());
         case false:
-          initialState = false;
-          loadingState = false;
-          dataSate = false;
-          errorState = true;
-          errorMessage = 'user not found:cannot create account';
+          _setState(AdminSignupErrorgState(
+              msg: 'user not found:cannot create account'));
       }
     } on FirebaseAuthException catch (e) {
-      initialState = false;
-      loadingState = false;
-      dataSate = false;
-      errorState = true;
       var msg = handleAuthException(e.code);
-      errorMessage = msg;
+      _setState(AdminSignupErrorgState(msg: msg));
     } on FirebaseException catch (e) {
-      initialState = false;
-      loadingState = false;
-      dataSate = false;
-      errorState = true;
       log(e.toString());
+      _setState(AdminSignupErrorgState(msg: 'Something went wrong'));
     } catch (e) {
-      initialState = false;
-      loadingState = false;
-      dataSate = false;
-      errorState = true;
+      _setState(AdminSignupErrorgState(msg: 'Something went wrong'));
       log(e.toString());
     }
-    notifyListeners();
   }
 
   @override
   void dispose() {
+    _setState(AdminSignUpInitialState());
     super.dispose();
     nameController.dispose();
     emailController.dispose();
@@ -139,5 +151,64 @@ class AdminSignupController extends ChangeNotifier with AuthBehaviour {
       true => true,
       false => false,
     };
+  }
+
+  void signInWithGoogle() async {
+    try {
+      _setState(AdminSignupLoadingState());
+      User? user = await _adminAuthService.userGoogleSignIn();
+      log(user.toString());
+      if (user != null) {
+        user.updateDisplayName(user.displayName);
+        bool isInsert = await _sessionManageService.insertAdminUid(user.uid);
+        log(isInsert.toString());
+        await _adminProfileService.addAdmin(
+          AddAdminModel(
+            name: user.displayName!,
+            email: user.email!,
+            adminId: user.uid,
+            imageUrl: user.photoURL,
+            deviceToken: await _idServices.getDeviceToken(),
+          ),
+        );
+        bool isSignin = await _sessionManageService.insertIsAdminSignedIn(true);
+        switch (isSignin) {
+          case true:
+            _setState(
+              GoogleSigninLoadedState(),
+            );
+          case false:
+            _setState(
+              AdminSignupErrorgState(msg: 'Something went wrong'),
+            );
+        }
+      } else {
+        _setState(
+            AdminSignupErrorgState(msg: 'please choose accout one of them'));
+      }
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      var msg = handleAuthException(e.code);
+      _setState(
+        AdminSignupErrorgState(msg: msg),
+      );
+    }
+  }
+
+  void reinitializeState() {
+    _setState(AdminSignUpInitialState());
+  }
+
+  void signInWithApple() async {
+    try {
+      _setState(AdminSignupLoadingState());
+      await _adminAuthService.appleSignIn();
+    } on SocketException catch (e) {
+      log(e.toString());
+      _setState(AdminSignupErrorgState(msg: 'internet coonection failed!'));
+    } catch (e) {
+      log(e.toString());
+      _setState(AdminSignupErrorgState(msg: 'Something went wrong'));
+    }
   }
 }

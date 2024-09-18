@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:aislecheck/core/services/location_service.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,11 @@ class CurrentLocationLoadingState extends CurrentLocatioState {}
 @immutable
 class CurrentLocationLoadedState extends CurrentLocatioState {
   final String locationname;
-  CurrentLocationLoadedState({required this.locationname});
+  final num latitude, longitude;
+  CurrentLocationLoadedState(
+      {required this.locationname,
+      required this.latitude,
+      required this.longitude});
 }
 
 @immutable
@@ -34,6 +39,20 @@ class CurrentLocationController extends ChangeNotifier {
     notifyListeners();
   }
 
+  //....constants
+  static const _emptyNameFieldErrormsg = 'field should not empty';
+  //.........forms validation
+  String? isEmptyForm(String? value) {
+    if (value != null) {
+      return null;
+    } else {
+      return _emptyNameFieldErrormsg;
+    }
+  }
+
+  //...controllers
+  TextEditingController shopLocationController = TextEditingController();
+  //...servuces
   final LocationService _locationService = LocationService();
   void findCurrentLocation() async {
     try {
@@ -49,9 +68,16 @@ class CurrentLocationController extends ChangeNotifier {
           double longitude = locationInitialization.latlang!.$2;
           String? locationName =
               await _locationService.getLocationName(latiTude, longitude);
-          _setState(CurrentLocationLoadedState(
-              locationname: locationName ?? 'location not found'));
+          _setState(
+            CurrentLocationLoadedState(
+                locationname: locationName ?? 'location not found',
+                latitude: latiTude,
+                longitude: longitude),
+          );
       }
+    } on SocketException catch (e) {
+      log(e.toString());
+      _setState(CurretLocationErrorState(msg: 'Not connected to internet'));
     } catch (e) {
       log(e.toString());
       _setState(CurretLocationErrorState(msg: e.toString()));

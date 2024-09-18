@@ -3,6 +3,7 @@ import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart'
 import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/admin_profile/views/admin_profile_page.dart';
 import 'package:aislecheck/features/ads/views/ads.dart';
+import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signin_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signup_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_visibility.dart';
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_in_page.dart';
@@ -14,16 +15,23 @@ import 'package:aislecheck/features/boost_products/views/boost_product_page.dart
 import 'package:aislecheck/features/boost_store/views/boost_store_page.dart';
 import 'package:aislecheck/features/browsing_history/views/browsing_history_page.dart';
 import 'package:aislecheck/features/cancellation_survey/views/cancellation_survey_page.dart';
+import 'package:aislecheck/features/choose_role/controllers/check_is_admin_login.dart';
+import 'package:aislecheck/features/choose_role/controllers/check_is_user_login.dart';
+import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/choose_role/views/choose_role_page.dart';
 import 'package:aislecheck/features/create_new_ads/views/create_ads_page.dart';
 import 'package:aislecheck/features/customer_support/views/customer_support_page.dart';
 import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
+import 'package:aislecheck/features/email_verfication/controllers/email_verfication_controller.dart';
+import 'package:aislecheck/features/email_verfication/views/email_verfication_page.dart';
 import 'package:aislecheck/features/inetgrate_inventory/views/integrate_inventory_page.dart';
 import 'package:aislecheck/features/membership_plan/views/membership_plan_page.dart';
+import 'package:aislecheck/features/on_boarding/controllers/on_bording_controller.dart';
 import 'package:aislecheck/features/payment_method/views/payment_method_page.dart';
 import 'package:aislecheck/features/personal_chat/views/personal_chat_page.dart';
 import 'package:aislecheck/features/profile_details/views/profile_details_page.dart';
 import 'package:aislecheck/features/register_shop/controllers/current_location_controller.dart';
+import 'package:aislecheck/features/register_shop/controllers/register_shop_controller.dart';
 import 'package:aislecheck/features/register_shop/controllers/shop_image_picker_controller.dart';
 import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:aislecheck/features/schedule_item/views/schedule_item_page.dart';
@@ -41,7 +49,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   return switch (settings.name) {
     OnBordingPage.name => AnimatedRoutes(
         setting: settings,
-        child: OnBordingPage(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider(
+            create: (context) => OnBordingController(),
+          )
+        ], child: OnBordingPage()),
       ),
     ChooseRolePage.name => AnimatedRoutes(
         setting: settings,
@@ -114,7 +126,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     AdmminSignInPage.name => AnimatedRoutes(
         setting: settings,
-        child: const AdmminSignInPage(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider(
+            create: (context) => PasswordFieldVisibility(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) {
+              return AdminSigninController();
+            },
+          )
+        ], child: const AdmminSignInPage()),
       ),
     CreateNewAdsPage.pageName => AnimatedRoutes(
         setting: settings,
@@ -172,16 +193,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         setting: settings,
         child: const ShopsMapPage(),
       ),
-    RegisterShopPage.name => AnimatedRoutes(
+    EmailVerficationPage.name => AnimatedRoutes(
         setting: settings,
         child: MultiProvider(providers: [
           ChangeNotifierProvider(
-            create: (context) => ShopImagePickerController(),
+            create: (context) => EmailVerficationController(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => CurrentLocationController(),
-          )
-        ], child: const RegisterShopPage()),
+        ], child: const EmailVerficationPage()),
+      ),
+    RegisterShopPage.name => AnimatedRoutes(
+        setting: settings,
+        child: const RegisterShopPage(),
       ),
     _ => AnimatedRoutes(
         setting: settings,

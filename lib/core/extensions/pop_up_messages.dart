@@ -97,7 +97,11 @@ extension PopUpMessages on BuildContext {
                     fontSize: 18, fontWeight: FontWeight.w400),
               ), // Message content
               actions: <Widget>[
-                TextButton(
+                ElevatedButton(
+                  style: const ButtonStyle(
+                    foregroundColor:
+                        WidgetStatePropertyAll(AppColors.greenColor),
+                  ),
                   child: Text(
                     "OK",
                     style: GoogleFonts.roboto(

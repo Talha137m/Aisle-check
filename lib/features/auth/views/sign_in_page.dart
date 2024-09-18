@@ -34,16 +34,16 @@ class SignInPage extends StatelessWidget {
             ),
             Text(
               'Sign In',
-              style: GoogleFonts.roboto(
-                  fontSize: 26, fontWeight: FontWeight.w700),
+              style:
+                  GoogleFonts.roboto(fontSize: 26, fontWeight: FontWeight.w700),
             ),
             const Spacer(
               flex: _fiveFlex,
             ),
             Text(
               'Welcome back! Please enter your details.',
-              style: GoogleFonts.roboto(
-                  fontSize: 14, fontWeight: FontWeight.w500),
+              style:
+                  GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500),
             ),
             const Spacer(
               flex: _fiveFlex,
@@ -91,8 +91,16 @@ class SignInPage extends StatelessWidget {
               flex: _tenFlex,
             ),
             Expanded(
-                flex: 25,
-                child: OnclickSignupWidget(width: width, height: height)),
+              flex: 25,
+              child: OnclickSignupWidget(
+                width: width,
+                height: height,
+                appleSignIn: () {},
+                emailSignIn: () {},
+                facebookSignin: () {},
+                googleSignIn: () {},
+              ),
+            ),
             const Spacer(
               flex: _twentyFlex,
             ),

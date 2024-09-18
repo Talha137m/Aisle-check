@@ -1,19 +1,17 @@
 import 'dart:developer';
-
-import 'package:aislecheck/config/navigation/routes.dart';
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
-import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
 import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
+import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signup_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_visibility.dart';
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_in_page.dart';
-import 'package:aislecheck/features/auth/views/sign_in_page.dart';
 import 'package:aislecheck/features/auth/views/widgets/contine_with.dart';
 import 'package:aislecheck/features/auth/views/widgets/onclick_signup_widget.dart';
+import 'package:aislecheck/features/email_verfication/views/email_verfication_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,37 +28,58 @@ class AdminSignUpPage extends StatelessWidget {
     PasswordFieldVisibility passwordFieldVisibility =
         context.watch<PasswordFieldVisibility>();
     log(passwordFieldVisibility.obscureText.toString());
-    log('initial:${adminAuthController.initialState},loading:${adminAuthController.loadingState},loaded:${adminAuthController.dataSate},errorState:${adminAuthController.errorState}');
+    log(adminAuthController.state.toString());
+    //log('initial:${adminAuthController.initialState},loading:${adminAuthController.loadingState},loaded:${adminAuthController.dataSate},errorState:${adminAuthController.errorState}');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Builder(
           builder: (context) {
-            if (adminAuthController.initialState) {
-              return AdminFormWidget(
-                adminAuthController: adminAuthController,
-                passwordFieldVisibility: passwordFieldVisibility,
-              );
-            } else if (adminAuthController.loadingState) {
-              return const LoadingWidget();
-            } else if (adminAuthController.dataSate) {
-              context.showPopUpMsg('succesfully signup go to the sigin page');
-              return AdminFormWidget(
-                passwordFieldVisibility: passwordFieldVisibility,
-                adminAuthController: adminAuthController,
-              );
-            } else {
-              context.showMessageDialog(
-                  'message', adminAuthController.errorMessage);
-              return AdminFormWidget(
-                adminAuthController: adminAuthController,
-                passwordFieldVisibility: passwordFieldVisibility,
-              );
+            switch (adminAuthController.state) {
+              case AdminSignUpInitialState():
+                return AdminFormWidget(
+                    adminAuthController: adminAuthController,
+                    passwordFieldVisibility: passwordFieldVisibility);
+              case AdminSignupLoadingState():
+                return const LoadingWidget();
+              case AdminSignupErrorgState():
+                context.showMessageDialog('Action Failed!',
+                    (adminAuthController.state as AdminSignupErrorgState).msg);
+                return AdminFormWidget(
+                    adminAuthController: adminAuthController,
+                    passwordFieldVisibility: passwordFieldVisibility);
+              case AdminSignupLoadedState():
+                _navigate(
+                  () {
+                    Navigator.pushNamed(context, EmailVerficationPage.name,
+                        arguments: adminAuthController.emailController.text);
+                    adminAuthController.reinitializeState();
+                  },
+                );
+                return AdminFormWidget(
+                    adminAuthController: adminAuthController,
+                    passwordFieldVisibility: passwordFieldVisibility);
+              case GoogleSigninLoadedState():
+                _navigate(() {
+                  Navigator.pushNamed(context, AdminHomePage.pageName);
+                  adminAuthController.reinitializeState();
+                });
+                return AdminFormWidget(
+                    adminAuthController: adminAuthController,
+                    passwordFieldVisibility: passwordFieldVisibility);
             }
           },
         ),
       ),
+    );
+  }
+
+  void _navigate(VoidCallback navigate) {
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        navigate();
+      },
     );
   }
 }
@@ -166,8 +185,20 @@ class AdminFormWidget extends StatelessWidget {
             flex: _tenFlex,
           ),
           Expanded(
-              flex: 25,
-              child: OnclickSignupWidget(width: width, height: height)),
+            flex: 25,
+            child: OnclickSignupWidget(
+              width: width,
+              height: height,
+              appleSignIn: () {
+                //adminAuthController.signInWithApple();
+              },
+              emailSignIn: () {},
+              facebookSignin: () {},
+              googleSignIn: () {
+                adminAuthController.signInWithGoogle();
+              },
+            ),
+          ),
           const Spacer(
             flex: _twentyFlex,
           ),
@@ -175,11 +206,11 @@ class AdminFormWidget extends StatelessWidget {
             btnName: 'Sign Up',
             btnBackgroundColor: AppColors.greenColor,
             onTap: () {
-              // if (adminAuthController.formKey.currentState!.validate()) {
-              //   adminAuthController.createUser();
-              // } else {
-              //   context.showPopUpMsg('fields should not empty');
-              // }
+              if (adminAuthController.formKey.currentState!.validate()) {
+                adminAuthController.createUser();
+              } else {
+                context.showPopUpMsg('fields should not empty');
+              }
             },
           ),
           const Spacer(

@@ -19,17 +19,10 @@ class UserMessage extends StatelessWidget {
     this.borderRadius = 12.0,
   });
 
-  Future<void> _refreshItems() async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-    );
-    refresh();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _refreshItems,
+    return InkWell(
+      onTap: refresh,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
