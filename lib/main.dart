@@ -3,6 +3,10 @@ import 'package:aislecheck/config/service_locator.dart';
 import 'package:aislecheck/config/theme/app_theme.dart';
 import 'package:aislecheck/features/ad_payment/controllers/payment_option.dart';
 import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
+import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
+import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signup_controller.dart';
+import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_visibility.dart';
+import 'package:aislecheck/features/choose_role/controllers/check_choose_role.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_admin_login.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_shop_register.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_user_login.dart';
@@ -73,6 +77,9 @@ void main() async {
           create: (context) => ChooseRoleController(),
         ),
         ChangeNotifierProvider(
+          create: (context) => CheckChooseRole(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => CheckIsShopRegisterController(),
         ),
         ChangeNotifierProvider(
@@ -81,16 +88,28 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => CheckIsUserLoginController(),
         ),
+
         ///provider for to register shop
-         ChangeNotifierProvider(
-            create: (context) => ShopImagePickerController(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CurrentLocationController(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => RegisterShopController(),
-          ),
+        ChangeNotifierProvider(
+          create: (context) => ShopImagePickerController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CurrentLocationController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RegisterShopController(),
+        ),
+        //....providers for adminsignup page
+        ChangeNotifierProvider(
+          create: (context) => AdminSignupController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PasswordFieldVisibility(),
+        ),
+        //...providers for inventory
+        ChangeNotifierProvider(
+          create: (context) => FetchInventryController(),
+        ),
       ],
       child: const AisleCheckApp(),
     ),
@@ -108,9 +127,7 @@ class AisleCheckApp extends StatelessWidget {
       navigatorKey: NavigationState.navigatorKey,
       initialRoute: OnBordingPage.name,
       onGenerateRoute: generateRoute,
-
       //home: const ErrorMessageWidget(),
-
       // home: MultiProvider(providers: [
       //   ChangeNotifierProvider(
       //     create: (context) {

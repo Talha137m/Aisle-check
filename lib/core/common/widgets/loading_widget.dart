@@ -1,30 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class LoadingWidget extends StatefulWidget {
+class LoadingWidget extends StatelessWidget {
   final VoidCallback? event;
   const LoadingWidget({super.key, this.event});
   @override
-  State<LoadingWidget> createState() => _LoadingWidgetState();
-}
-
-class _LoadingWidgetState extends State<LoadingWidget> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) {
-        if (widget.event != null) {
-          widget.event!();
+        if (event != null) {
+          event!();
         } else {
+          log('message:null function is paased');
           return;
         }
       },
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return const Center(
       child: CircularProgressIndicator(),
     );

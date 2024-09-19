@@ -99,7 +99,9 @@ class CreateNewAdsPage extends StatelessWidget {
                 ),
                 trailing: SizedBox(
                   width: width * _pointThreePercent,
-                  child: const ListTileTrailingWidget(
+                  child:  ListTileTrailingWidget(
+                    onAddBtnTap: (){},
+                    onSubtractBtnTap: (){},
                     quantity: '\$0',
                   ),
                 ),

@@ -17,7 +17,7 @@ class AdminLoginFalseState extends AdminLogninState {}
 
 class CheckIsAdminLoginController extends ChangeNotifier {
   //...initialize the state
-  AdminLogninState _adminLoginFalseState = AdminLoginInitialState();
+  AdminLogninState _adminLoginFalseState = AdminLogninLoadingState();
   AdminLogninState get state => _adminLoginFalseState;
   void _setState(AdminLogninState state) {
     _adminLoginFalseState = state;
@@ -30,7 +30,7 @@ class CheckIsAdminLoginController extends ChangeNotifier {
     try {
       _setState(AdminLogninLoadingState());
       bool? isAdminLogin = await _sessionManageService.isAdminSignedIn();
-  
+      print('??????$isAdminLogin');
       log(isAdminLogin.toString());
       switch (isAdminLogin) {
         case null:

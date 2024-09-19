@@ -36,8 +36,14 @@ class ProductNameAndEditRow extends StatelessWidget {
 
 //...LIST TILE TRAILING WIDGET
 class ListTileTrailingWidget extends StatelessWidget {
-  const ListTileTrailingWidget({super.key, required this.quantity});
+  const ListTileTrailingWidget({
+    super.key,
+    required this.quantity,
+    required this.onAddBtnTap,
+    required this.onSubtractBtnTap,
+  });
   final String quantity;
+  final VoidCallback onAddBtnTap, onSubtractBtnTap;
   //...CONSTANT VALUES
   static const _fontSize = 16.0;
   @override
@@ -46,9 +52,7 @@ class ListTileTrailingWidget extends StatelessWidget {
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              context.showPopUpMsg('Quantity Decrese');
-            },
+            onTap: onSubtractBtnTap,
             child: const Icon(
               Icons.remove_circle_outline_outlined,
               color: AppColors.redColor,
@@ -70,9 +74,7 @@ class ListTileTrailingWidget extends StatelessWidget {
         ),
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              context.showPopUpMsg('Quantity Increase');
-            },
+            onTap: onAddBtnTap,
             child: const Icon(
               Icons.add_circle_outline_rounded,
               color: AppColors.greenColor,

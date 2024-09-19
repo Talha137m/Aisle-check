@@ -98,7 +98,9 @@ class EditInventoryPage extends StatelessWidget {
                     )),
                 trailing: SizedBox(
                   width: width * _pointTwoFivePercent,
-                  child: const ListTileTrailingWidget(
+                  child: ListTileTrailingWidget(
+                    onAddBtnTap: () {},
+                    onSubtractBtnTap: () {},
                     quantity: '100',
                   ),
                 ),
@@ -118,7 +120,9 @@ class EditInventoryPage extends StatelessWidget {
                 ),
                 trailing: SizedBox(
                   width: width * _pointTwoFivePercent,
-                  child: const ListTileTrailingWidget(
+                  child: ListTileTrailingWidget(
+                    onAddBtnTap: () {},
+                    onSubtractBtnTap: () {},
                     quantity: '\$100',
                   ),
                 ),

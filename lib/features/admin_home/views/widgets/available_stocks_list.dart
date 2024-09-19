@@ -1,5 +1,7 @@
+import 'package:aislecheck/features/add_inventory/models/inventry_model.dart';
 import 'package:aislecheck/features/admin_home/models/stock_model.dart';
 import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,7 +9,7 @@ import '../../../../core/constants/strings/app_colors.dart';
 
 class AdminAvailableStocksList extends StatelessWidget {
   const AdminAvailableStocksList({super.key, required this.products});
-  final List<AvailableStockModel> products;
+  final List<InventryModel> products;
   //...CONSTANT VALUES
   static const _padding = 0.02;
   @override
@@ -37,7 +39,7 @@ class AdminAvailableStockItem extends StatelessWidget {
     required this.product,
     required this.editTab,
   });
-  final AvailableStockModel product;
+  final InventryModel product;
   final VoidCallback editTab;
   //...CONSTANT VALUES
   static const _pointZeroOnePercent = 0.01;
@@ -91,9 +93,32 @@ class AdminAvailableStockItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(
                       _imageBorderRadius,
                     ),
-                    child: Image.asset(
-                      product.image,
-                      fit: BoxFit.fill,
+                    child: CachedNetworkImage(
+                      imageUrl: product.productImage,
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: imageProvider),
+                          ),
+                        );
+                      },
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: progress.progress,
+                          ),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return Center(
+                          child: Text(
+                            'Error loading image',
+                            style: GoogleFonts.poppins(
+                              fontSize: _normalFontSize,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -140,7 +165,7 @@ class AdminAvailableStockItem extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
-                          'Current Stock : ${product.currentStock}',
+                          'Current Stock : ${product.quantity}',
                           style: GoogleFonts.roboto(
                             fontSize: _normalFontSize,
                           ),
@@ -153,7 +178,7 @@ class AdminAvailableStockItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'updated ${product.lastUpdated} ago',
+                              'updated ${product.updatedAt} ago',
                               style: GoogleFonts.roboto(
                                 fontSize: _normalFontSize,
                               ),

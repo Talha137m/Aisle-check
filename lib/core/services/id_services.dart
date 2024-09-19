@@ -10,4 +10,8 @@ class IdServices {
     String? token = await FirebaseMessaging.instance.getToken();
     return token;
   }
+
+  String generateIdForProduct(String productName) {
+    return '${productName}_${DateTime.now().millisecondsSinceEpoch}';
+  }
 }

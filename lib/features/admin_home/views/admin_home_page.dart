@@ -1,12 +1,17 @@
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
+import 'package:aislecheck/core/common/widgets/error_msg_widget.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/home_page_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
+import 'package:aislecheck/core/common/widgets/loading_widget.dart';
+import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/features/add_inventory/models/inventry_model.dart';
 import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
 import 'package:aislecheck/features/admin_home/controllers/admin_bottom_behaviour.dart';
 import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controller.dart';
+import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/admin_home/views/widgets/admin_home_widgets.dart';
 import 'package:aislecheck/features/admin_home/views/widgets/available_stocks_list.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
@@ -59,6 +64,43 @@ class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
 
 class InventoryWidget extends StatelessWidget {
   const InventoryWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    FetchInventryController fetchInventryController =
+        context.watch<FetchInventryController>();
+    return switch (fetchInventryController.state) {
+      FetchInventryLoadingState() => LoadingWidget(
+          event: () {
+            fetchInventryController.fetchInventry();
+          },
+        ),
+      FetchInventryLoadedState() => InventoryLoadedWidget(
+          products: (fetchInventryController.state as FetchInventryLoadedState)
+              .products,
+        ),
+      FetchInventryErrorState() => ErrorMessageWidget(
+          title: 'Something went wrong',
+          message: 'Please try again!',
+          onRetry: () {
+            fetchInventryController.fetchInventry();
+          },
+        ),
+        
+      // FetchInventryNoDataState() => UserMessage(
+      //     message: 'no data found',
+      //     refresh: () {
+      //       fetchInventryController.fetchInventry();
+      //     }),
+
+      FetchInventryNoDataState() => const InventoryLoadedWidget(products: [],),
+    };
+  }
+}
+
+class InventoryLoadedWidget extends StatelessWidget {
+  final List<InventryModel> products;
+  const InventoryLoadedWidget({super.key, required this.products});
+
   //CONSTAT VALUES
   static const _category = 'Available Stock';
   static const _pointZeroTwoPercent = 0.02;
@@ -107,8 +149,7 @@ class InventoryWidget extends StatelessWidget {
             SizedBox(
               height: height * _pointZeroTwoPercent,
             ),
-            const AdminAvailableStocksList(
-                products: AppDummyData.availableStockItems),
+            AdminAvailableStocksList(products: products)
           ],
         ),
       ),

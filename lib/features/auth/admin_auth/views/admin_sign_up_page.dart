@@ -11,7 +11,9 @@ import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_v
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_in_page.dart';
 import 'package:aislecheck/features/auth/views/widgets/contine_with.dart';
 import 'package:aislecheck/features/auth/views/widgets/onclick_signup_widget.dart';
+import 'package:aislecheck/features/choose_role/controllers/check_is_shop_register.dart';
 import 'package:aislecheck/features/email_verfication/views/email_verfication_page.dart';
+import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +31,8 @@ class AdminSignUpPage extends StatelessWidget {
         context.watch<PasswordFieldVisibility>();
     log(passwordFieldVisibility.obscureText.toString());
     log(adminAuthController.state.toString());
+    CheckIsShopRegisterController shopRegisterController =
+        context.watch<CheckIsShopRegisterController>();
     //log('initial:${adminAuthController.initialState},loading:${adminAuthController.loadingState},loaded:${adminAuthController.dataSate},errorState:${adminAuthController.errorState}');
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -62,7 +66,7 @@ class AdminSignUpPage extends StatelessWidget {
                     passwordFieldVisibility: passwordFieldVisibility);
               case GoogleSigninLoadedState():
                 _navigate(() {
-                  Navigator.pushNamed(context, AdminHomePage.pageName);
+                  Navigator.pushNamed(context, RegisterShopPage.name);
                   adminAuthController.reinitializeState();
                 });
                 return AdminFormWidget(

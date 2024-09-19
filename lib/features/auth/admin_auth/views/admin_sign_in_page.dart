@@ -11,6 +11,7 @@ import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_v
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';
 import 'package:aislecheck/features/auth/views/widgets/contine_with.dart';
 import 'package:aislecheck/features/auth/views/widgets/onclick_signup_widget.dart';
+import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +40,7 @@ class AdmminSignInPage extends StatelessWidget {
             case AdminSigninLoadedState():
               _navigate(
                 () {
-                  Navigator.pushNamed(context, AdminHomePage.pageName);
+                  Navigator.pushNamed(context, RegisterShopPage.name);
                   adminSigninController.reinitializeState();
                 },
               );

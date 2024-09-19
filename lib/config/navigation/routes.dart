@@ -1,4 +1,6 @@
 import 'package:aislecheck/features/ad_payment/views/ad_payment_page.dart';
+import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_controller.dart';
+import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_image_controller.dart';
 import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';
 import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/admin_profile/views/admin_profile_page.dart';
@@ -107,7 +109,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     AddInventoryPage.pageName => AnimatedRoutes(
         setting: settings,
-        child: const AddInventoryPage(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider(
+            create: (context) => UploadInventryController(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UploadInventryImageController(),
+          )
+        ], child: const AddInventoryPage()),
       ),
     AdsWidget.pageName => AnimatedRoutes(
         setting: settings,
@@ -115,14 +124,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       ),
     AdminSignUpPage.name => AnimatedRoutes(
         setting: settings,
-        child: MultiProvider(providers: [
-          ChangeNotifierProvider(
-            create: (context) => AdminSignupController(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => PasswordFieldVisibility(),
-          ),
-        ], child: const AdminSignUpPage()),
+        child: const AdminSignUpPage(),
       ),
     AdmminSignInPage.name => AnimatedRoutes(
         setting: settings,

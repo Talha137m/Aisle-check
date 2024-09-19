@@ -15,7 +15,7 @@ class UserLoginFalseState extends UserLogninState {}
 
 class CheckIsUserLoginController extends ChangeNotifier {
   //...initialize the state
-  UserLogninState _userLoginFalseState = UserLoginInitialState();
+  UserLogninState _userLoginFalseState = UserLogninLoadingState();
   UserLogninState get state => _userLoginFalseState;
   void _setState(UserLogninState state) {
     _userLoginFalseState = state;

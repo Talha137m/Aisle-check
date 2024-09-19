@@ -58,4 +58,30 @@ class SessionManageService {
     bool? isShopRegister = sharedPreferences.getBool(Keys.isShopRegister);
     return isShopRegister;
   }
+
+  Future<bool> insertAdminChooseRole(bool isAdminrole) async {
+    SharedPreferences sharedPreferences = locator.get<SharedPreferences>();
+    bool isAdminChooseRole =
+        await sharedPreferences.setBool(Keys.isAdminChooseRole, isAdminrole);
+    return isAdminChooseRole;
+  }
+
+  Future<bool?> isAdminChooseRole() async {
+    SharedPreferences sharedPreferences = locator.get<SharedPreferences>();
+    bool? isAdminChooseRole = sharedPreferences.getBool(Keys.isAdminChooseRole);
+    return isAdminChooseRole;
+  }
+
+  Future<bool> insertUserChooseRole(bool isUserRole) async {
+    SharedPreferences sharedPreferences = locator.get<SharedPreferences>();
+    bool isUserChooseRole =
+        await sharedPreferences.setBool(Keys.isUserChooseRole, isUserRole);
+    return isUserChooseRole;
+  }
+
+  Future<bool?> isUserChooseRole() async {
+    SharedPreferences sharedPreferences = locator.get<SharedPreferences>();
+    bool? isUserChooseRole = sharedPreferences.getBool(Keys.isUserChooseRole);
+    return isUserChooseRole;
+  }
 }

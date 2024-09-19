@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:aislecheck/config/navigation/routes.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
 import 'package:aislecheck/features/choose_role/views/choose_role_page.dart';
 import 'package:aislecheck/features/on_boarding/controllers/on_bording_behaviour.dart';

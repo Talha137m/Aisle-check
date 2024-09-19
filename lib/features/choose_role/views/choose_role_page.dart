@@ -3,26 +3,28 @@ import 'dart:developer';
 import 'package:aislecheck/core/common/widgets/devider_widget.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
+import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
 import 'package:aislecheck/core/constants/images_path.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
+import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';
 import 'package:aislecheck/features/auth/views/sign_up_page.dart';
+import 'package:aislecheck/features/choose_role/controllers/check_choose_role.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_admin_login.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_shop_register.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_user_login.dart';
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/register_shop/views/register_shop_page.dart';
 import 'package:aislecheck/features/user_home/views/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ChooseRolePage extends StatelessWidget {
   const ChooseRolePage({super.key});
   static const String name = '/chooseRole';
-
   @override
   Widget build(BuildContext context) {
     ChooseRoleController role = context.watch<ChooseRoleController>();
@@ -32,28 +34,89 @@ class ChooseRolePage extends StatelessWidget {
         context.watch<CheckIsUserLoginController>();
     CheckIsShopRegisterController shopRegisterController =
         context.watch<CheckIsShopRegisterController>();
+    CheckChooseRole chooseRole = context.watch<CheckChooseRole>();
     log('role:${role.adminRole},adminlogin:${adminLogin.state},userlogin:${isUserLoginController.state}');
+    log('roleeeeeeeeeeeeeee${chooseRole.state}');
     return Scaffold(
-      body: Builder(builder: (context) {
-        return switch (role.adminRole) {
-          true => switch (adminLogin.state) {
-              AdminLogninLoadingState() => const LoadingWidget(),
-              AdminLoginTrueSate() => switch (shopRegisterController.state) {
-                  ShopRegisterLoadingState() => const LoadingWidget(),
-                  ShopRegisterTrueState() => AdminHomePage(),
-                  ShopRegisterFalseState() => const RegisterShopPage(),
-                },
-              AdminLoginFalseState() => const RegisterShopPage(),
-              AdminLoginInitialState() => ChooseRoleWidget(role: role),
+        body: switch (chooseRole.state) {
+      ChooseRoleInitialState() => ChooseRoleWidget(role: role),
+      ChooseRoleLoadingState() => LoadingWidget(
+          event: () {
+            chooseRole.checkRole();
+            //chooseRole.checkUserRole();
+          },
+        ),
+      AdminChooseRoleState() => switch (adminLogin.state) {
+          AdminLogninLoadingState() => LoadingWidget(event: () {
+              adminLogin.checkIsAdminLogin();
+              shopRegisterController.isShopRegister();
+            }),
+          AdminLoginInitialState() => ChooseRoleWidget(role: role),
+          AdminLoginTrueSate() => switch (shopRegisterController.state) {
+              ShopRegisterLoadingState() => const LoadingWidget(),
+              ShopRegisterTrueState() => AdminHomePage(),
+              ShopRegisterFalseState() => const RegisterShopPage(),
             },
-          false => switch (isUserLoginController.state) {
-              UserLogninLoadingState() => const LoadingWidget(),
-              UserLoginTrueSate() => UserHomePage(),
-              UserLoginFalseState() => const SignUpPage(),
-              UserLoginInitialState() => ChooseRoleWidget(role: role),
-            },
-        };
-      }),
+          AdminLoginFalseState() => const AdminSignUpPage(),
+        },
+      UserChooseRoleState() => switch (isUserLoginController.state) {
+          //UserLogninLoadingState() => ChooseRoleWidget(role: role),
+          UserLogninLoadingState() => LoadingWidget(event: () {
+              isUserLoginController.checkIsUserLogin();
+            }),
+          UserLoginInitialState() => ChooseRoleWidget(role: role),
+          UserLoginTrueSate() => UserHomePage(),
+          UserLoginFalseState() => const SignUpPage(),
+        },
+      CheckChooseRoleErrorState() =>
+        UserMessage(message: 'Something went wrong', refresh: () {}),
+    }
+        // return switch (role.adminRole) {
+        //   true => switch (adminLogin.state) {
+        //       AdminLogninLoadingState() => LoadingWidget(event: () {
+        //           adminLogin.checkIsAdminLogin();
+        //           shopRegisterController.isShopRegister();
+        //         }),
+        //       AdminLoginTrueSate() => switch (shopRegisterController.state) {
+        //           ShopRegisterLoadingState() => const LoadingWidget(),
+        //           ShopRegisterTrueState() => AdminHomePage(),
+        //           ShopRegisterFalseState() => const RegisterShopPage(),
+        //         },
+        //       AdminLoginFalseState() => ChooseRoleWidget(role: role),
+        //       AdminLoginInitialState() => switch (chooseRole.state) {
+        //           ChooseRoleInitialState() => ChooseRoleWidget(role: role),
+        //           ChooseRoleLoadingState() => const LoadingWidget(),
+        //           AdminChooseRoleState() => AdminHomePage(),
+        //           UserChooseRoleState() => UserHomePage(),
+        //           CheckChooseRoleErrorState() =>
+        //             UserMessage(message: 'message', refresh: () {}),
+        //         },
+        //     },
+        //   false => switch (isUserLoginController.state) {
+        //       UserLogninLoadingState() => const LoadingWidget(),
+        //       UserLoginTrueSate() => UserHomePage(),
+        //       UserLoginFalseState() => const SignUpPage(),
+        //       UserLoginInitialState() => ChooseRoleWidget(role: role),
+        //     },
+        // };
+
+        );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  final VoidCallback refresh;
+  const MyWidget({super.key, required this.refresh});
+
+  @override
+  Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPersistentFrameCallback(
+      (_) {
+        refresh();
+      },
+    );
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
@@ -178,15 +241,21 @@ class ChooseRoleWidget extends StatelessWidget {
               switch (role.userRole) {
                 case true:
                   context.read<CheckIsUserLoginController>().checkIsUserLogin();
+                  context.read<CheckChooseRole>().inserRoleOfUser(true);
+                  context.read<CheckChooseRole>().insertRoleOfAdmin(false);
+                  context.read<CheckChooseRole>().checkRole();
                 //Navigator.pushNamed(context, SignUpPage.name);
                 case false:
-                  context
-                      .read<CheckIsAdminLoginController>()
-                      .checkIsAdminLogin();
-                  context
-                      .read<CheckIsShopRegisterController>()
-                      .isShopRegister();
-                // Navigator.pushNamed(context, AdminSignUpPage.name);
+                  // context
+                  //     .read<CheckIsAdminLoginController>()
+                  //     .checkIsAdminLogin();
+                  // context
+                  //     .read<CheckIsShopRegisterController>()
+                  //     .isShopRegister();
+                  // Navigator.pushNamed(context, AdminSignUpPage.name);
+                  context.read<CheckChooseRole>().inserRoleOfUser(false);
+                  context.read<CheckChooseRole>().insertRoleOfAdmin(true);
+                  context.read<CheckChooseRole>().checkRole();
               }
             } else {
               context.showPopUpMsg('please elect the role first');

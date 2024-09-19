@@ -23,4 +23,11 @@ class FirestorageService {
     String url = await task.ref.getDownloadURL();
     return url;
   }
+  Future<String> uploadInventryImg(String inventryId, File file) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    String path = 'inventry/$inventryId';
+    TaskSnapshot task = await storage.ref(path).putFile(file);
+    String url = await task.ref.getDownloadURL();
+    return url;
+  }
 }
