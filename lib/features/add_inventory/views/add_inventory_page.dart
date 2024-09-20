@@ -12,6 +12,7 @@ import 'package:aislecheck/core/common/widgets/upload_image_tile.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_controller.dart';
 import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_image_controller.dart';
+import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/edit_inventory/views/widgets/edit_inventory_detail_widgets.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +40,12 @@ class AddInventoryPage extends StatelessWidget {
               inventryController: inventryController,
             ),
           UploadInventryLoadingState() => const LoadingWidget(),
-          UploadInventryLoadedState() =>
-            UserMessage(message: 'Successfully uploaded', refresh: () {}),
+          UploadInventryLoadedState() => UserMessage(
+              message: 'Successfully uploaded tab to resturn inventry page',
+              refresh: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AdminHomePage.pageName, (route) => false);
+              }),
           UploadInventryErrorState() => ErrorMessageWidget(
               title: 'Something went wrong',
               message:

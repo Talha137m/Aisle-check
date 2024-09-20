@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/error_msg_widget.dart';
 import 'package:aislecheck/core/common/widgets/global_app_bar.dart';
@@ -17,6 +19,7 @@ import 'package:aislecheck/features/admin_home/views/widgets/available_stocks_li
 import 'package:aislecheck/features/user_home/views/home_page.dart';
 import 'package:aislecheck/features/user_home/views/widgets/animated_bottom_nav_widgets/animated_navigatioin_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomePage extends StatelessWidget with AdminBottomBehaviour {
@@ -69,37 +72,38 @@ class InventoryWidget extends StatelessWidget {
     FetchInventryController fetchInventryController =
         context.watch<FetchInventryController>();
     return switch (fetchInventryController.state) {
-      FetchInventryLoadingState() => LoadingWidget(
-          event: () {
-            fetchInventryController.fetchInventry();
-          },
-        ),
+      FetchInventryFirstBathLoadingState() => const LoadingWidget(),
       FetchInventryLoadedState() => InventoryLoadedWidget(
           products: (fetchInventryController.state as FetchInventryLoadedState)
               .products,
         ),
       FetchInventryErrorState() => ErrorMessageWidget(
           title: 'Something went wrong',
-          message: 'Please try again!',
+          message:
+              (fetchInventryController.state as FetchInventryErrorState).msg,
           onRetry: () {
-            fetchInventryController.fetchInventry();
+            fetchInventryController.fetchFirstBatch();
           },
         ),
-        
-      // FetchInventryNoDataState() => UserMessage(
-      //     message: 'no data found',
-      //     refresh: () {
-      //       fetchInventryController.fetchInventry();
-      //     }),
-
-      FetchInventryNoDataState() => const InventoryLoadedWidget(products: [],),
+      FetchInventryNoDataState() => UserMessage(
+          message: 'no data found',
+          refresh: () {
+            fetchInventryController.fetchFirstBatch();
+          }),
+      FetchInventryNextBatchLoadingState() => InventoryLoadedWidget(
+          products: (fetchInventryController.state
+                  as FetchInventryNextBatchLoadingState)
+              .products),
     };
   }
 }
 
-class InventoryLoadedWidget extends StatelessWidget {
+class InventoryLoadedWidget extends HookWidget {
   final List<InventryModel> products;
-  const InventoryLoadedWidget({super.key, required this.products});
+  const InventoryLoadedWidget({
+    super.key,
+    required this.products,
+  });
 
   //CONSTAT VALUES
   static const _category = 'Available Stock';
@@ -112,8 +116,17 @@ class InventoryLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollController = useScrollController();
     final Size(:width, :height) = MediaQuery.sizeOf(context);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        context.read<FetchInventryController>().fetchNextBatch();
+        log('mazzzzzzzzzzzzzzzzzzzzzzzzzz');
+      }
+    });
     return SingleChildScrollView(
+      controller: scrollController,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: width * _pointZeroFivePercent,
@@ -149,7 +162,9 @@ class InventoryLoadedWidget extends StatelessWidget {
             SizedBox(
               height: height * _pointZeroTwoPercent,
             ),
-            AdminAvailableStocksList(products: products)
+            AdminAvailableStocksList(
+              products: products,
+            )
           ],
         ),
       ),

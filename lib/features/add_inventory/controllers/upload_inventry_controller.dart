@@ -46,7 +46,7 @@ class UploadInventryController extends ChangeNotifier {
   //...make the services objects
   final IdServices _idServices = IdServices();
   final FirestorageService _firestorageService = FirestorageService();
-  final UploadInventryService _uploadInventryService = UploadInventryService();
+  final InventryService _uploadInventryService = InventryService();
 
   void uploadInventry(File image) async {
     _setState(UploadInventryLoadingState());

@@ -7,12 +7,12 @@ class UserMessage extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final double borderRadius;
-  final VoidCallback refresh;
+  final VoidCallback ?refresh;
 
   const UserMessage({
     super.key,
     required this.message,
-    required this.refresh,
+    this.refresh,
     this.icon = Icons.info_outline,
     this.backgroundColor = AppColors.greenColor,
     this.textColor = Colors.white,

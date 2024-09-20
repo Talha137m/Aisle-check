@@ -1,34 +1,122 @@
+import 'package:aislecheck/config/navigation/routes.dart';
+import 'package:aislecheck/config/service_locator.dart';
+import 'package:aislecheck/core/common/widgets/error_msg_widget.dart';
+import 'package:aislecheck/core/common/widgets/loading_widget.dart';
+import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
+import 'package:aislecheck/core/services/inventry_service.dart';
 import 'package:aislecheck/features/add_inventory/models/inventry_model.dart';
-import 'package:aislecheck/features/admin_home/models/stock_model.dart';
+import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 import '../../../../core/constants/strings/app_colors.dart';
 
 class AdminAvailableStocksList extends StatelessWidget {
-  const AdminAvailableStocksList({super.key, required this.products});
   final List<InventryModel> products;
+  const AdminAvailableStocksList({
+    required this.products,
+    super.key,
+  });
+
   //...CONSTANT VALUES
   static const _padding = 0.02;
   @override
   Widget build(BuildContext context) {
+    // return FirestoreListView<InventryModel>(
+    //   query: locator.get<InventryService>().fetchInventry(),
+    //   shrinkWrap: true,
+    //   showFetchingIndicator: true,
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   emptyBuilder: (context) => UserMessage(
+    //       message: 'data not found',
+    //       refresh: () {
+    //         locator.get<InventryService>().fetchInventry();
+    //       }),
+    //   errorBuilder: (context, error, stackTrace) => ErrorMessageWidget(
+    //     title: 'Failed',
+    //     message: error.toString(),
+    //   ),
+    //   loadingBuilder: (context) =>
+    //       const Center(child: CircularProgressIndicator()),
+    //   itemBuilder: (context, doc) {
+    //     InventryModel inventryModel = doc.data();
+    //     return Padding(
+    //       padding: EdgeInsets.only(
+    //         bottom: MediaQuery.sizeOf(context).height * _padding,
+    //       ),
+    //       child: AdminAvailableStockItem(
+    //         editTab: () {
+    //           Navigator.of(context).pushNamed(EditInventoryPage.pageName);
+    //         },
+    //         product: inventryModel,
+    //       ),
+    //     );
+    //   },
+    // );
+
+    // return FirestoreQueryBuilder<InventryModel>(
+    //   pageSize: 2,
+    //   query: locator.get<InventryService>().fetchInventr(),
+    //   builder: (context, snapshot, child) {
+    //     if (snapshot.isFetching) {
+    //       return const CircularProgressIndicator();
+    //     } else if (snapshot.hasError) {
+    //       return const ErrorMessageWidget(
+    //           title: 'Failed', message: 'Something went wrong');
+    //     } else if (snapshot.docs.isNotEmpty) {
+    //       return ListView.builder(
+    //         shrinkWrap: true,
+    //         physics: const NeverScrollableScrollPhysics(),
+    //         itemCount: snapshot.docs.length,
+    //         itemBuilder: (context, index) {
+    //           if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+    //             snapshot.fetchMore();
+    //           }
+    //           InventryModel inventryModel = snapshot.docs[index].data();
+    //           return Padding(
+    //             padding: EdgeInsets.only(
+    //               bottom: MediaQuery.sizeOf(context).height * _padding,
+    //             ),
+    //             child: AdminAvailableStockItem(
+    //               editTab: () {
+    //                 Navigator.of(context).pushNamed(EditInventoryPage.pageName);
+    //               },
+    //               product: inventryModel,
+    //             ),
+    //           );
+    //         },
+    //       );
+    //     } else {
+    //       return UserMessage(message: 'message', refresh: () {});
+    //     }
+    //   },
+    // );
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: products.length,
-      itemBuilder: (context, index) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * _padding,
-        ),
-        child: AdminAvailableStockItem(
-          editTab: () {
-            Navigator.of(context).pushNamed(EditInventoryPage.pageName);
-          },
-          product: products[index],
-        ),
-      ),
+      itemCount: products.length + 1,
+      itemBuilder: (context, index) {
+        if (index == products.length) {
+          return context.read<FetchInventryController>().hasMoreData
+              ? const Center(child: LoadingWidget())
+              : const UserMessage(message: 'No more data');
+        }
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * _padding,
+          ),
+          child: AdminAvailableStockItem(
+            editTab: () {
+              Navigator.of(context).pushNamed(EditInventoryPage.pageName);
+            },
+            product: products[index],
+          ),
+        );
+      },
     );
   }
 }
@@ -178,10 +266,12 @@ class AdminAvailableStockItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'updated ${product.updatedAt} ago',
+                              'updated ${product.updatedAt.day - DateTime.now().day} day ago',
                               style: GoogleFonts.roboto(
                                 fontSize: _normalFontSize,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(

@@ -14,7 +14,7 @@ class SessionManageService {
     return isInsert;
   }
 
-  Future<String?> getAdminUid() async {
+  String? getAdminUid() {
     SharedPreferences sharedPreferences = locator.get<SharedPreferences>();
     String? uid = sharedPreferences.getString(Keys.adminUID);
     return uid;

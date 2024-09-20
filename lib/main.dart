@@ -107,6 +107,7 @@ void main() async {
           create: (context) => PasswordFieldVisibility(),
         ),
         //...providers for inventory
+
         ChangeNotifierProvider(
           create: (context) => FetchInventryController(),
         ),

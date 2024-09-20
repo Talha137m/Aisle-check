@@ -66,6 +66,7 @@ dependencies:
   sign_in_with_apple:
   cached_network_image:
   uuid:
+  firebase_ui_firestore:
     
 
 dev_dependencies:
