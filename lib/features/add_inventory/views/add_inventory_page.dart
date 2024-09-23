@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:aislecheck/config/navigation/routes.dart';
 import 'package:aislecheck/core/common/widgets/admin_lis_tile.dart';
 import 'package:aislecheck/core/common/widgets/app_compat_btn.dart';
 import 'package:aislecheck/core/common/widgets/error_msg_widget.dart';
@@ -12,7 +11,6 @@ import 'package:aislecheck/core/common/widgets/upload_image_tile.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
 import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_controller.dart';
 import 'package:aislecheck/features/add_inventory/controllers/upload_inventry_image_controller.dart';
-import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/edit_inventory/views/widgets/edit_inventory_detail_widgets.dart';
 import 'package:flutter/material.dart';

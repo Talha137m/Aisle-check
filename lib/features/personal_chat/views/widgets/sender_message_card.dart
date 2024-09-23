@@ -1,5 +1,9 @@
+import 'package:aislecheck/config/navigation/routes.dart';
+import 'package:aislecheck/core/common/widgets/loading_widget.dart';
+import 'package:aislecheck/features/personal_chat/controllers/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/images_path.dart';
 import '../../../../core/constants/strings/app_colors.dart';
@@ -22,6 +26,7 @@ class SenderMessageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
+    final ChatController messageController = context.watch<ChatController>();
     return Align(
       alignment: Alignment.centerLeft,
       child: ConstrainedBox(
@@ -41,14 +46,15 @@ class SenderMessageCard extends StatelessWidget {
                 height: height * _pointZeroSixPercent,
                 width: width * _pointElevenPercent,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    _borderRadiusTen,
-                  ),
-                  child: Image.asset(
-                    AdminImages.adam,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(
+                      _borderRadiusTen,
+                    ),
+                    child: switch (messageController.state) {
+                      SendMessagesInitialState() => _iconWidget(),
+                      SendMessagesLoadingState() => const LoadingWidget(),
+                      SendMessagesSuccessState() => _iconWidget(),
+                      SendMessagesErrorState() => _iconWidget(),
+                    }),
               ),
             ),
             Expanded(
@@ -57,11 +63,12 @@ class SenderMessageCard extends StatelessWidget {
               child: Card(
                 elevation: _elevation,
                 shape: const ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                  topRight: _borderRadiusTwenty,
-                  bottomLeft: _borderRadiusTwenty,
-                  bottomRight: _borderRadiusTwenty,
-                )),
+                  borderRadius: BorderRadius.only(
+                    topRight: _borderRadiusTwenty,
+                    bottomLeft: _borderRadiusTwenty,
+                    bottomRight: _borderRadiusTwenty,
+                  ),
+                ),
                 color: AppColors.whiteColor,
                 margin: EdgeInsets.only(
                   left: width * _pointZeroTwoPercent,
@@ -87,6 +94,13 @@ class SenderMessageCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _iconWidget() {
+    return Image.asset(
+      AdminImages.adam,
+      fit: BoxFit.fill,
     );
   }
 }

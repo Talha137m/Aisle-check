@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:aislecheck/core/services/firestorage_service.dart';
 import 'package:aislecheck/core/services/id_services.dart';

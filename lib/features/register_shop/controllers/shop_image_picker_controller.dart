@@ -51,7 +51,7 @@ class ShopImagePickerController extends ChangeNotifier {
     try {
       var pickedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-      String? adminUid = await _sessionManageService.getAdminUid();
+      String? adminUid = _sessionManageService.getAdminUid();
       if (pickedImage != null && adminUid != null) {
         File image = File(pickedImage.path);
 

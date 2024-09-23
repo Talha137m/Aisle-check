@@ -1,15 +1,18 @@
+import 'package:aislecheck/core/common/widgets/image_cached_widget.dart';
 import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
+import 'package:aislecheck/features/auth/admin_auth/models/add_admin_model.dart';
+import 'package:aislecheck/features/chat_list/models/messages_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/constants/images_path.dart';
 import 'sender_message_card.dart';
 import 'user_message_card.dart';
 
 //......NAME AND STATUS
 class UserNameAndStatus extends StatelessWidget {
-  const UserNameAndStatus({super.key});
+  final AdminModel adminModel;
+  const UserNameAndStatus({super.key, required this.adminModel});
   //.....CONSTANT VALUES
   static const _fontSizeFourteen = 14.0;
   //.....CONSTANT VALUES
@@ -28,7 +31,7 @@ class UserNameAndStatus extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              'Kathryn Murphy',
+              adminModel.name,
               style: GoogleFonts.roboto(
                 fontSize: _fontSizeFourteen,
                 color: AppColors.blackColor,
@@ -40,11 +43,13 @@ class UserNameAndStatus extends StatelessWidget {
         Expanded(
           flex: _flexTen,
           child: Text(
-            'user@123',
+            adminModel.email,
             style: GoogleFonts.roboto(
               fontSize: _fontSizeFourteen,
               color: AppColors.grayColor,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         )
       ],
@@ -54,7 +59,8 @@ class UserNameAndStatus extends StatelessWidget {
 
 //....CHAT PAGE APPBAR
 class ChatPageAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ChatPageAppBar({super.key});
+  final AdminModel adminModel;
+  const ChatPageAppBar({super.key, required this.adminModel});
   //....CONSTANT VALUES
   static const _pointZeroTwoFivePercent = 0.025;
   static const _pointZeroThreePercent = 0.03;
@@ -87,12 +93,24 @@ class ChatPageAppBar extends StatelessWidget implements PreferredSizeWidget {
             flex: _flexTen,
             child: CircleAvatar(
               radius: height * _pointZeroThreePercent,
-              backgroundImage: const AssetImage(AdminImages.barryChat),
+              child: Center(
+                  child: switch (adminModel.imageUrl == null) {
+                true => const Icon(
+                    Icons.person,
+                    color: AppColors.greenColor,
+                  ),
+                false => ImageCachedWidget(
+                    image: adminModel.imageUrl!,
+                    isAvatar: true,
+                  ),
+              }),
             ),
           ),
-          const Expanded(
+          Expanded(
             flex: _flexTwenty,
-            child: UserNameAndStatus(),
+            child: UserNameAndStatus(
+              adminModel: adminModel,
+            ),
           ),
         ],
       ),
@@ -106,22 +124,26 @@ class ChatPageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 //.....MESSAGES LIST
 class MessagesList extends StatelessWidget {
-  const MessagesList({super.key});
+  final List<MessagesModel> messagesModel;
+  final AdminModel adminModel;
+  const MessagesList(
+      {super.key, required this.messagesModel, required this.adminModel});
   //....CONSTANT VALUES
   static const _pointZeroOneFour = 0.14;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemExtent: MediaQuery.sizeOf(context).height * _pointZeroOneFour,
-      itemCount: AppDummyData.messages.length,
+      itemCount: messagesModel.length,
       itemBuilder: (context, index) {
-        if (AppDummyData.messages[index]['isMe'] == true) {
+        if (messagesModel[index].senderId != adminModel.adminId) {
           return UserMessageCard(
-            message: AppDummyData.messages[index]['text'].toString(),
+            message: messagesModel[index].message,
+            imageUrl: adminModel.imageUrl,
           );
         }
         return SenderMessageCard(
-          message: AppDummyData.messages[index]['text'].toString(),
+          message: messagesModel[index].message,
         );
       },
     );

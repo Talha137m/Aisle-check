@@ -1,11 +1,11 @@
+import 'package:aislecheck/core/common/widgets/image_cached_widget.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/constants/images_path.dart';
-
 class UserMessageCard extends StatelessWidget {
-  const UserMessageCard({super.key, required this.message});
+  final String? imageUrl;
+  const UserMessageCard({super.key, required this.message, this.imageUrl});
   final String message;
   //....CONSTANT VALUES
   static const _borderRadiusTwenty = Radius.circular(20.0);
@@ -76,10 +76,12 @@ class UserMessageCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(
                     _borderRadiusTen,
                   ),
-                  child: Image.asset(
-                    AdminImages.adam,
-                    fit: BoxFit.fill,
-                  ),
+                  child: switch (imageUrl == null) {
+                    true => const Center(
+                        child: Icon(Icons.person),
+                      ),
+                    false => ImageCachedWidget(image: imageUrl!),
+                  },
                 ),
               ),
             ),

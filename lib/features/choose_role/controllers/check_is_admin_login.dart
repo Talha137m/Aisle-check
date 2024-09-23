@@ -30,7 +30,6 @@ class CheckIsAdminLoginController extends ChangeNotifier {
     try {
       _setState(AdminLogninLoadingState());
       bool? isAdminLogin = await _sessionManageService.isAdminSignedIn();
-      print('??????$isAdminLogin');
       log(isAdminLogin.toString());
       switch (isAdminLogin) {
         case null:

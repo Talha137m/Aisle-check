@@ -1,5 +1,6 @@
+import 'package:aislecheck/core/common/widgets/image_cached_widget.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
-import 'package:aislecheck/features/chat_list/models/chat_contact_model.dart';
+import 'package:aislecheck/features/auth/admin_auth/models/add_admin_model.dart';
 import 'package:aislecheck/features/chat_list/models/recent_chat_model.dart';
 import 'package:aislecheck/features/personal_chat/views/personal_chat_page.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class RecentsList extends StatelessWidget {
 //....RECENT CHAT LIST TILE
 class RecentChatListTile extends StatelessWidget {
   const RecentChatListTile({super.key, required this.chatModel});
-  final ChatContactModel chatModel;
+  final AdminModel chatModel;
 //....CONATNT VALUES
   static const _pointZeroTwoPercent = 0.02;
   static const _pointThreeFivePercent = 0.035;
@@ -110,15 +111,26 @@ class RecentChatListTile extends StatelessWidget {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, PersonalChatPage.pageName);
+        Navigator.pushNamed(context, PersonalChatPage.pageName,
+            arguments: chatModel);
       },
       child: ListTile(
         leading: CircleAvatar(
           radius: height * _pointThreeFivePercent,
-          backgroundImage: AssetImage(chatModel.image),
+          child: Center(
+              child: switch (chatModel.imageUrl == null) {
+            true => const Icon(
+                Icons.person,
+                color: AppColors.greenColor,
+              ),
+            false => ImageCachedWidget(
+                image: chatModel.imageUrl!,
+                isAvatar: true,
+              ),
+          }),
         ),
         title: Text(
-          chatModel.username,
+          chatModel.name,
           style: GoogleFonts.roboto(
             color: AppColors.blackColor,
             fontWeight: FontWeight.w600,
@@ -126,7 +138,7 @@ class RecentChatListTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          chatModel.lastMessage,
+          chatModel.email,
           style: GoogleFonts.roboto(
             color: AppColors.grayColor,
             fontSize: _fontSizeThirteenPointTwoFive,
@@ -137,7 +149,8 @@ class RecentChatListTile extends StatelessWidget {
             bottom: height * _pointZeroTwoPercent,
           ),
           child: Text(
-            '${chatModel.time.hour}:${chatModel.time.minute}',
+            '',
+            //'${chatModel.time.hour}:${chatModel.time.minute}',
             style: GoogleFonts.roboto(
               color: AppColors.grayColor,
               fontSize: _fontSizeThirteenPointTwoFive,
@@ -152,7 +165,7 @@ class RecentChatListTile extends StatelessWidget {
 //...RECENT CHATS CONTACT LIST
 class RecentChatsContactsList extends StatelessWidget {
   const RecentChatsContactsList({super.key, required this.chatModels});
-  final List<ChatContactModel> chatModels;
+  final List<AdminModel> chatModels;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

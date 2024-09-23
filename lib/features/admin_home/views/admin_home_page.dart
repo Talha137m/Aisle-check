@@ -7,7 +7,6 @@ import 'package:aislecheck/core/common/widgets/home_page_app_bar.dart';
 import 'package:aislecheck/core/common/widgets/global_serach_item.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
 import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
-import 'package:aislecheck/core/constants/dummy_data.dart';
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/features/add_inventory/models/inventry_model.dart';
 import 'package:aislecheck/features/add_inventory/views/add_inventory_page.dart';

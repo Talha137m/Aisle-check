@@ -5,7 +5,6 @@ import 'package:aislecheck/core/common/widgets/text_field_widget.dart';
 
 import 'package:aislecheck/core/constants/strings/app_colors.dart';
 import 'package:aislecheck/core/extensions/pop_up_messages.dart';
-import 'package:aislecheck/features/admin_home/views/admin_home_page.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signin_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_visibility.dart';
 import 'package:aislecheck/features/auth/admin_auth/views/admin_sign_up_page.dart';

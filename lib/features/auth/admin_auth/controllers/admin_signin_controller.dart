@@ -97,7 +97,7 @@ class AdminSigninController extends ChangeNotifier with AuthBehaviour {
         bool isInsert = await _sessionManageService.insertAdminUid(user.uid);
         log(isInsert.toString());
         await _adminProfileService.addAdmin(
-          AddAdminModel(
+          AdminModel(
             name: user.displayName!,
             email: user.email!,
             adminId: user.uid,

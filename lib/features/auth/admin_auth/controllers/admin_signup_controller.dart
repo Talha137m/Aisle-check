@@ -108,7 +108,7 @@ class AdminSignupController extends ChangeNotifier with AuthBehaviour {
             nameController.text.trim(),
           );
           await _adminProfileService.addAdmin(
-            AddAdminModel(
+            AdminModel(
               name: nameController.text.trim(),
               email: emailController.text.trim(),
               adminId: user.uid,
@@ -163,7 +163,7 @@ class AdminSignupController extends ChangeNotifier with AuthBehaviour {
         bool isInsert = await _sessionManageService.insertAdminUid(user.uid);
         log(isInsert.toString());
         await _adminProfileService.addAdmin(
-          AddAdminModel(
+          AdminModel(
             name: user.displayName!,
             email: user.email!,
             adminId: user.uid,

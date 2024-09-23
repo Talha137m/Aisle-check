@@ -1,14 +1,9 @@
-import 'package:aislecheck/config/navigation/routes.dart';
-import 'package:aislecheck/config/service_locator.dart';
-import 'package:aislecheck/core/common/widgets/error_msg_widget.dart';
+import 'package:aislecheck/core/common/widgets/image_cached_widget.dart';
 import 'package:aislecheck/core/common/widgets/loading_widget.dart';
 import 'package:aislecheck/core/common/widgets/show_meesage_widget.dart';
-import 'package:aislecheck/core/services/inventry_service.dart';
 import 'package:aislecheck/features/add_inventory/models/inventry_model.dart';
 import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/edit_inventory/views/edit_inventory_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -178,37 +173,10 @@ class AdminAvailableStockItem extends StatelessWidget {
                   width: width * _pointTwoFivePercent,
                   height: height * _pointOneTwoPercent,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      _imageBorderRadius,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: product.productImage,
-                      imageBuilder: (context, imageProvider) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: imageProvider),
-                          ),
-                        );
-                      },
-                      progressIndicatorBuilder: (context, url, progress) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: progress.progress,
-                          ),
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Center(
-                          child: Text(
-                            'Error loading image',
-                            style: GoogleFonts.poppins(
-                              fontSize: _normalFontSize,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(
+                        _imageBorderRadius,
+                      ),
+                      child: ImageCachedWidget(image: product.productImage)),
                 ),
               ),
             ),

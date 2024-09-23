@@ -43,7 +43,7 @@ class RegisterShopController extends ChangeNotifier {
   final ShopService _shopService = ShopService();
   void registerShop({required Shop shop}) async {
     try {
-      String? adminId = await _sessionManageService.getAdminUid();
+      String? adminId = _sessionManageService.getAdminUid();
       if (adminId == null) {
         _setState(RegisterShopErrorState(msg: 'something went wrong'));
         return;

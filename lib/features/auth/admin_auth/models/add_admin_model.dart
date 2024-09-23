@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class AddAdminModel {
+class AdminModel {
   String name;
   String email;
   String adminId;
   String? deviceToken;
   String? phoneNo;
   String? imageUrl;
-  AddAdminModel({
+  AdminModel({
     required this.name,
     required this.email,
     required this.adminId,
@@ -17,7 +17,7 @@ class AddAdminModel {
     this.imageUrl,
   });
 
-  AddAdminModel copyWith({
+  AdminModel copyWith({
     String? name,
     String? email,
     String? adminId,
@@ -25,7 +25,7 @@ class AddAdminModel {
     String? phoneNo,
     String? imageUrl,
   }) {
-    return AddAdminModel(
+    return AdminModel(
       name: name ?? this.name,
       email: email ?? this.email,
       adminId: adminId ?? this.adminId,
@@ -46,21 +46,21 @@ class AddAdminModel {
     };
   }
 
-  factory AddAdminModel.fromMap(Map<String, dynamic> map) {
-    return AddAdminModel(
-      name: map['name'] as String,
-      email: map['email'] as String,
-      adminId: map['adminId'] as String,
-      deviceToken: map['deviceToken'] as String,
-      phoneNo: map['phoneNo'] as String,
+  factory AdminModel.fromMap(Map<String, dynamic> map) {
+    return AdminModel(
+      name: map['name'],
+      email: map['email'],
+      adminId: map['adminId'],
+      deviceToken: map['deviceToken'],
+      phoneNo: map['phoneNo'],
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory AddAdminModel.fromJson(String source) =>
-      AddAdminModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AdminModel.fromJson(String source) =>
+      AdminModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -68,7 +68,7 @@ class AddAdminModel {
   }
 
   @override
-  bool operator ==(covariant AddAdminModel other) {
+  bool operator ==(covariant AdminModel other) {
     if (identical(this, other)) return true;
 
     return other.name == name &&

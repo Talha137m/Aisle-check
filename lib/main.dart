@@ -6,6 +6,7 @@ import 'package:aislecheck/features/admin_home/controllers/admin_bottom_controll
 import 'package:aislecheck/features/admin_home/controllers/fetch_inventry_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/admin_signup_controller.dart';
 import 'package:aislecheck/features/auth/admin_auth/controllers/password_field_visibility.dart';
+import 'package:aislecheck/features/chat_list/controllers/contacts_controller.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_choose_role.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_admin_login.dart';
 import 'package:aislecheck/features/choose_role/controllers/check_is_shop_register.dart';
@@ -13,6 +14,7 @@ import 'package:aislecheck/features/choose_role/controllers/check_is_user_login.
 import 'package:aislecheck/features/choose_role/controllers/choose_role_controller.dart';
 import 'package:aislecheck/features/forecasting/controllers/stats_controller.dart';
 import 'package:aislecheck/features/on_boarding/views/on_bording_page.dart';
+import 'package:aislecheck/features/personal_chat/controllers/chat_controller.dart';
 import 'package:aislecheck/features/register_shop/controllers/current_location_controller.dart';
 import 'package:aislecheck/features/register_shop/controllers/register_shop_controller.dart';
 import 'package:aislecheck/features/register_shop/controllers/shop_image_picker_controller.dart';
@@ -29,13 +31,14 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   //....dependencies injections
   setupLocator();
   // ...........Making the app should stay in portrait mode
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
   runApp(
     MultiProvider(
       providers: [
@@ -107,10 +110,17 @@ void main() async {
           create: (context) => PasswordFieldVisibility(),
         ),
         //...providers for inventory
-
         ChangeNotifierProvider(
           create: (context) => FetchInventryController(),
         ),
+        //..providers for chat modules
+        ChangeNotifierProvider(
+          create: (context) => ContactsController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChatController(),
+        ),
+        //...providers for schedule item
       ],
       child: const AisleCheckApp(),
     ),
