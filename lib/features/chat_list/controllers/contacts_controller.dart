@@ -31,7 +31,9 @@ class ContactsController extends ChangeNotifier {
     _state = contactsState;
     notifyListeners();
   }
-
+  ContactsController() {
+    getAllContacts();
+  }
   //....initialize the services
   final AdminProfileService _adminProfileService = AdminProfileService();
   void getAllContacts() async {

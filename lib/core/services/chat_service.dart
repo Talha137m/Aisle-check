@@ -1,4 +1,8 @@
+import 'package:aislecheck/config/service_locator.dart';
 import 'package:aislecheck/core/constants/strings/firebase_constants.dart';
+import 'package:aislecheck/core/services/admin_profile_service.dart';
+import 'package:aislecheck/core/services/session_manage_service.dart';
+import 'package:aislecheck/features/auth/admin_auth/models/add_admin_model.dart';
 import 'package:aislecheck/features/chat_list/models/messages_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,14 +24,16 @@ class ChatService {
     final String currentUserEmail = _auth.currentUser!.email.toString();
     final Timestamp timestamp = Timestamp.now();
 
+    AdminModel adminModel =
+        await locator.get<AdminProfileService>().getAdminById();
     //create new messages
     final MessagesModel newMessage = MessagesModel(
-      senderId: currentUserId,
-      receiverId: receiverId,
-      message: message,
-      timestamp: timestamp,
-      senderEmail: currentUserEmail,
-    );
+        senderId: currentUserId,
+        receiverId: receiverId,
+        message: message,
+        timestamp: timestamp,
+        senderEmail: currentUserEmail,
+        currentUserImageUrl: adminModel.imageUrl);
 
     //construct chat room id from current user id and receiver id(sorted to ensure uniqueness)
     List<String> ids = [currentUserId, receiverId];

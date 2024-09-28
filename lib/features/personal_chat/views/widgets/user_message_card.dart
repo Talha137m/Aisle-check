@@ -5,7 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class UserMessageCard extends StatelessWidget {
   final String? imageUrl;
-  const UserMessageCard({super.key, required this.message, this.imageUrl});
+  final bool isLeftAligned;
+  const UserMessageCard(
+      {super.key,
+      required this.message,
+      this.imageUrl,
+      required this.isLeftAligned});
   final String message;
   //....CONSTANT VALUES
   static const _borderRadiusTwenty = Radius.circular(20.0);
@@ -22,7 +27,7 @@ class UserMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size(:width, :height) = MediaQuery.sizeOf(context);
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: isLeftAligned ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: width * _pointNinePercent,
@@ -42,7 +47,9 @@ class UserMessageCard extends StatelessWidget {
                       bottomRight: _borderRadiusTwenty,
                     ),
                   ),
-                  color: AppColors.greenColor,
+                  color: isLeftAligned
+                      ? AppColors.whiteColor
+                      : AppColors.greenColor,
                   //...difference between messages
                   margin: EdgeInsets.only(
                     right: width * _pointZeroTwoPercent,
@@ -59,7 +66,9 @@ class UserMessageCard extends StatelessWidget {
                       message,
                       style: GoogleFonts.roboto(
                         fontSize: _fontSizeFourteen,
-                        color: AppColors.whiteColor,
+                        color: isLeftAligned
+                            ? AppColors.blackColor
+                            : AppColors.whiteColor,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

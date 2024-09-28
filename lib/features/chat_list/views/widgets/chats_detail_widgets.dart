@@ -46,7 +46,7 @@ class RecentsText extends StatelessWidget {
 //......RECENT CHAT VIEW
 class RecentChatView extends StatelessWidget {
   const RecentChatView({super.key, required this.recentChatModel});
-  final RecentChatModel recentChatModel;
+  final AdminModel recentChatModel;
   //....CONATNT VALUES
   static const _pointZeroOnePercent = 0.01;
   static const _pointZeroThreeFivePercent = 0.035;
@@ -57,7 +57,17 @@ class RecentChatView extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: height * _pointZeroThreeFivePercent,
-          backgroundImage: AssetImage(recentChatModel.image),
+          child: Center(
+              child: switch (recentChatModel.imageUrl == null) {
+            true => const Icon(
+                Icons.person,
+                color: AppColors.greenColor,
+              ),
+            false => ImageCachedWidget(
+                image: recentChatModel.imageUrl!,
+                isAvatar: true,
+              ),
+          }),
         ),
         SizedBox(
           height: height * _pointZeroOnePercent,
@@ -73,7 +83,7 @@ class RecentChatView extends StatelessWidget {
 //....RECENT CHAT LIST
 class RecentsList extends StatelessWidget {
   const RecentsList({super.key, required this.recentChatModels});
-  final List<RecentChatModel> recentChatModels;
+  final List<AdminModel> recentChatModels;
   //....CONATNT VALUES
   static const _pointZeroTwoPercent = 0.02;
   static const _pointOneThreePercent = 0.13;
@@ -149,7 +159,7 @@ class RecentChatListTile extends StatelessWidget {
             bottom: height * _pointZeroTwoPercent,
           ),
           child: Text(
-            '',
+            'bjk',
             //'${chatModel.time.hour}:${chatModel.time.minute}',
             style: GoogleFonts.roboto(
               color: AppColors.grayColor,

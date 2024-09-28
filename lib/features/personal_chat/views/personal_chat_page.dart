@@ -37,7 +37,7 @@ class PersonalChatPage extends StatelessWidget {
                   },
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingWidget();
+                return const SizedBox.shrink();
               } else {
                 List<MessagesModel> messages = snapshot.data!.docs
                     .map((e) =>

@@ -12,16 +12,16 @@ import 'package:form_validation/form_validation.dart';
 
 //.....define the states
 sealed class AdminSigninState {}
-
+@immutable
 class AdminSigninInitialState implements AdminSigninState {}
-
+@immutable
 class AdminSigninLoadedState implements AdminSigninState {}
-
+@immutable
 class AdminSigninLoadingState implements AdminSigninState {}
-
+@immutable
 class AdminSigninErrorState implements AdminSigninState {
   final String errorMessage;
-  AdminSigninErrorState({required this.errorMessage});
+  const AdminSigninErrorState({required this.errorMessage});
 }
 
 class AdminSigninController extends ChangeNotifier with AuthBehaviour {
@@ -109,7 +109,7 @@ class AdminSigninController extends ChangeNotifier with AuthBehaviour {
           AdminSigninLoadedState(),
         );
       } else {
-        AdminSigninErrorState(errorMessage: 'please choose accout one of them');
+        const AdminSigninErrorState(errorMessage: 'please choose accout one of them');
       }
     } on FirebaseAuthException catch (e) {
       var msg = handleAuthException(e.code);

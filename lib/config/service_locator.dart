@@ -1,3 +1,4 @@
+import 'package:aislecheck/core/services/admin_profile_service.dart';
 import 'package:aislecheck/core/services/chat_service.dart';
 import 'package:aislecheck/core/services/inventry_service.dart';
 import 'package:aislecheck/core/services/session_manage_service.dart';
@@ -14,4 +15,5 @@ void setupLocator() async {
   locator.registerSingleton(InventryService());
   locator.registerSingleton(ChatService());
   locator.registerSingleton(SessionManageService());
+  locator.registerSingleton(AdminProfileService());
 }

@@ -5,8 +5,6 @@ import 'package:aislecheck/features/auth/admin_auth/models/add_admin_model.dart'
 import 'package:aislecheck/features/chat_list/models/messages_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'sender_message_card.dart';
 import 'user_message_card.dart';
 
 //......NAME AND STATUS
@@ -128,23 +126,24 @@ class MessagesList extends StatelessWidget {
   final AdminModel adminModel;
   const MessagesList(
       {super.key, required this.messagesModel, required this.adminModel});
-  //....CONSTANT VALUES
-  static const _pointZeroOneFour = 0.14;
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemExtent: MediaQuery.sizeOf(context).height * _pointZeroOneFour,
+    return ListView.separated(
+      shrinkWrap: true,
+      reverse: true,
+      padding: const EdgeInsets.only(top: 12, bottom: 20) +
+          const EdgeInsets.symmetric(horizontal: 12),
+      separatorBuilder: (_, __) => const SizedBox(
+        height: 12,
+      ),
       itemCount: messagesModel.length,
       itemBuilder: (context, index) {
-        if (messagesModel[index].senderId != adminModel.adminId) {
-          return UserMessageCard(
-            message: messagesModel[index].message,
-            imageUrl: adminModel.imageUrl,
-          );
-        }
-        return SenderMessageCard(
+        return UserMessageCard(
+          isLeftAligned: messagesModel[index].senderId == adminModel.adminId,
           message: messagesModel[index].message,
+          imageUrl: messagesModel[index].currentUserImageUrl,
         );
+      
       },
     );
   }
